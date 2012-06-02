@@ -1,1 +1,2 @@
-console.log '{{name}}'
+template = require 'views/test'
+$('body').html template()
