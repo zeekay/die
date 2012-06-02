@@ -73,6 +73,7 @@ class Hemlock extends Hem
   createServer: ->
     app = express.createServer()
     app.configure =>
+      app.set 'port', @options.port
       app.use app.router
 
       if path.existsSync @options.public
@@ -90,11 +91,11 @@ class Hemlock extends Hem
 
   server: ->
     app = @createServer()
-    app.listen @options.port, =>
-      console.log "hemlock running @ http://localhost:#{@options.port}"
+    app.listen app.settings.port, =>
+      console.log "hemlock running @ http://localhost:#{app.settings.port}"
 
       if process.platform == 'darwin'
-        child.exec "open http://localhost:#{@options.port}", -> return
+        child.exec "open http://localhost:#{app.settings.port}", -> return
 
   readConfig: (config=@options.config) ->
     return {} unless config and path.existsSync config
