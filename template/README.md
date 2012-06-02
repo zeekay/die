@@ -1,4 +1,2 @@
-clash
+{{name}}
 =====
-
-faster faster faster
