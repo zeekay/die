@@ -1,13 +1,15 @@
-child    = require 'child_process'
-express  = require 'express'
-fs       = require 'fs'
-jade     = require 'jade'
-milk     = require 'milk'
-optimist = require 'optimist'
-path     = require 'path'
-wrench   = require 'wrench'
-
-Hem      = require 'hem'
+child     = require 'child_process'
+express   = require 'express'
+fs        = require 'fs'
+jade      = require 'jade'
+milk      = require 'milk'
+optimist  = require 'optimist'
+path      = require 'path'
+wrench    = require 'wrench'
+bootstrap = require 'bootstrap-hemlock'
+stylus    = require 'stylus'
+nib       = require 'nib'
+Hem       = require 'hem'
 
 argv = optimist.usage([
   ' Usage: hem COMMAND',
@@ -44,6 +46,9 @@ class Hemlock extends Hem
 
     # Load before any other js
     libs: []
+
+    # autopopulate libs with files from this dir
+    vendor: 'vendor/'
 
     # npm/Node dependencies
     dependencies: []
@@ -114,6 +119,15 @@ class Hemlock extends Hem
     optimist.showHelp()
     process.exit()
 
+  addVendor: ->
+    vendorPath = path.join process.cwd(), @options.vendor
+    for file in wrench.readdirSyncRecursive vendorPath
+      filePath = path.join vendorPath, file
+      console.log filePath
+      if fs.statSync(filePath).isFile() and path.extname(filePath) == '.js'
+        @options.libs.push filePath
+    @options.libs
+
   readConfig: (config = 'defaults') ->
     configPath = path.join process.cwd(), @options.configPath, config
     try
@@ -134,13 +148,26 @@ class Hemlock extends Hem
       when 'create' then console.log "Created new application #{argv._[1]}"
       when 'watch' then console.log 'Watching application'
 
-Hemlock::compilers.jade = (path) ->
-  opts =
+Hemlock::compilers.jade = (fn) ->
+  content = fs.readFileSync fn, 'utf8'
+  compiled = jade.compile content,
     client: true
     debug: false
     compileDebug: false
-  compiled = jade.compile(fs.readFileSync(path, 'utf8'), opts)
   return "module.exports = #{compiled};"
+
+Hemlock::compilers.styl = (fn) ->
+  content = fs.readFileSync fn, 'utf8'
+  result = ''
+  stylus(content)
+    .include(path.dirname(fn))
+    .use(bootstrap())
+    .use(nib())
+    .render((err, css) ->
+      throw err if err
+      result = css
+    )
+  result
 
 hemlock = new Hemlock
 hemlock.Hemlock = Hemlock
