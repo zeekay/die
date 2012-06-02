@@ -8,7 +8,12 @@
   </head>
   <body>
     <script>
-      require('app');
+      var jQuery = require('jqueryify');
+      var exports = this;
+      jQuery(function(){
+          var app = require('app');
+          exports.app = app;
+      });
     </script>
   </body>
 </html>

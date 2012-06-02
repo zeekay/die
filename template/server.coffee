@@ -1,4 +1,7 @@
+#!/usr/bin/env coffee
 hemlock = require 'hemlock'
 
-app = hemlock.createServer()
-app.run()
+module.exports = app = hemlock.createServer()
+
+if require.main == module
+  app.run()

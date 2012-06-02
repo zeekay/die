@@ -3,10 +3,11 @@ app     = require '../server'
 zombie  = require 'zombie'
 browser = new zombie.Browser
 
-describe '{{name}} app', ->
+describe 'test {{name}}', ->
   describe 'GET /', ->
     before (done) ->
-      browser.visit "http://localhost:#{app.settings.port}/", -> done()
+      app.listen app.settings.port, ->
+        browser.visit "http://localhost:#{app.settings.port}/", -> done()
 
     it 'has title', ->
       title = browser.text 'title'

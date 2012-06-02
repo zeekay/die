@@ -29,11 +29,11 @@ argv = optimist.usage([
 class Hemlock extends Hem
   constructor: (options = {}) ->
     @options[key] = value for key, value of options
-    @options[key] = value for key, value of @readConfig()
+    @readConfig()
 
   options:
-    # configuration file
-    config: './config/app.json'
+    # path to configuration files
+    configPath: 'config/'
 
     # js entry/exit
     main: './app/js/app'
@@ -96,6 +96,8 @@ class Hemlock extends Hem
       res.header 'Content-Type', 'application/javascript'
       res.send @hemPackage().compile()
 
+    @readConfig app.settings.env
+
     app.run = ->
       app.listen app.settings.port, ->
         console.log "up & running @ http://localhost:#{app.settings.port}"
@@ -109,9 +111,15 @@ class Hemlock extends Hem
       if process.platform == 'darwin'
         child.exec "up & running @ http://localhost:#{app.settings.port}", -> return
 
-  readConfig: (config=@options.config) ->
-    return {} unless config and path.existsSync config
-    JSON.parse fs.readFileSync(config, 'utf-8')
+  readConfig: (config = 'defaults') ->
+    configPath = path.join process.cwd(), @options.configPath, config
+    try
+      config = require configPath
+      @options[key] = value for key, value of config
+    catch error
+      return
+
+    @options
 
   exec: (command = argv._[0]) ->
     return help() unless @[command]
