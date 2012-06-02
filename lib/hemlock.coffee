@@ -1,6 +1,7 @@
 child    = require 'child_process'
 express  = require 'express'
 fs       = require 'fs'
+jade     = require 'jade'
 milk     = require 'milk'
 optimist = require 'optimist'
 path     = require 'path'
@@ -28,6 +29,7 @@ argv = optimist.usage([
 class Hemlock extends Hem
   constructor: (options = {}) ->
     @options[key] = value for key, value of options
+    @options[key] = value for key, value of @readConfig()
 
   options:
     # configuration file
@@ -90,6 +92,10 @@ class Hemlock extends Hem
     if process.platform == 'darwin'
       child.exec "open http://localhost:#{@options.port}", -> return
 
+  readConfig: (config=@options.config) ->
+    return {} unless config and path.existsSync config
+    JSON.parse fs.readFileSync(config, 'utf-8')
+
   exec: (command = argv._[0]) ->
     return help() unless @[command]
     @[command]()
@@ -97,5 +103,13 @@ class Hemlock extends Hem
       when 'build' then console.log 'Built application'
       when 'create' then console.log "Created new application #{argv._[1]}"
       when 'watch' then console.log 'Watching application'
+
+Hemlock::compilers.jade = (path) ->
+  opts =
+    client: true
+    debug: false
+    compileDebug: false
+  compiled = jade.compile(fs.readFileSync(path, 'utf8'), opts)
+  return "module.exports = #{compiled};"
 
 module.exports = Hemlock
