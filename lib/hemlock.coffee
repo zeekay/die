@@ -68,6 +68,9 @@ class Hemlock extends Hem
 
   createServer: ->
     app = express.createServer()
+
+    @readConfig app.settings.env
+
     app.configure =>
       app.set 'port', @options.port
       app.use app.router
@@ -91,8 +94,6 @@ class Hemlock extends Hem
     app.get @options.jsPath, (req, res) =>
       res.header 'Content-Type', 'application/javascript'
       res.send @hemPackage().compile()
-
-    @readConfig app.settings.env
 
     app.run = (cb) ->
       app.listen app.settings.port, ->
