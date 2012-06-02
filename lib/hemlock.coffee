@@ -70,7 +70,7 @@ class Hemlock extends Hem
         template = fs.readFileSync filePath
         fs.writeFileSync filePath, milk.render(template.toString(), opts)
 
-  server: ->
+  createServer: ->
     app = express.createServer()
     app.configure =>
       app.use app.router
@@ -86,11 +86,15 @@ class Hemlock extends Hem
       res.header 'Content-Type', 'application/javascript'
       res.send @hemPackage().compile()
 
-    app.listen @options.port
-    console.log "hemlock running @ http://localhost:#{@options.port}"
+    app
 
-    if process.platform == 'darwin'
-      child.exec "open http://localhost:#{@options.port}", -> return
+  server: ->
+    app = @createServer()
+    app.listen @options.port, =>
+      console.log "hemlock running @ http://localhost:#{@options.port}"
+
+      if process.platform == 'darwin'
+        child.exec "open http://localhost:#{@options.port}", -> return
 
   readConfig: (config=@options.config) ->
     return {} unless config and path.existsSync config
@@ -112,4 +116,6 @@ Hemlock::compilers.jade = (path) ->
   compiled = jade.compile(fs.readFileSync(path, 'utf8'), opts)
   return "module.exports = #{compiled};"
 
-module.exports = Hemlock
+hemlock = new Hemlock
+hemlock.Hemlock = Hemlock
+module.exports = hemlock
