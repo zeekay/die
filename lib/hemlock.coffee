@@ -79,6 +79,15 @@ class Hemlock extends Hem
       if path.existsSync @options.public
         app.use express.static @options.public
 
+    app.configure 'test', =>
+      app.set 'port', @options.port + 1
+
+    app.configure 'development', ->
+      app.use express.errorHandler {dumpExceptions: true, showStack: true}
+
+    app.configure 'production', ->
+      app.use express.errorHandler()
+
     app.get @options.cssPath, (req, res) =>
       res.header 'Content-Type', 'text/css'
       res.send @cssPackage().compile()
