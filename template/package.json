@@ -1,0 +1,18 @@
+{
+  "author": "{{user}}",
+  "name": "{{name}}",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "ssh://cal-git/{{name}}"
+  },
+  "scripts": {
+    "test": "cake test"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}

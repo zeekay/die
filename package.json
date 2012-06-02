@@ -1,0 +1,34 @@
+{
+  "author": "zeekay <zeekayy@gmail.com>",
+  "name": "hemlock",
+  "description": "A tool for stitching together and serving assets.",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zeekay/hemlock"
+  },
+  "main": "lib",
+  "scripts": {},
+  "bin": {
+    "hemlock": "./bin/hemlock"
+  },
+  "dependencies": {
+    "coffee-script": "~1.3.3",
+    "express": "~2.5.9",
+    "hem": "~0.1.8",
+    "jade": "~0.26.1",
+    "milk": "~v1.2.0",
+    "optimist": "~0.3.4",
+    "stitch": "~0.3.3",
+    "wrench": "~1.3.9"
+  },
+  "devDependencies": {
+    "chai": "~1.0.3",
+    "mocha": "~1.1.0",
+    "zombie": "~1.2.0"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
