@@ -99,6 +99,9 @@ class Hemlock extends Hem
     app.run = ->
       app.listen app.settings.port, ->
         console.log "up & running @ http://localhost:#{app.settings.port}"
+      app
+
+    app
 
   server: ->
     app = @createServer()
