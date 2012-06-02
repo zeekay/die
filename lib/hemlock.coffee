@@ -9,10 +9,6 @@ wrench   = require 'wrench'
 
 Hem      = require 'hem'
 
-help = ->
-  optimist.showHelp()
-  process.exit()
-
 argv = optimist.usage([
   ' Usage: hem COMMAND',
   '',
@@ -98,18 +94,24 @@ class Hemlock extends Hem
 
     @readConfig app.settings.env
 
-    app.run = ->
+    app.run = (cb) ->
       app.listen app.settings.port, ->
         console.log "up & running @ http://localhost:#{app.settings.port}"
+        if cb
+          cb()
       app
 
     app
 
   server: ->
     app = @createServer()
-    app.listen app.settings.port, ->
+    app.run ->
       if process.platform == 'darwin'
-        child.exec "up & running @ http://localhost:#{app.settings.port}", -> return
+        child.exec "open http://localhost:#{app.settings.port}", -> return
+
+  help: ->
+    optimist.showHelp()
+    process.exit()
 
   readConfig: (config = 'defaults') ->
     configPath = path.join process.cwd(), @options.configPath, config
@@ -122,7 +124,9 @@ class Hemlock extends Hem
     @options
 
   exec: (command = argv._[0]) ->
-    return help() unless @[command]
+    if not command
+      command = 'server'
+    return @help() unless @[command]
     @[command]()
     switch command
       when 'build' then console.log 'Built application'
