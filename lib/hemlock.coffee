@@ -96,15 +96,15 @@ class Hemlock extends Hem
       res.header 'Content-Type', 'application/javascript'
       res.send @hemPackage().compile()
 
-    app
+    app.run = ->
+      app.listen app.settings.port, ->
+        console.log "up & running @ http://localhost:#{app.settings.port}"
 
   server: ->
     app = @createServer()
-    app.listen app.settings.port, =>
-      console.log "hemlock running @ http://localhost:#{app.settings.port}"
-
+    app.listen app.settings.port, ->
       if process.platform == 'darwin'
-        child.exec "open http://localhost:#{app.settings.port}", -> return
+        child.exec "up & running @ http://localhost:#{app.settings.port}", -> return
 
   readConfig: (config=@options.config) ->
     return {} unless config and path.existsSync config
