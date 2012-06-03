@@ -9,7 +9,6 @@ createServer = ->
 
   app.configure =>
     app.set 'port', @options.port
-    app.use app.router
 
     if path.existsSync @options.public
       app.use express.static @options.public
