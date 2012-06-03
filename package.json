@@ -5,7 +5,7 @@
   "version": "0.0.8",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zeekay/hemlock"
+    "url": "git://github.com/zeekay/hemlock.git"
   },
   "main": "lib",
   "scripts": {},
@@ -13,17 +13,17 @@
     "hemlock": "./bin/hemlock"
   },
   "dependencies": {
+    "bootstrap-hemlock": "~2.0.1",
     "coffee-script": "~1.3.3",
     "express": "~2.5.9",
     "hem": "~0.1.8",
     "jade": "~0.26.1",
     "milk": "~v1.2.0",
+    "nib": "~0.5.0",
     "optimist": "~0.3.4",
     "stitch": "~0.3.3",
-    "wrench": "~1.3.9",
-    "nib": "~0.5.0",
-    "bootstrap-hemlock": "~2.0.1",
-    "stylus": "~0.27.1"
+    "stylus": "~0.27.1",
+    "wrench": "~1.3.9"
   },
   "devDependencies": {
     "chai": "~1.0.3",
