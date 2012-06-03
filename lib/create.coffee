@@ -5,14 +5,25 @@ wrench = require 'wrench'
 {argv} = require './cli'
 
 module.exports = create = ->
-  dirName = argv._[1]
-  opts =
-    name: path.basename dirName
-    user: process.env.USER
+  template = argv.template or 'default'
+  src = path.join __dirname, '../templates', template
+  dest = argv._[1]
+  ctx = argv.context or {}
+  ctx.name = path.basename dest
+  ctx.user = process.env.USER
 
-  wrench.copyDirSyncRecursive __dirname + '/../template', dirName
-  for file in wrench.readdirSyncRecursive dirName
-    filePath = path.join dirName, file
+  # copy template to dest
+  wrench.copyDirSyncRecursive src, dest
+
+  # inject context into templates
+  for file in wrench.readdirSyncRecursive dest
+
+    # skip vendor files
+    if /^vendor/.test file
+      continue
+
+    # treat all other files as templates and inject context
+    filePath = path.join dest, file
     if fs.statSync(filePath).isFile()
       template = fs.readFileSync filePath
-      fs.writeFileSync filePath, milk.render(template.toString(), opts)
+      fs.writeFileSync filePath, milk.render(template.toString(), ctx)
