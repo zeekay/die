@@ -60,16 +60,35 @@ class Hemlock extends Hem
 
   create: ->
     dirName = argv._[1]
+    template = argv.template or 'default'
     opts =
       name: path.basename dirName
       user: process.env.USER
 
-    wrench.copyDirSyncRecursive __dirname + '/../template', dirName
-    for file in wrench.readdirSyncRecursive dirName
-      filePath = path.join dirName, file
-      if fs.statSync(filePath).isFile()
-        template = fs.readFileSync filePath
-        fs.writeFileSync filePath, milk.render(template.toString(), opts)
+    if not path.existsSync template
+      template = path.join __dirname, '/../templates', template
+      if not path.existsSync template
+        console.log 'template not found'
+        process.exit()
+
+    wrench.copyDirSyncRecursive template, dirName
+
+    wrench.readdirRecursive dirName, (err, files) ->
+      if not files
+        return
+
+      for file in files
+        if not /^vendor/.test file
+          filePath = path.join dirName, file
+
+          do (filePath) ->
+            fs.stat filePath, (err, stats) ->
+              if stats.isFile()
+                fs.readFile filePath, (err, content) ->
+                  content = milk.render content.toString(), opts
+                  fs.writeFile filePath, content, (err) ->
+                    if (err)
+                      throw err
 
   createServer: ->
     app = express.createServer()
