@@ -13,10 +13,9 @@
   "dependencies": {
     "coffee-script": "~1.3.3",
     "es5-shimify": "0.0.1",
-    "hemlock": "0.0.6",
+    "hemlock": "0.0.8",
     "jqueryify": "0.0.3",
-    "json2ify": "0.0.1",
-    "node-github": "0.0.3"
+    "json2ify": "0.0.1"
   },
   "devDependencies": {
     "mocha": "~1.1.0",
