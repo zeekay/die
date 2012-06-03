@@ -2,7 +2,7 @@
   "author": "zeekay <zeekayy@gmail.com>",
   "name": "hemlock",
   "description": "A tool for stitching together and serving assets.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "repository": {
     "type": "git",
     "url": "git://github.com/zeekay/hemlock.git"
