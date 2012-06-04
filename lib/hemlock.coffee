@@ -2,7 +2,7 @@ config    = require './config'
 compilers = require './compilers'
 defaults  = require './defaults'
 create    = require './create'
-{exec}    = require './cli'
+cli       = require './cli'
 server    = require './server'
 Hem       = require 'hem'
 
@@ -13,20 +13,26 @@ class Hemlock extends Hem
 
   options: defaults
 
+  exec: ->
+    cli.exec.call @
   create: ->
-    create.call @
+    create()
   server: ->
     server.runServer.call @
   createServer: ->
     server.createServer.call @
   readConfig: ->
     config.readConfig.call @
-  exec: ->
-    exec.call @
 
 for key, val of compilers
   Hemlock::compilers[key] = val
 
 hemlock = new Hemlock
-hemlock.Hemlock = Hemlock
-module.exports = hemlock
+
+wrapper = (cb) ->
+  server.createServer.call hemlock, cb
+
+for key, val of hemlock
+  wrapper[key] = val
+
+module.exports = wrapper

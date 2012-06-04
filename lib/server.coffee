@@ -2,7 +2,7 @@ child        = require 'child_process'
 express      = require 'express'
 path         = require 'path'
 
-createServer = ->
+createServer = (cb) ->
   app = express.createServer()
 
   @readConfig app.settings.env
@@ -32,18 +32,18 @@ createServer = ->
 
   app.run = (cb) ->
     app.listen app.settings.port, ->
-      console.log "up & running @ http://localhost:#{app.settings.port}"
-      if cb
-        cb()
+      console.log "Express v#{express.version} listening on port #{app.address().port} in #{app.settings.env} mode"
+      cb() if cb
     app
 
+  cb.call app if cb
   app
 
 runServer = ->
   app = createServer.call @
   app.run ->
     if process.platform == 'darwin'
-      child.exec "open http://localhost:#{app.settings.port}", -> return
+      child.exec "open http://localhost:#{app.address().port}", -> return
 
 module.exports =
   createServer: createServer

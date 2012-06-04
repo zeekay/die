@@ -1,4 +1,5 @@
-optimist  = require 'optimist'
+optimist = require 'optimist'
+path     = require 'path'
 
 argv = optimist.usage([
   ' Usage: hem COMMAND',
@@ -18,8 +19,6 @@ help = ->
   process.exit()
 
 exec = (command = argv._[0]) ->
-  if not command
-    command = 'server'
   return help() unless @[command]
   @[command]()
   switch command
