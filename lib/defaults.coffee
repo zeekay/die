@@ -8,21 +8,18 @@ module.exports =  options =
   main: './app/js/app'
   jsPath: '/app.js'
 
+  # Add load paths
+  paths: ['./app/js']
+
+  # npm/Node dependencies
+  dependencies: []
+
   # css entry/exit
   css: './app/css/app'
   cssPath: '/app.css'
 
-  # Add load paths
-  paths: ['./app/js']
-
   # Load before any other js
   libs: []
-
-  # autopopulate libs with files from this dir
-  vendor: 'vendor/'
-
-  # npm/Node dependencies
-  dependencies: []
 
   # static dir
   public: './public'

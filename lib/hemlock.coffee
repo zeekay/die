@@ -4,6 +4,7 @@ defaults  = require './defaults'
 create    = require './create'
 cli       = require './cli'
 server    = require './server'
+pkg       = require './package'
 Hem       = require 'hem'
 
 class Hemlock extends Hem
@@ -23,6 +24,11 @@ class Hemlock extends Hem
     server.createServer.call @
   readConfig: ->
     config.readConfig.call @
+  hemPackage: ->
+    pkg.createPackage
+      dependencies: @options.dependencies
+      paths: @options.paths
+      libs: @options.libs
 
 for key, val of compilers
   Hemlock::compilers[key] = val
