@@ -2,12 +2,13 @@ optimist = require 'optimist'
 path     = require 'path'
 
 argv = optimist.usage([
-  ' Usage: hem COMMAND',
-  '',
-  ' Commands:',
-  '     build   serialize application to disk',
-  '     create  bootstrap a new app',
-  '     server  start a dynamic development server',
+  ' Usage: die COMMAND'
+  ''
+  ' Commands:'
+  '     build   serialize application to disk'
+  '     new     create a new project'
+  '     run     start a dynamic development server'
+  '     test    run tests'
   '     watch   build & watch disk for changes'
 ].join("\n"))
 .alias('p', 'port')
@@ -23,7 +24,7 @@ exec = (command = argv._[0]) ->
   @[command]()
   switch command
     when 'build' then console.log 'Built application'
-    when 'create' then console.log "Created new application #{argv._[1]}"
+    when 'new' then console.log "Created new application #{argv._[1]}"
     when 'watch' then console.log 'Watching application'
 
 module.exports =

@@ -1,20 +1,19 @@
-hemlock
-=======
-
-A tool for managing static assets, based on [hem](https://github.com/maccman/hem).
+die
+===
+An application framework *die* for. Inspired by [hem](https://github.com/maccman/hem), [stitch](https://github.com/sstephenson/stitch), [brunch](http://brunch.io/), [flatiron](http://flatironjs.org/), [zappa](https://github.com/mauricemach/zappa), et al.
 
 Create new project based off template:
 
-    hemlock create <name> [--template <template name>]
+    die new <name> [--template <template name>]
 
 Serve project:
 
-    hemlock server
+    die run
 
 Build project:
 
-    hemlock build
+    die build
 
 The default project templates are setup for testing with [mocha](http://visionmedia.github.com/mocha/) out of the box. To run your tests:
 
-    cake test
+    die test

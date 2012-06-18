@@ -1,10 +1,10 @@
-hemlock = require 'hemlock'
+die = require 'die'
 
 task 'run', 'run {{name}}', ->
-  hemlock.createServer().run()
+  die.run()
 
 task 'build', 'build {{name}}', ->
-  hemlock.build()
+  die.build()
 
 task 'test', 'test {{name}}', ->
-  hemlock.test()
+  die.test()

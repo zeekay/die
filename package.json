@@ -1,16 +1,16 @@
 {
   "author": "zeekay <zeekayy@gmail.com>",
-  "name": "hemlock",
+  "name": "die",
   "description": "A tool for stitching together and serving assets.",
   "version": "0.1.5",
   "repository": {
     "type": "git",
-    "url": "git://github.com/zeekay/hemlock.git"
+    "url": "git://github.com/zeekay/die.git"
   },
   "main": "lib",
   "scripts": {},
   "bin": {
-    "hemlock": "./bin/hemlock"
+    "die": "./bin/die"
   },
   "dependencies": {
     "bootstrap-hemlock": "~2.0.1",
@@ -26,11 +26,7 @@
     "wrench": "~1.3.9",
     "fast-detective": "0.0.2"
   },
-  "devDependencies": {
-    "chai": "~1.0.3",
-    "mocha": "~1.1.0",
-    "zombie": "~1.2.0"
-  },
+  "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
     "node": "*"

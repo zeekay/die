@@ -9,7 +9,7 @@ Hem       = require 'hem'
 {exec}    = require 'child_process'
 path      = require 'path'
 
-class Hemlock extends Hem
+class Die extends Hem
   constructor: (options = {}) ->
     @options[key] = value for key, value of options
     config.readConfig.call @
@@ -19,7 +19,7 @@ class Hemlock extends Hem
   exec: ->
     cli.exec.call @
 
-  create: ->
+  new: ->
     create()
 
   server: ->
@@ -45,15 +45,17 @@ class Hemlock extends Hem
       console.log stdout
       console.error stderr
 
-for key, val of compilers
-  Hemlock::compilers[key] = val
+  run: -> @().run()
 
-hemlock = new Hemlock
+for key, val of compilers
+  Die::compilers[key] = val
+
+die = new Die
 
 wrapper = (cb) ->
-  server.createServer.call hemlock, cb
+  server.createServer.call die, cb
 
-for key, val of hemlock
+for key, val of die
   wrapper[key] = val
 
 module.exports = wrapper

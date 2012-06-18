@@ -7,7 +7,7 @@ detective  = require 'fast-detective'
 fs         = require 'fs'
 path       = require 'path'
 
-class HemlockPackage extends Package
+class DiePackage extends Package
   compileModules: ->
     @dependency or= new Dependency @dependencies
     @stitch       = new Stitch @paths
@@ -35,6 +35,6 @@ class HemlockPackage extends Package
     stitch(identifier: @identifier, modules: @modules)
 
 module.exports =
-  HemlockPackage: HemlockPackage
+  DiePackage: DiePackage
   createPackage: (config) ->
-    new HemlockPackage(config)
+    new DiePackage(config)

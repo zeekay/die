@@ -1,10 +1,10 @@
 {
-  "author": "{{user}}",
-  "name": "{{name}}",
+  "author": "zkelling",
+  "name": "foo",
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/{{user}}/{{name}}"
+    "url": "https://github.com/zkelling/foo"
   },
   "scripts": {
     "test": "cake test",
