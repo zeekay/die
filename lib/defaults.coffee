@@ -9,7 +9,7 @@ module.exports =  options =
   jsPath: '/app.js'
 
   # Add load paths
-  paths: ['./app/js']
+  paths: ['./client/js']
 
   # npm/Node dependencies
   dependencies: []

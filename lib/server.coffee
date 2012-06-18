@@ -12,6 +12,8 @@ createServer = (cb) ->
 
     if path.existsSync @options.public
       app.use express.static @options.public
+    else
+      app.use express.static '.'
 
   app.configure 'test', =>
     app.set 'port', @options.port + 1
