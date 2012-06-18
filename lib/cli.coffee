@@ -5,7 +5,7 @@ argv = optimist.usage([
   ' Usage: die COMMAND'
   ''
   ' Commands:'
-  '     build   assemble application'
+  '     build   assemble project'
   '     new     create a new project'
   '     run     run development server'
   '     test    run tests'
@@ -23,9 +23,9 @@ exec = (command = argv._[0]) ->
   return help() unless @[command]
   @[command]()
   switch command
-    when 'build' then console.log 'Built application'
-    when 'new' then console.log "Created new application #{argv._[1]}"
-    when 'watch' then console.log 'Watching application'
+    when 'build' then console.log 'Assembled project'
+    when 'new' then console.log "Created new project #{argv._[1]}"
+    when 'watch' then console.log 'Watching project'
 
 module.exports =
   argv: argv
