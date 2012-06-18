@@ -5,9 +5,9 @@ argv = optimist.usage([
   ' Usage: die COMMAND'
   ''
   ' Commands:'
-  '     build   serialize application to disk'
+  '     build   assemble application'
   '     new     create a new project'
-  '     run     start a dynamic development server'
+  '     run     run development server'
   '     test    run tests'
   '     watch   build & watch disk for changes'
 ].join("\n"))
