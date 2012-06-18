@@ -19,6 +19,7 @@ createServer = (cb) ->
     app.set 'port', @options.port + 1
 
   app.configure 'development', ->
+    app.use express.logger()
     app.use express.errorHandler {dumpExceptions: true, showStack: true}
 
   app.configure 'production', ->
@@ -34,7 +35,7 @@ createServer = (cb) ->
 
   app.run = (cb) ->
     app.listen app.settings.port, ->
-      console.log "Express v#{express.version} listening on port #{app.address().port} in #{app.settings.env} mode"
+      console.log "#{app.settings.env} server up and running at http://localhost:#{app.address().port}"
       cb() if cb
     app
 

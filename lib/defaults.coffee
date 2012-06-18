@@ -24,4 +24,4 @@ module.exports =  options =
   # static dir
   public: './public'
 
-  port: process.env.PORT or argv.port or 3333
+  port: process.env.PORT or argv.port or 3000
