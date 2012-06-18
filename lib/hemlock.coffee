@@ -6,6 +6,8 @@ cli       = require './cli'
 server    = require './server'
 pkg       = require './package'
 Hem       = require 'hem'
+{exec}    = require 'child_process'
+path      = require 'path'
 
 class Hemlock extends Hem
   constructor: (options = {}) ->
@@ -16,19 +18,32 @@ class Hemlock extends Hem
 
   exec: ->
     cli.exec.call @
+
   create: ->
     create()
+
   server: ->
     server.runServer.call @
+
   createServer: ->
     server.createServer.call @
+
   readConfig: ->
     config.readConfig.call @
+
   hemPackage: ->
     pkg.createPackage
       dependencies: @options.dependencies
       paths: @options.paths
       libs: @options.libs
+
+  test: (args = '--compilers coffee:coffee-script -R spec -t 5000 -c test/*') ->
+    bin = 'node_modules/mocha/bin/mocha'
+    if not path.existsSync bin
+      bin = 'mocha'
+    exec "#{bin} #{args}", (err, stdout, stderr) ->
+      console.log stdout
+      console.error stderr
 
 for key, val of compilers
   Hemlock::compilers[key] = val

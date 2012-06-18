@@ -5,7 +5,7 @@ module.exports =  options =
   configPath: 'config/'
 
   # js entry/exit
-  main: './app/js/app'
+  main: './client/js/app'
   jsPath: '/app.js'
 
   # Add load paths
@@ -15,7 +15,7 @@ module.exports =  options =
   dependencies: []
 
   # css entry/exit
-  css: './app/css/app'
+  css: './client/css/app'
   cssPath: '/app.css'
 
   # Load before any other js
