@@ -45,7 +45,9 @@ class Die extends Hem
       console.log stdout
       console.error stderr
 
-  run: -> @().run()
+  run: (cb) ->
+    app = server.createServer.call die, cb
+    app.run()
 
 for key, val of compilers
   Die::compilers[key] = val
@@ -53,7 +55,7 @@ for key, val of compilers
 die = new Die
 
 wrapper = (cb) ->
-  server.createServer.call die, cb
+  die.run cb
 
 for key, val of die
   wrapper[key] = val
