@@ -13,7 +13,7 @@ module.exports = (die) ->
     if path.existsSync die.options.public
       app.use express.static die.options.public
     else
-      app.use express.static '.'
+      app.use express.static process.cwd()
 
   app.configure 'test', =>
     app.set 'port', die.options.port + 1

@@ -12,6 +12,7 @@ for key, val of die
   wrapper[key] = val
 
 wrapper.Die = Die
+wrapper.run = -> wrapper().run()
 wrapper.test = require './test'
 wrapper.version = require('../package.json').version
 module.exports = wrapper
