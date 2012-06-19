@@ -26,7 +26,7 @@ module.exports = (die) ->
     if not jsPath
       jsPath = generatePath js, 'js'
 
-    source = die.hemPackage().compile()
+    source = die.jsPackage().compile()
     if source
       if die.options.minify
         source = minify.js source

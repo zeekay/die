@@ -33,7 +33,7 @@ module.exports = (die) ->
   if die.options.jsPath
     app.get die.options.jsPath, (req, res) =>
       res.header 'Content-Type', 'application/javascript'
-      res.send die.hemPackage().compile()
+      res.send die.jsPackage().compile()
 
   app.run = (cb) ->
     app.listen app.settings.port, ->

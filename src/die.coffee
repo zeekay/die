@@ -21,7 +21,7 @@ class Die extends Hem
 
   createServer: -> server @
 
-  hemPackage: ->
+  jsPackage: ->
     pkg.createPackage
       dependencies: @options.dependencies
       paths: @options.paths.concat [path.dirname @options.main]
