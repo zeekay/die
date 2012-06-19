@@ -1,13 +1,37 @@
 {Package}  = require 'hem/lib/package'
 Dependency = require 'hem/lib/dependency'
 Stitch     = require 'hem/lib/stitch'
-stitch     = require 'hem/assets/stitch'
+coffee     = require 'coffee-script'
 detective  = require 'fast-detective'
 fs         = require 'fs'
 path       = require 'path'
-coffee     = require 'coffee-script'
+stitch     = require 'hem/assets/stitch'
 
-class DiePackage extends Package
+toArray = (value = []) ->
+  if Array.isArray(value) then value else [value]
+
+class CssPackage
+  constructor: (cssPath) ->
+    try
+      @path = require.resolve(path.resolve(cssPath))
+    catch e
+
+  compile: ->
+    return unless @path
+    delete require.cache[@path]
+    require @path
+
+class JsPackage extends Package
+  constructor: (config = {}) ->
+    @identifier   = config.identifier
+    @libs         = toArray(config.libs)
+    @paths        = toArray(config.paths)
+    @dependencies = toArray(config.dependencies)
+
+    # automatically add base dir of mainJs to search path
+    if config.main
+      @paths.concat [path.dirname path.resolve config.main]
+
   compileModules: ->
     @dependency or= new Dependency @dependencies
     @stitch       = new Stitch @paths
@@ -35,6 +59,10 @@ class DiePackage extends Package
     stitch(identifier: @identifier, modules: @modules)
 
 module.exports =
-  DiePackage: DiePackage
-  createPackage: (config) ->
-    new DiePackage(config)
+  CssPackage: CssPackage
+  createCss: (cssPath) ->
+    new CssPackage(cssPath)
+
+  JsPackage: JsPackage
+  createJs: (config) ->
+    new JsPackage(config)

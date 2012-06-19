@@ -1,13 +1,10 @@
 build     = require './build'
 compilers = require './compilers'
 config    = require './config'
-path      = require 'path'
 pkg       = require './package'
 server    = require './server'
-test      = require './test'
-Hem       = require 'hem'
 
-class Die extends Hem
+class Die
   constructor: (options = {}) ->
     for key, val of options
       @options[key] = val
@@ -19,18 +16,20 @@ class Die extends Hem
     @readConfig 'production'
     build @
 
+  compilers: compilers
+
   createServer: -> server @
 
+  cssPackage: ->
+    pkg.createCss @options.css
+
   jsPackage: ->
-    pkg.createPackage
+    pkg.createJs
       dependencies: @options.dependencies
-      paths: @options.paths.concat [path.dirname @options.main]
+      paths: @options.paths
       libs: @options.libs
 
   readConfig: (name) ->
     @options = config.readConfig @options, name
-
-for key, val of compilers
-  Die::compilers[key] = val
 
 module.exports = Die

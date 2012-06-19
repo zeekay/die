@@ -60,6 +60,7 @@ program
   .command('watch')
   .description('  watch for changes and rebuild project')
   .action ->
-    require('./index').watch()
+    die = require './index'
+    require('./watch') die
 
 program.parse process.argv
