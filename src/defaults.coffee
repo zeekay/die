@@ -1,5 +1,3 @@
-{argv} = require './cli'
-
 module.exports =  options =
   # path to configuration files
   configPath: 'config/'
@@ -24,4 +22,4 @@ module.exports =  options =
   # static dir
   public: './public'
 
-  port: process.env.PORT or argv.port or 3000
+  port: process.env.PORT or 3000

@@ -20,6 +20,8 @@ class Die extends Hem
 
   build: -> build.call @
 
+  create: (name, opts) -> create name, opts
+
   createServer: -> server.createServer.call @
 
   hemPackage: ->
@@ -27,8 +29,6 @@ class Die extends Hem
       dependencies: @options.dependencies
       paths: @options.paths
       libs: @options.libs
-
-  new: -> create()
 
   readConfig: -> config.readConfig.call @
 

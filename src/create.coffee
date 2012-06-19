@@ -1,21 +1,21 @@
 fs     = require 'fs'
-milk   = require 'milk'
+mote   = require 'mote'
 path   = require 'path'
 wrench = require 'wrench'
-{argv} = require './cli'
 
-module.exports = create = ->
-  template = argv.template or 'default'
+module.exports = (name, {config, template}, ctx = {}) ->
+  template = template or 'default'
   src = path.join __dirname, '../templates', template
-  dest = argv._[1]
-  ctx = argv.context or {}
+  dest = name
+  if config
+    ctx = require config
   ctx.name = path.basename dest
   ctx.user = process.env.USER
 
   # copy template to dest
   wrench.copyDirSyncRecursive src, dest
 
-  # inject context into templates
+  # compile templates with configuration
   for file in wrench.readdirSyncRecursive dest
 
     # skip vendor files
@@ -25,5 +25,5 @@ module.exports = create = ->
     # treat all other files as templates and inject context
     filePath = path.join dest, file
     if fs.statSync(filePath).isFile()
-      template = fs.readFileSync filePath
-      fs.writeFileSync filePath, milk.render(template.toString(), ctx)
+      template = mote.compile fs.readFileSync(filePath).toString()
+      fs.writeFileSync filePath, template ctx
