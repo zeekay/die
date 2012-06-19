@@ -1,5 +1,5 @@
 module.exports = {
-  bar: function() {
+  calculate: function() {
     return 42;
   }
 };

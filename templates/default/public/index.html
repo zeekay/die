@@ -6,9 +6,12 @@
     <link href="app.css">
   </head>
   <body>
+    <h1>Welcome to {{name}}</h1>
+    <div id="content"></div>
     <script src="app.js"></script>
     <script>
       app = require('app');
+      app.render();
     </script>
   </body>
 </html>

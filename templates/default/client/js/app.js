@@ -1,2 +1,6 @@
-var foo = require('foo');
-document.body.innerHTML = '<h1>' + foo.bar() + '</h1>';
+var deepThought = require('deep-thought');
+
+exports.render = function() {
+  var el = document.getElementById('content');
+  el.innerHTML = '<p>The answer to life, the universe, and everything: ' + deepThought.calculate() + '</p>';
+};
