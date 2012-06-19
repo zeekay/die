@@ -1,7 +1,6 @@
 build     = require './build'
 compilers = require './compilers'
 config    = require './config'
-defaults  = require './defaults'
 pkg       = require './package'
 server    = require './server'
 test      = require './test'
@@ -10,9 +9,9 @@ Hem       = require 'hem'
 class Die extends Hem
   constructor: (options = {}) ->
     @options[key] = value for key, value of options
-    config.readConfig.call @
+    @options = config.update @options
 
-  options: defaults
+  options: config.defaults
 
   build: -> build @
 
@@ -24,13 +23,9 @@ class Die extends Hem
       paths: @options.paths
       libs: @options.libs
 
-  readConfig: -> config.readConfig.call @
-
   run: (cb) ->
     app = server.createServer.call die, cb
     app.run()
-
-  test: (opts) -> test opts
 
 for key, val of compilers
   Die::compilers[key] = val

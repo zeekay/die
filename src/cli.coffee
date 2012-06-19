@@ -34,9 +34,8 @@ program
 program
   .command('test')
   .description('  run tests')
-  .option('-a, --args [arguments]', 'arguments to pass to mocha')
-  .action (opts) ->
-    require('./die').test opts
+  .action ->
+    require('./test')()
 
 program
   .command('watch')

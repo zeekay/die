@@ -5,11 +5,7 @@ stitch     = require 'hem/assets/stitch'
 detective  = require 'fast-detective'
 fs         = require 'fs'
 path       = require 'path'
-
-try
-  coffee = require 'coffee-script'
-catch err
-  coffee = false
+coffee     = require 'coffee-script'
 
 class DiePackage extends Package
   compileModules: ->
@@ -23,10 +19,7 @@ class DiePackage extends Package
     known = (id for {id} in @modules)
     for js in jsFiles
       if path.extname(js.filename) == '.coffee'
-        if coffee
-          src = coffee.compile(fs.readFileSync(js.filename).toString())
-        else
-          continue
+        src = coffee.compile fs.readFileSync(js.filename).toString()
       else
         src = fs.readFileSync(js.filename).toString()
 

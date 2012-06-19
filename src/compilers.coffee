@@ -1,12 +1,10 @@
-bootstrap = require 'bootstrap-hemlock'
 fs        = require 'fs'
-jade      = require 'jade'
-nib       = require 'nib'
 path      = require 'path'
-stylus    = require 'stylus'
 
-module.exports = compilers =
+module.exports =
   jade: (fn) ->
+    jade = require 'jade'
+
     content = fs.readFileSync fn, 'utf8'
     compiled = jade.compile content,
       client: true
@@ -15,6 +13,10 @@ module.exports = compilers =
     return "module.exports = #{compiled};"
 
   styl: (fn) ->
+    bootstrap = require 'bootstrap-hemlock'
+    nib       = require 'nib'
+    stylus    = require 'stylus'
+
     content = fs.readFileSync fn, 'utf8'
     result = ''
     stylus(content)
