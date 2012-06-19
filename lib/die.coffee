@@ -5,9 +5,8 @@ create    = require './create'
 cli       = require './cli'
 server    = require './server'
 pkg       = require './package'
+test      = require './test'
 Hem       = require 'hem'
-{exec}    = require 'child_process'
-path      = require 'path'
 
 class Die extends Hem
   constructor: (options = {}) ->
@@ -38,12 +37,7 @@ class Die extends Hem
       libs: @options.libs
 
   test: (args = '--compilers coffee:coffee-script -R spec -t 5000 -c test/*') ->
-    bin = 'node_modules/mocha/bin/mocha'
-    if not path.existsSync bin
-      bin = 'mocha'
-    exec "#{bin} #{args}", (err, stdout, stderr) ->
-      console.log stdout
-      console.error stderr
+    test args
 
   run: (cb) ->
     app = server.createServer.call die, cb
