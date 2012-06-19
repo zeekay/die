@@ -6,6 +6,7 @@
     "type": "git",
     "url": "https://github.com/{{user}}/{{name}}"
   },
+  "main": "app.js",
   "scripts": {
     "start": "die run",
     "test": "die test"

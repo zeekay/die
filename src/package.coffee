@@ -1,11 +1,11 @@
-{Package}  = require 'hem/lib/package'
-Dependency = require 'hem/lib/dependency'
-Stitch     = require 'hem/lib/stitch'
+Dependency = require './dependency'
+Stitch     = require './stitch'
 coffee     = require 'coffee-script'
+compilers  = require './compilers'
 detective  = require 'fast-detective'
 fs         = require 'fs'
 path       = require 'path'
-stitch     = require 'hem/assets/stitch'
+stitch     = require '../assets/stitch'
 
 toArray = (value = []) ->
   if Array.isArray(value) then value else [value]

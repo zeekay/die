@@ -64,3 +64,4 @@ program
     require('./watch') die
 
 program.parse process.argv
+program.help() unless process.argv.length
