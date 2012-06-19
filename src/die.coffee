@@ -18,7 +18,11 @@ class Die
 
   compilers: compilers
 
-  createServer: -> server @
+  createServer: (cb) ->
+    app = server @
+    if cb and cb.call
+      cb.call app
+    app
 
   cssPackage: ->
     pkg.createCss @options.css

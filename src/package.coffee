@@ -5,9 +5,7 @@ detective  = require 'fast-detective'
 fs         = require 'fs'
 path       = require 'path'
 stitch     = require './stitch'
-
-toArray = (value = []) ->
-  if Array.isArray(value) then value else [value]
+{toArray}  = require './utils'
 
 class CssPackage
   constructor: (cssPath) ->

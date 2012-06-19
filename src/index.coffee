@@ -1,18 +1,11 @@
 Die = require './die'
 
-die = new Die
-
-wrapper = (cb) ->
-  app = die.createServer()
-  if cb and cb.call
-    cb.call app
-  app
-
-for key, val of die
-  wrapper[key] = val
+wrapper = (opts) ->
+  new Die opts
 
 wrapper.Die = Die
 wrapper.run = -> wrapper().run()
+wrapper.build = -> wrapper().build()
 wrapper.test = require './test'
 wrapper.version = require('../package.json').version
 module.exports = wrapper
