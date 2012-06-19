@@ -1,11 +1,10 @@
 Dependency = require './dependency'
-Stitch     = require './stitch'
 coffee     = require 'coffee-script'
 compilers  = require './compilers'
 detective  = require 'fast-detective'
 fs         = require 'fs'
 path       = require 'path'
-stitch     = require './stitch-template'
+stitch     = require './stitch'
 
 toArray = (value = []) ->
   if Array.isArray(value) then value else [value]
@@ -34,7 +33,7 @@ class JsPackage
 
   compileModules: ->
     @dependency or= new Dependency @dependencies
-    @stitch       = new Stitch @paths
+    @stitch       = new stitch.Stitch @paths
     jsFiles       = (js for js in @stitch.resolve() when js)
     @modules      = @dependency.resolve().concat jsFiles
 
@@ -56,7 +55,7 @@ class JsPackage
       modules = new Dependency unresolved
       @modules.push.apply @modules, modules.resolve()
 
-    stitch
+    stitch.template
       identifier: @identifier
       modules: (JSON.stringify(module.id) + ": function(exports, require, module) {#{module.compile()}}" for module in @modules).join(', ')
 
