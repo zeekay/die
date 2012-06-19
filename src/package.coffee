@@ -21,7 +21,7 @@ class CssPackage
     delete require.cache[@path]
     require @path
 
-class JsPackage extends Package
+class JsPackage
   constructor: (config = {}) ->
     @identifier   = config.identifier or 'require'
     @libs         = toArray(config.libs)
@@ -59,6 +59,14 @@ class JsPackage extends Package
     stitch
       identifier: @identifier
       modules: (JSON.stringify(module.id) + ": function(exports, require, module) {#{module.compile()}}" for module in @modules).join(', ')
+
+  compileLibs: ->
+    (fs.readFileSync(path, 'utf8') for path in @libs).join("\n")
+
+  compile: (minify) ->
+    result = [@compileLibs(), @compileModules()].join("\n")
+    result = uglify(result) if minify
+    result
 
 module.exports =
   CssPackage: CssPackage
