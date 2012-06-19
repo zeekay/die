@@ -5,7 +5,7 @@ compilers  = require './compilers'
 detective  = require 'fast-detective'
 fs         = require 'fs'
 path       = require 'path'
-stitch     = require 'stitch-template'
+stitch     = require './stitch-template'
 
 toArray = (value = []) ->
   if Array.isArray(value) then value else [value]
