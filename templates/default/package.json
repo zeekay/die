@@ -10,8 +10,12 @@
     "test": "cake test",
     "start": "cake run"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "die": "~0.2.2"
+  },
+  "devDependencies": {
+    "mocha": "~1.2.0"
+  },
   "optionalDependencies": {},
   "engines": {
     "node": "*"

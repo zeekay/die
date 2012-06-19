@@ -1,5 +1,5 @@
 assert = require 'assert'
-foo    = require '../client/js/foo'
+foo    = require 'client/js/foo'
 
 describe 'client/js/foo', ->
   describe 'foo.bar()', ->
