@@ -2,11 +2,10 @@ path   = require 'path'
 
 exports.defaults = require './defaults'
 
-exports.readConfig = (options, name = 'default') ->
-  configPath = path.join process.cwd(), options.configPath, name
+exports.readConfig = (options, config) ->
   try
-    config = require configPath
-    for key, value of config
-      options[key] = value
+    _options = require config
+    for key, val of _options
+      options[key] = val
   catch err
   options

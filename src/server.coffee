@@ -10,13 +10,8 @@ module.exports = (die) ->
   app.configure =>
     app.set 'port', die.options.port
 
-    publicDir = path.resolve die.options.public
-    if path.existsSync publicDir
-      app.use express.static publicDir
-    else
-      app.use express.static process.cwd()
-
-    console.log publicDir
+    if path.existsSync die.options.public
+      app.use express.static die.options.public
 
   app.configure 'test', =>
     app.set 'port', die.options.port + 1

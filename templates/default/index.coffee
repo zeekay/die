@@ -1,4 +1,4 @@
-app = require('die')
-  public: __dirname + '/public'
+app = require('../../src')
+  basePath: __dirname
 
 module.exports = app.createServer()
