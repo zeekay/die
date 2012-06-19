@@ -36,8 +36,7 @@ class Die extends Hem
       paths: @options.paths
       libs: @options.libs
 
-  test: (args = '--compilers coffee:coffee-script -R spec -t 5000 -c test/*') ->
-    test args
+  test: (args) -> test args
 
   run: (cb) ->
     app = server.createServer.call die, cb
