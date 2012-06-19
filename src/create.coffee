@@ -7,10 +7,18 @@ module.exports = (name, {config, template}, ctx = {}) ->
   template = template or 'default'
   src = path.join __dirname, '../templates', template
   dest = name
-  if config
-    ctx = require config
+
   ctx.name = path.basename dest
   ctx.user = process.env.USER
+
+  # update context with config options.
+  if config
+    for key, val of config
+      ctx[key] = val
+
+  # make sure we don't clobber an existing directory.
+  if path.existsSync dest
+    return console.log "#{dest} already exists."
 
   # copy template to dest
   wrench.copyDirSyncRecursive src, dest

@@ -1,8 +1,6 @@
 build     = require './build'
-cli       = require './cli'
 compilers = require './compilers'
 config    = require './config'
-create    = require './create'
 defaults  = require './defaults'
 pkg       = require './package'
 server    = require './server'
@@ -16,11 +14,7 @@ class Die extends Hem
 
   options: defaults
 
-  exec: -> cli.exec.call @
-
-  build: -> build.call @
-
-  create: (name, opts) -> create name, opts
+  build: -> build @
 
   createServer: -> server.createServer.call @
 
@@ -36,15 +30,14 @@ class Die extends Hem
     app = server.createServer.call die, cb
     app.run()
 
-  test: (args) -> test args
+  test: (opts) -> test opts
 
 for key, val of compilers
   Die::compilers[key] = val
 
 die = new Die
 
-wrapper = (cb) ->
-  die.run cb
+wrapper = (cb) -> die.run cb
 
 for key, val of die
   wrapper[key] = val

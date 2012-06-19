@@ -1,4 +1,4 @@
-module.exports =  options =
+module.exports =
   # path to configuration files
   configPath: 'config/'
 
