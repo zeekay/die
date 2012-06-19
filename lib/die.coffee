@@ -42,6 +42,19 @@ class Die extends Hem
     app = server.createServer.call die, cb
     app.run()
 
+  build: ->
+    src = @options.public or '.'
+    dest = @options.dist or 'dist/'
+
+    # copy template to dest
+    wrench.copyDirSyncRecursive src, dest
+
+    source = @hemPackage().compile(not argv.debug)
+    fs.writeFileSync path.join(dest, @options.jsPath), source
+
+    source = @cssPackage().compile()
+    fs.writeFileSync path.join(dest, @options.cssPath), source
+
 for key, val of compilers
   Die::compilers[key] = val
 
