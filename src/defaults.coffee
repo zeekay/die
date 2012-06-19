@@ -6,7 +6,7 @@ module.exports =
   dist: './dist'
 
   # js entry/exit
-  main: './client/js/app'
+  main: './client/js/app.js'
   jsPath: '/app.js'
 
   # Add load paths
@@ -16,7 +16,7 @@ module.exports =
   dependencies: []
 
   # css entry/exit
-  css: './client/css/app'
+  css: './client/css/app.styl'
   cssPath: '/app.css'
 
   # Load before any other js

@@ -22,22 +22,24 @@ module.exports = (die) ->
   if path.existsSync die.options.public
     wrench.copyDirSyncRecursive die.options.public, dest
 
-  if js and path.existsSync js
+  if js
     if not jsPath
       jsPath = generatePath js, 'js'
 
     source = die.hemPackage().compile()
-    if die.options.minify
-      source = minify.js source
+    if source
+      if die.options.minify
+        source = minify.js source
 
-    fs.writeFileSync path.join(dest, jsPath), source
+      fs.writeFileSync path.join(dest, jsPath), source
 
-  if css and path.existsSync css
+  if css
     if not cssPath
       cssPath = generatePath css, 'css'
 
     source = die.cssPackage().compile()
-    if die.options.minify
-      source = minify.css source
+    if source
+      if die.options.minify
+        source = minify.css source
 
-    fs.writeFileSync path.join(dest, cssPath), source
+      fs.writeFileSync path.join(dest, cssPath), source
