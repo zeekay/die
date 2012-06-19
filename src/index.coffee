@@ -12,4 +12,5 @@ for key, val of die
   wrapper[key] = val
 
 wrapper.version = require('../package.json').version
+wrapper.test = require './test'
 module.exports = wrapper
