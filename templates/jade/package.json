@@ -6,11 +6,14 @@
     "type": "git",
     "url": "https://github.com/{{user}}/{{name}}"
   },
+  "main": "index",
   "scripts": {
     "start": "die run",
     "test": "die test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "die": "{{dieVersion}}"
+  },
   "devDependencies": {},
   "optionalDependencies": {},
   "engines": {

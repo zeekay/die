@@ -4,18 +4,17 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git://github.com/{{user}}/{{name}}.git"
+    "url": "https://github.com/{{user}}/{{name}}"
   },
+  "main": "index",
   "scripts": {
-    "start": "die start",
+    "start": "die run",
     "test": "die test"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "mocha": "~1.1.0",
-    "shelljs": "0.0.6pre2",
-    "zombie": "~1.2.0"
+  "dependencies": {
+    "die": "{{dieVersion}}"
   },
+  "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
     "node": "*"

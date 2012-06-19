@@ -11,7 +11,9 @@
     "start": "die run",
     "test": "die test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "die": "{{dieVersion}}"
+  },
   "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
