@@ -21,7 +21,6 @@ class Die
   compilers: compilers
 
   createServer: (cb) ->
-    @options.public = join @base, @options.public
     app = server @
     if cb and cb.call
       cb.call app

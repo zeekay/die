@@ -1,6 +1,6 @@
-child        = require 'child_process'
-express      = require 'express'
-path         = require 'path'
+child   = require 'child_process'
+express = require 'express'
+path    = require 'path'
 
 module.exports = (die) ->
   app = express.createServer()
@@ -10,8 +10,11 @@ module.exports = (die) ->
   app.configure =>
     app.set 'port', die.options.port
 
-    if path.existsSync die.options.public
-      app.use express.static die.options.public
+    publicDir = path.join die.base, die.options.public
+    if path.existsSync publicDir
+      app.use express.static publicDir
+    else
+      app.use express.static die.base
 
   app.configure 'test', =>
     app.set 'port', die.options.port + 1
