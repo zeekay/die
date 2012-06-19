@@ -7,8 +7,8 @@
     "url": "https://github.com/{{user}}/{{name}}"
   },
   "scripts": {
-    "start": "die run"
-    "test": "die test",
+    "start": "die run",
+    "test": "die test"
   },
   "dependencies": {},
   "devDependencies": {},
