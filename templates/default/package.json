@@ -11,7 +11,7 @@
     "start": "cake run"
   },
   "dependencies": {
-    "die": "~0.2.2"
+    "die": "~0.2.3"
   },
   "devDependencies": {
     "mocha": "~1.2.0"
