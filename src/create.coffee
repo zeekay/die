@@ -2,6 +2,7 @@ fs     = require 'fs'
 mote   = require 'mote'
 path   = require 'path'
 wrench = require 'wrench'
+pkg    = require '../package.json'
 
 module.exports = (name, {config, template}, ctx = {}) ->
   template = template or 'default'
@@ -10,6 +11,7 @@ module.exports = (name, {config, template}, ctx = {}) ->
 
   ctx.name = path.basename dest
   ctx.user = process.env.USER
+  ctx.dieVersion = pkg.version
 
   # update context with config options.
   if config

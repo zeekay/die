@@ -11,11 +11,9 @@
     "start": "cake run"
   },
   "dependencies": {
-    "die": "~0.2.3"
+    "die": "~{{dieVersion}}"
   },
-  "devDependencies": {
-    "mocha": "~1.2.0"
-  },
+  "devDependencies": {}
   "optionalDependencies": {},
   "engines": {
     "node": "*"
