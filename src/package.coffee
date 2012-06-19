@@ -5,7 +5,7 @@ compilers  = require './compilers'
 detective  = require 'fast-detective'
 fs         = require 'fs'
 path       = require 'path'
-stitch     = require '../assets/stitch'
+stitch     = require 'stitch-template'
 
 toArray = (value = []) ->
   if Array.isArray(value) then value else [value]
@@ -23,7 +23,7 @@ class CssPackage
 
 class JsPackage extends Package
   constructor: (config = {}) ->
-    @identifier   = config.identifier
+    @identifier   = config.identifier or 'require'
     @libs         = toArray(config.libs)
     @paths        = toArray(config.paths)
     @dependencies = toArray(config.dependencies)
@@ -56,7 +56,9 @@ class JsPackage extends Package
       modules = new Dependency unresolved
       @modules.push.apply @modules, modules.resolve()
 
-    stitch(identifier: @identifier, modules: @modules)
+    stitch
+      identifier: @identifier
+      modules: (JSON.stringify(module.id) + ": function(exports, require, module) {#{module.compile()}}" for module in @modules).join(', ')
 
 module.exports =
   CssPackage: CssPackage

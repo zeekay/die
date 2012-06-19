@@ -1,9 +1,9 @@
-<% @identifier or= 'require' %>
-(function(/*! Stitch !*/) {
-  if (!this.<%= @identifier %>) {
+module.exports = require('mote').compile '''
+{{identifier}}(function(/*! Stitch !*/) {
+  if (!this.{{identifier}}) {
     var modules = {}, cache = {}, require = function(name, root) {
       var path = expand(root, name), indexPath = expand(path, './index'), module, fn;
-      module   = cache[path] || cache[indexPath]      
+      module   = cache[path] || cache[indexPath]
       if (module) {
         return module;
       } else if (fn = modules[path] || modules[path = indexPath]) {
@@ -35,17 +35,18 @@
     }, dirname = function(path) {
       return path.split('/').slice(0, -1).join('/');
     };
-    this.<%= @identifier %> = function(name) {
+    this.{{identifier}} = function(name) {
       return require(name, '');
     }
-    this.<%= @identifier %>.define = function(bundle) {
+    this.{{identifier}}.define = function(bundle) {
       for (var key in bundle)
         modules[key] = bundle[key];
     };
-    this.<%= @identifier %>.modules = modules;
-    this.<%= @identifier %>.cache   = cache;
+    this.{{identifier}}.modules = modules;
+    this.{{identifier}}.cache   = cache;
   }
-  return this.<%= @identifier %>.define;
+  return this.{{identifier}}.define;
 }).call(this)({
-  <%- (JSON.stringify(module.id) + ": function(exports, require, module) {#{module.compile()}}" for module in @modules).join(', ') %>
+{{modules}}
 });
+'''
