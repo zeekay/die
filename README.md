@@ -1,6 +1,6 @@
 die
 ===
-An application framework *die* for. Inspired by [hem](https://github.com/maccman/hem), [stitch](https://github.com/sstephenson/stitch), [brunch](http://brunch.io/), [flatiron](http://flatironjs.org/), [zappa](https://github.com/mauricemach/zappa), et al.
+Application and asset management to *die* for. Inspired by [hem](https://github.com/maccman/hem), [stitch](https://github.com/sstephenson/stitch), [brunch](http://brunch.io/), [flatiron](http://flatironjs.org/), [zappa](https://github.com/mauricemach/zappa), et al.
 
 Create new project based off template:
 
