@@ -63,5 +63,9 @@ program
     die = require './index'
     require('./watch') die
 
+help = -> console.log program.helpInformation()
+
 program.parse process.argv
-program.help() unless process.argv.length
+
+help() unless program.args.length
+help() unless program.args[0].name
