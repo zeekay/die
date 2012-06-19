@@ -11,7 +11,7 @@ program
   .description('  assemble project')
   .option('-o, --output [dir]')
   .action (opts) ->
-    require('./die').build opts
+    require('./index').build opts
 
 program
   .command('new [name]')
@@ -29,7 +29,9 @@ program
   .description('  serve project')
   .option('-p, --port [number]', 'port to run server on')
   .action (opts) ->
-    require('./die').run opts
+    if opts.port
+      process.env.PORT = opts.port
+    require('./index')().run()
 
 program
   .command('test')
@@ -41,6 +43,6 @@ program
   .command('watch')
   .description('  watch for changes and rebuild project')
   .action ->
-    require('./die').watch()
+    require('./index').watch()
 
 program.parse process.argv

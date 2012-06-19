@@ -8,14 +8,17 @@ Hem       = require 'hem'
 
 class Die extends Hem
   constructor: (options = {}) ->
-    @options[key] = value for key, value of options
-    @options = config.update @options
+    for key, val of options
+      @options[key] = val
+      @readConfig()
 
   options: config.defaults
 
-  build: -> build @
+  build: ->
+    @readConfig 'production'
+    build @
 
-  createServer: -> server.createServer.call @
+  createServer: -> server @
 
   hemPackage: ->
     pkg.createPackage
@@ -23,18 +26,10 @@ class Die extends Hem
       paths: @options.paths
       libs: @options.libs
 
-  run: (cb) ->
-    app = server.createServer.call die, cb
-    app.run()
+  readConfig: (name) ->
+    @options = config.readConfig @options, name
 
 for key, val of compilers
   Die::compilers[key] = val
 
-die = new Die
-
-wrapper = (cb) -> die.run cb
-
-for key, val of die
-  wrapper[key] = val
-
-module.exports = wrapper
+module.exports = Die

@@ -2,21 +2,21 @@ child        = require 'child_process'
 express      = require 'express'
 path         = require 'path'
 
-createServer = (cb) ->
+module.exports = (die) ->
   app = express.createServer()
 
-  @readConfig app.settings.env
+  die.readConfig app.settings.env
 
   app.configure =>
-    app.set 'port', @options.port
+    app.set 'port', die.options.port
 
-    if path.existsSync @options.public
-      app.use express.static @options.public
+    if path.existsSync die.options.public
+      app.use express.static die.options.public
     else
       app.use express.static '.'
 
   app.configure 'test', =>
-    app.set 'port', @options.port + 1
+    app.set 'port', die.options.port + 1
 
   app.configure 'development', ->
     app.use express.logger()
@@ -25,13 +25,15 @@ createServer = (cb) ->
   app.configure 'production', ->
     app.use express.errorHandler()
 
-  app.get @options.cssPath, (req, res) =>
-    res.header 'Content-Type', 'text/css'
-    res.send @cssPackage().compile()
+  if die.options.cssPath
+    app.get die.options.cssPath, (req, res) =>
+      res.header 'Content-Type', 'text/css'
+      res.send die.cssPackage().compile()
 
-  app.get @options.jsPath, (req, res) =>
-    res.header 'Content-Type', 'application/javascript'
-    res.send @hemPackage().compile()
+  if die.options.jsPath
+    app.get die.options.jsPath, (req, res) =>
+      res.header 'Content-Type', 'application/javascript'
+      res.send die.hemPackage().compile()
 
   app.run = (cb) ->
     app.listen app.settings.port, ->
@@ -39,15 +41,4 @@ createServer = (cb) ->
       cb() if cb
     app
 
-  cb.call app if cb
   app
-
-runServer = ->
-  app = createServer.call @
-  app.run ->
-    if process.platform == 'darwin'
-      child.exec "open http://localhost:#{app.address().port}", -> return
-
-module.exports =
-  createServer: createServer
-  runServer: runServer

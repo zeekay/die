@@ -2,7 +2,7 @@
   "author": "zeekay <zeekayy@gmail.com>",
   "name": "die",
   "description": "A tool for stitching together and serving assets.",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "repository": {
     "type": "git",
     "url": "git://github.com/zeekay/die.git"
