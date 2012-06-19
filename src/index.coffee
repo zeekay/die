@@ -11,6 +11,7 @@ wrapper = (cb) ->
 for key, val of die
   wrapper[key] = val
 
-wrapper.version = require('../package.json').version
+wrapper.Die = Die
 wrapper.test = require './test'
+wrapper.version = require('../package.json').version
 module.exports = wrapper

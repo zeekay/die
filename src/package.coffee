@@ -11,14 +11,14 @@ class DiePackage extends Package
   compileModules: ->
     @dependency or= new Dependency @dependencies
     @stitch       = new Stitch @paths
-    jsFiles       = @stitch.resolve()
+    jsFiles       = (js for js in @stitch.resolve() when js)
     @modules      = @dependency.resolve().concat jsFiles
 
     # Create a list of unresolved modules
     unresolved    = []
     known = (id for {id} in @modules)
     for js in jsFiles
-      if path.extname(js.filename) == '.coffee'
+      if js.ext == '.coffee'
         src = coffee.compile fs.readFileSync(js.filename).toString()
       else
         src = fs.readFileSync(js.filename).toString()

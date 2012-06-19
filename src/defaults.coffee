@@ -2,6 +2,9 @@ module.exports =
   # path to configuration files
   configPath: 'config/'
 
+  # default build dir
+  dist: './dist'
+
   # js entry/exit
   main: './client/js/app'
   jsPath: '/app.js'

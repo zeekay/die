@@ -9,8 +9,5 @@ exports.readConfig = (options, name = 'defaults') ->
       config = require configPath
       for key, value of config
         options[key] = value
-
-      # automatically add js entrypoint's dir to search path
-      options.paths.concat [path.dirname options.main]
     catch err
   options

@@ -9,9 +9,26 @@ program
 program
   .command('build')
   .description('  assemble project')
-  .option('-o, --output [dir]')
+  .option('-o, --output [dir]', 'output dir')
+  .option('-m, --minify', 'minify output')
+  .option('--css [in]', 'CSS entrypoint')
+  .option('--css-path [out]', 'path to compiled CSS')
+  .option('--js [in]', 'Javascript entrypoint')
+  .option('--js-path [out]', 'path to compiled Javascript')
   .action (opts) ->
-    require('./index').build opts
+    Die = require './die'
+    opts =
+      dist: opts.output
+      css: opts.css
+      cssPath: opts.cssPath
+      main: opts.js
+      jsPath: opts.jsPath
+      minify: opts.minify or true
+    for k,v of opts
+      if not v
+        delete opts[k]
+    app = new Die opts
+    app.build()
 
 program
   .command('new [name]')
