@@ -11,9 +11,9 @@
     "start": "cake run"
   },
   "dependencies": {
-    "die": "~{{dieVersion}}"
+    "die": "{{dieVersion}}"
   },
-  "devDependencies": {}
+  "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
     "node": "*"
