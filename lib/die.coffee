@@ -18,7 +18,7 @@ class Die extends Hem
 
   exec: -> cli.exec.call @
 
-  build: -> build()
+  build: -> build.call @
 
   createServer: -> server.createServer.call @
 
