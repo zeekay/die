@@ -28,7 +28,6 @@ program
       if not v
         delete opts[k]
     app = new Die opts
-    console.log app.options
     app.build()
 
 program
