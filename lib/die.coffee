@@ -1,10 +1,11 @@
-config    = require './config'
-compilers = require './compilers'
-defaults  = require './defaults'
-create    = require './create'
+build     = require './build'
 cli       = require './cli'
-server    = require './server'
+compilers = require './compilers'
+config    = require './config'
+create    = require './create'
+defaults  = require './defaults'
 pkg       = require './package'
+server    = require './server'
 test      = require './test'
 Hem       = require 'hem'
 
@@ -15,20 +16,11 @@ class Die extends Hem
 
   options: defaults
 
-  exec: ->
-    cli.exec.call @
+  exec: -> cli.exec.call @
 
-  new: ->
-    create()
+  build: -> build()
 
-  server: ->
-    server.runServer.call @
-
-  createServer: ->
-    server.createServer.call @
-
-  readConfig: ->
-    config.readConfig.call @
+  createServer: -> server.createServer.call @
 
   hemPackage: ->
     pkg.createPackage
@@ -36,24 +28,15 @@ class Die extends Hem
       paths: @options.paths
       libs: @options.libs
 
-  test: (args) -> test args
+  new: -> create()
+
+  readConfig: -> config.readConfig.call @
 
   run: (cb) ->
     app = server.createServer.call die, cb
     app.run()
 
-  build: ->
-    src = @options.public or '.'
-    dest = @options.dist or 'dist/'
-
-    # copy template to dest
-    wrench.copyDirSyncRecursive src, dest
-
-    source = @hemPackage().compile(not argv.debug)
-    fs.writeFileSync path.join(dest, @options.jsPath), source
-
-    source = @cssPackage().compile()
-    fs.writeFileSync path.join(dest, @options.cssPath), source
+  test: (args) -> test args
 
 for key, val of compilers
   Die::compilers[key] = val
