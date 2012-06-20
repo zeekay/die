@@ -2,13 +2,6 @@
   "name": "die",
   "description": "Application and asset management to die for.",
   "version": "0.3.9",
-  "author": "zeekay <zeekayy@gmail.com>",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/zeekay/die/blob/master/LICENSE"
-    }
-  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/zeekay/die.git"
@@ -40,5 +33,16 @@
   "optionalDependencies": {},
   "engines": {
     "node": "*"
-  }
+  },
+  "author": {
+    "name": "Zach Kelling",
+    "email": "zeekayy@gmail.com",
+    "url": "https://whatit.is"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/zeekay/die/blob/master/LICENSE"
+    }
+  ]
 }

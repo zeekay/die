@@ -1,8 +1,9 @@
-fs     = require 'fs'
-mote   = require 'mote'
-path   = require 'path'
-wrench = require 'wrench'
-pkg    = require '../package.json'
+fs            = require 'fs'
+mote          = require 'mote'
+path          = require 'path'
+wrench        = require 'wrench'
+pkg           = require '../package.json'
+{getEncoding} = require './utils'
 
 module.exports = (name, {config, template}, ctx = {}) ->
   template = template or 'default'
@@ -35,5 +36,7 @@ module.exports = (name, {config, template}, ctx = {}) ->
     # treat all other files as templates and inject context
     filePath = path.join dest, file
     if fs.statSync(filePath).isFile()
-      template = mote.compile fs.readFileSync(filePath).toString()
-      fs.writeFileSync filePath, template ctx
+      buffer = fs.readFileSync(filePath)
+      if getEncoding(buffer) is 'utf8'
+        template = mote.compile buffer.toString()
+        fs.writeFileSync filePath, template ctx
