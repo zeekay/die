@@ -27,7 +27,6 @@ module.exports = (die) ->
     app.use express.errorHandler()
 
   if die.options.cssPath
-    console.log die.options.cssPath
     app.get die.options.cssPath, (req, res) =>
       res.header 'Content-Type', 'text/css'
       res.send die.cssPackage().compile()

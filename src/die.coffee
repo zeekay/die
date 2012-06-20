@@ -27,8 +27,7 @@ class Die
     app
 
   cssPackage: ->
-    cssPath = join @base, @options.css
-    pkg.createCss cssPath
+    pkg.createCss join @base, @options.css
 
   jsPackage: ->
     pkg.createJs
