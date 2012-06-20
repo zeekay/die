@@ -1,4 +1,8 @@
 require('coffee-script');
-module.exports = app = require('./app');
+app = require('./app');
 
-if (!module.parent) app.run()
+if (!module.parent) {
+  app.run();
+} else {
+  module.exports = app;
+}

@@ -48,7 +48,11 @@ program
   .action (opts) ->
     if opts.port
       process.env.PORT = opts.port
-    require('./index').run()
+    try
+      app = require process.cwd()
+    catch err
+      app = require './index'
+    app.run()
 
 program
   .command('test')

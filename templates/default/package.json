@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/{{user}}/{{name}}"
   },
-  "main": "index",
+  "main": "main",
   "scripts": {
     "start": "die run",
     "test": "die test"
