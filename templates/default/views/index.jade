@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  #content
+
+block scripts
+  script(src='app.js')
+  script
+    app = require('app');
+    app.render();

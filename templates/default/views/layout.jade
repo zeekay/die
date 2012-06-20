@@ -1,0 +1,45 @@
+!!! 5
+html(lang='en')
+  head
+    block head
+      meta(http-equiv='content-type', content='text/html;charset=UTF-8')
+      title {{name}}
+      meta(name='viewport', content='width=device-width, initial-scale=1.0')
+      meta(name='description', content='')
+      meta(name='author', content='')
+      link(rel='stylesheet', href='app.css')
+
+      //if lt IE 9
+        script(src='//html5shim.googlecode.com/svn/trunk/html5.js')
+
+      link(rel='shortcut icon', href='ico/favicon.ico')
+      link(rel='apple-touch-icon', href='ico/apple-touch-icon.png')
+      link(rel='apple-touch-icon', sizes='72x72', href='ico/apple-touch-icon-72x72.png')
+      link(rel='apple-touch-icon', sizes='114x114', href='ico/apple-touch-icon-114x114.png')
+  body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.brand(href='/') {{name}}
+          .nav-collapse
+            ul.nav
+              li.active
+                a(href='/') Home
+              li
+                a(href='/readme') About
+              li
+                a(href='https://github.com/zeekay/die') Contact
+
+    .container
+      block content
+
+      hr
+
+      footer
+        p © {{user}} 2012
+
+    block scripts

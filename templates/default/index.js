@@ -1,11 +1,4 @@
-var die = require('die')({
-  basePath: __dirname
-});
+require('coffee-script');
+module.exports = app = require('./app');
 
-var app = die.createServer();
-
-if (!module.parent) {
-  app.run();
-} else {
-  module.exports = app;
-}
+if (!module.parent) app.run()

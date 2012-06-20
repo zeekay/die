@@ -20,10 +20,9 @@ class Die
 
   compilers: compilers
 
-  createServer: (cb) ->
-    app = server @
-    if cb and cb.call
-      cb.call app
+  createServer: (func) ->
+    app = server.createServer @
+    server.enableDsl app, func
     app
 
   cssPackage: ->
@@ -39,8 +38,8 @@ class Die
     path = join @base, @options.configPath, name
     @options = config.readConfig @options, path
 
-  run: (cb) ->
-    app = @createServer cb
+  run: (func) ->
+    app = @createServer func
     app.run()
 
 module.exports = Die
