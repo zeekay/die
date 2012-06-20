@@ -10,7 +10,7 @@ generatePath = (orig, ext) ->
   out.join('.')
 
 module.exports = (die) ->
-  dest    = die.options.dist or 'dist/'
+  dest    = path.join die.base, die.options.dist or 'dist/'
   js      = die.options.main
   css     = die.options.css
   jsPath  = die.options.jsPath
@@ -22,7 +22,7 @@ module.exports = (die) ->
   if path.existsSync die.options.public
     wrench.copyDirSyncRecursive die.options.public, dest
 
-  if js
+  if js and require.resolve js
     if not jsPath
       jsPath = generatePath js, 'js'
 
@@ -33,7 +33,7 @@ module.exports = (die) ->
 
       fs.writeFileSync path.join(dest, jsPath), source
 
-  if css
+  if css and require.resolve css
     if not cssPath
       cssPath = generatePath css, 'css'
 

@@ -2,7 +2,7 @@ var die = require('die')({
   basePath: __dirname
 });
 
-var app = new die.createServer();
+var app = die.createServer();
 
 if (!module.parent) {
   app.run();
