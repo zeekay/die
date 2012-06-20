@@ -24,7 +24,7 @@ Die supports a [Zappa-ish][zappa] DSL for Express:
           z: 3
 
 ### CommonJS Module support
-Supports CommonJS modules *in the browser* ala [Hem][hem]/[Stitch][stitch]:
+Supports CommonJS modules *in the browser* ala [Hem][hem] or [Stitch][stitch]:
 
     class HomeView extends Backbone.View
       template: require 'templates/home'
