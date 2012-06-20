@@ -9,7 +9,7 @@ class Die
   constructor: (options = {}) ->
     for key, val of options
       @options[key] = val
-    @base = options.basePath or process.cwd()
+    @base = options.base or process.cwd()
     @readConfig()
 
   options: config.defaults
