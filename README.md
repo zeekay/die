@@ -23,11 +23,16 @@ Die supports a [Zappa-ish][zappa] DSL for Express:
           y: 2
           z: 3
 
-### Client-side Jade templates
-You can require [Jade][jade] templates in your client code and they will be compiled into functions requiring only the minimal Jade runtime.
+### CommonJS Module support
+Supports CommonJS modules ala [Hem][hem]/[Stitch][stitch] *in the browser*:
 
-    template = require 'templates/index'
-    $('#user-profile').html template name: 'Tom', age: 22
+class HomeView extends Backbone.View
+  template: require 'templates/home'
+  render: ->
+    @$el.html @template()
+    @
+
+Here we are requiring a [Jade][jade] template (which is compiled to an optimized function) in our [Backbone][backbone] view.
 
 ### Stylus with nib and Bootstrap baked in
 Modernize your CSS with [Stylus][stylus], [Bootstrap][bootstrap] and [nib][nib] baked in already!
@@ -81,6 +86,7 @@ Run tests:
 
     die test
 
+[backbone]: http://backbonejs.org/
 [bootstrap]: http://twitter.github.com/bootstrap/
 [brunch]: http://brunch.io/
 [express]: http://expressjs.com/
