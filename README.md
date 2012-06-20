@@ -1,11 +1,51 @@
-# die
+# Die
 
-Application and asset management to *die* for. Inspired by [hem](https://github.com/maccman/hem), [stitch](https://github.com/sstephenson/stitch), [brunch](http://brunch.io/), [flatiron](http://flatironjs.org/), [zappa](https://github.com/mauricemach/zappa), et al.
+Application and asset management to *die* for. Inspired by [Brunch][brunch], [Flatiron][flatiron], [Hem][hem], [Stitch][stitch], and [Zappa][zappa] (in no-particular order, other than alphabetical).
 
 ## Features
 
+### Razor-sharp Express DSL
+Die supports [zappa-ish][zappa] DSL for Express:
+
+    die = require('die')
+        base: __dirname
+
+    app = die.createServer ->
+
+      @set 'view options'
+        layout: false
+
+      @get '/', ->
+        @render 'index'
+
+      @get '/fancy-json/:query', (query) ->
+        @json
+          answer: require('./client/js/deep-thought').calculate()
+
+### Client-side Jade templates
+You can require [Jade][jade] templates in your client code and they will be compiled into functions requiring only the minimal Jade runtime.
+
+  template = require 'templates/index'
+  $('#user-profile').html template name: 'Tom', age: 22
+
+### Stylus with nib and Bootstrap baked in
+Modernize your CSS with [Stylus][stylus], [Bootstrap][bootstrap] and [nib][nib] baked in already!
+
+    // everything
+    @import 'bootstrap'
+
+    // only config and forms
+    @import 'bootstrap/config'
+    @import 'bootstrap/forms'
+
+    h1
+      font-size 20px
+
+### Awesome testing with Mocha
+[Mocha][mocha] has emerged as the best-in-class JavaScript test framework, and Die supports it out of the box.
+
 ### Multi-app support
-By default each app created by die is reusable by other [die]/[express] apps. Example configuration:
+By default each app created by Die is reusable by other [Die][die]/[Express][express] apps. Example configuration:
 
     die = require('die')
       base: __dirname
@@ -24,14 +64,30 @@ Create new project based off template:
 
     die new <name> [--template <template name>]
 
-Serve project:
+Serve project (or any static assets):
 
     die run
 
-Build project:
+Compile client-side assets (can be used independently of everything else):
 
     die build
 
-The default project templates are setup for testing with [mocha](http://visionmedia.github.com/mocha/) out of the box. To run your tests:
+Compile & watch for changes:
+
+    die watch
+
+Run tests:
 
     die test
+
+[bootstrap]: http://twitter.github.com/bootstrap/
+[brunch]: http://brunch.io/
+[express]: http://expressjs.com/
+[flatiron]: http://flatironjs.org/
+[hem]: https://github.com/maccman/hem)
+[jade]: http://jade-lang.com/
+[mocha]: https://visionmedia.github.com/mocha/
+[nib]: https://github.com/visionmedia/nib
+[stitch]: https://github.com/sstephenson/stitch
+[stylus]: http://learnboost.github.com/stylus/
+[zappa]: https://github.com/mauricemach/zappa
