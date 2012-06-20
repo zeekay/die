@@ -65,6 +65,12 @@ By default each app created by Die is reusable by other [Die][die]/[Express][exp
 
 Each app can of course require other apps recursively.
 
+### Project Templates
+Never write boilerplate code again, take advantage of Die's project templates.
+Structure your projects however you like, each file in a template folder will be treated as a Mustache template
+and can be passed any sort of arbitrary variables when creating a new project with `die new`. Check out the
+[default templates][templates] for examples.
+
 ## Usage
 Create new project based off template:
 
@@ -97,4 +103,5 @@ Run tests:
 [nib]: https://github.com/visionmedia/nib
 [stitch]: https://github.com/sstephenson/stitch
 [stylus]: http://learnboost.github.com/stylus/
+[templates]: https://github.com/zeekay/die/tree/master/templates
 [zappa]: https://github.com/mauricemach/zappa
