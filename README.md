@@ -26,11 +26,11 @@ Die supports a [Zappa-ish][zappa] DSL for Express:
 ### CommonJS Module support
 Supports CommonJS modules ala [Hem][hem]/[Stitch][stitch] *in the browser*:
 
-class HomeView extends Backbone.View
-  template: require 'templates/home'
-  render: ->
-    @$el.html @template()
-    @
+    class HomeView extends Backbone.View
+      template: require 'templates/home'
+      render: ->
+        @$el.html @template()
+        @
 
 Here we are requiring a [Jade][jade] template (which is compiled to an optimized function) in our [Backbone][backbone] view.
 
