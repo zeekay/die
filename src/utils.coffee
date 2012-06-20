@@ -14,7 +14,7 @@ exports.toArray = (value = []) ->
 exports.exec = (args) ->
   exec args, (err, stdout, stderr) ->
     console.log stdout
-    console.err stderr
+    console.error stderr
 
 exports.getEncoding = (buffer) ->
     # Prepare
