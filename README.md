@@ -5,22 +5,23 @@ Application and asset management to *die* for. Inspired by [Brunch][brunch], [Fl
 ## Features
 
 ### Razor-sharp Express DSL
-Die supports [zappa-ish][zappa] DSL for Express:
+Die supports a [Zappa-ish][zappa] DSL for Express:
 
     die = require('die')
         base: __dirname
 
     app = die.createServer ->
-
       @set 'view options'
         layout: false
 
       @get '/', ->
         @render 'index'
 
-      @get '/fancy-json/:query', (query) ->
+      @get '/json', ->
         @json
-          answer: require('./client/js/deep-thought').calculate()
+          x: 1
+          y: 2
+          z: 3
 
 ### Client-side Jade templates
 You can require [Jade][jade] templates in your client code and they will be compiled into functions requiring only the minimal Jade runtime.
