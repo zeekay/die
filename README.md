@@ -26,8 +26,8 @@ Die supports a [Zappa-ish][zappa] DSL for Express:
 ### Client-side Jade templates
 You can require [Jade][jade] templates in your client code and they will be compiled into functions requiring only the minimal Jade runtime.
 
-  template = require 'templates/index'
-  $('#user-profile').html template name: 'Tom', age: 22
+    template = require 'templates/index'
+    $('#user-profile').html template name: 'Tom', age: 22
 
 ### Stylus with nib and Bootstrap baked in
 Modernize your CSS with [Stylus][stylus], [Bootstrap][bootstrap] and [nib][nib] baked in already!
@@ -58,7 +58,7 @@ By default each app created by Die is reusable by other [Die][die]/[Express][exp
 
     module.exports = app
 
-Each app can recursively require other apps.
+Each app can of course require other apps recursively.
 
 ## Usage
 Create new project based off template:
