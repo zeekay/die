@@ -71,4 +71,8 @@ compilers.styl = (filename) ->
         result = css
     result
 
+require.extensions['.styl'] = (module, filename) ->
+    source = JSON.stringify(compilers.styl(filename))
+    module._compile "module.exports = #{source}", filename
+
 module.exports = compilers

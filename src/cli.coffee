@@ -67,7 +67,4 @@ help = -> console.log program.helpInformation()
 
 program.parse process.argv
 
-if program.args.length
-  help() unless program.args[0].name
-else
-  help()
+help() unless program.args.length

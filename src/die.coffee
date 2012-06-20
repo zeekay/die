@@ -27,7 +27,8 @@ class Die
     app
 
   cssPackage: ->
-    pkg.createCss join @base, @options.css
+    cssPath = join @base, @options.css
+    pkg.createCss cssPath
 
   jsPackage: ->
     pkg.createJs
@@ -37,7 +38,6 @@ class Die
 
   readConfig: (name = 'default') ->
     path = join @base, @options.configPath, name
-    console.log path
     @options = config.readConfig @options, path
 
   run: (cb) ->

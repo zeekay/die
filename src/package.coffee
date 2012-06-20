@@ -10,8 +10,9 @@ stitch     = require './stitch'
 class CssPackage
   constructor: (cssPath) ->
     try
-      @path = require.resolve(path.resolve(cssPath))
-    catch e
+      @path = require.resolve path.resolve cssPath
+    catch err
+      console.log err
 
   compile: ->
     return unless @path
