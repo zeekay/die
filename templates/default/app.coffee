@@ -1,5 +1,5 @@
-die = require('../../src')
-  basePath: __dirname
+die = require('die')
+  base: __dirname
 
 app = die.createServer ->
   @set 'view options'

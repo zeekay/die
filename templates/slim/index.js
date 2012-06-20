@@ -1,5 +1,5 @@
 var die = require('die')({
-  basePath: __dirname
+  base: __dirname
 });
 
 var app = die.createServer();
