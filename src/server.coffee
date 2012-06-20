@@ -29,12 +29,18 @@ module.exports = (die) ->
   if die.options.cssPath
     app.get die.options.cssPath, (req, res) =>
       res.header 'Content-Type', 'text/css'
-      res.send die.cssPackage().compile()
+      try
+        res.send die.cssPackage().compile()
+      catch err
+        console.error 'CSS packaging error:', err
 
   if die.options.jsPath
     app.get die.options.jsPath, (req, res) =>
       res.header 'Content-Type', 'application/javascript'
-      res.send die.jsPackage().compile()
+      try
+        res.send die.jsPackage().compile()
+      catch err
+        console.error 'JavaScript packaging error:', err
 
   app.run = (cb) ->
     app.listen app.settings.port, ->

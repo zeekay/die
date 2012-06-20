@@ -3,16 +3,17 @@ coffee     = require 'coffee-script'
 compilers  = require './compilers'
 detective  = require 'fast-detective'
 fs         = require 'fs'
-path       = require 'path'
 stitch     = require './stitch'
+{dirname}  = require 'path'
+{resolve}  = require 'path'
 {toArray}  = require './utils'
 
 class CssPackage
   constructor: (cssPath) ->
     try
-      @path = require.resolve path.resolve cssPath
+      @path = require.resolve resolve cssPath
     catch err
-      console.log err
+      console.error 'Unable to resolve CSS path', err
 
   compile: ->
     return unless @path
@@ -22,13 +23,13 @@ class CssPackage
 class JsPackage
   constructor: (config = {}) ->
     @identifier   = config.identifier or 'require'
-    @libs         = toArray(config.libs)
-    @paths        = toArray(config.paths)
-    @dependencies = toArray(config.dependencies)
+    @libs         = toArray config.libs
+    @paths        = toArray config.paths
+    @dependencies = toArray config.dependencies
 
     # automatically add base dir of mainJs to search path
     if config.main
-      @paths.concat [path.dirname path.resolve config.main]
+      @paths.concat [dirname resolve config.main]
 
   compileModules: ->
     @dependency or= new Dependency @dependencies
@@ -51,6 +52,7 @@ class JsPackage
           unresolved.push module
 
     if unresolved.length > 0
+      console.log unresolved
       modules = new Dependency unresolved
       @modules.push.apply @modules, modules.resolve()
 
