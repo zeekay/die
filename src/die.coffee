@@ -35,7 +35,7 @@ class Die
       paths: (join @base, path for path in @options.paths)
       libs: (join @base, lib for lib in @options.libs)
 
-  readConfig: (name) ->
+  readConfig: (name = 'default') ->
     path = join @base, @options.configPath, name
     console.log path
     @options = config.readConfig @options, path
