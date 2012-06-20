@@ -1,3 +1,5 @@
+{exec} = require 'child_process'
+
 exports.flatten = flatten = (array, results = []) ->
   for item in array
     if Array.isArray(item)
@@ -8,6 +10,11 @@ exports.flatten = flatten = (array, results = []) ->
 
 exports.toArray = (value = []) ->
   if Array.isArray(value) then value else [value]
+
+exports.exec = (args) ->
+  exec args, (err, stdout, stderr) ->
+    console.log stdout
+    console.err stderr
 
 exports.getEncoding = (buffer) ->
     # Prepare
