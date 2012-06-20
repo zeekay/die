@@ -37,6 +37,7 @@ class Die
 
   readConfig: (name) ->
     path = join @base, @options.configPath, name
+    console.log path
     @options = config.readConfig @options, path
 
   run: (cb) ->
