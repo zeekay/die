@@ -1,5 +1,5 @@
 # {{name}}
-===========
+
 This is a [die](https://github.com/zeekay/die) application. It demonstrates only the most basic features.
 
 ## Getting started
@@ -13,8 +13,10 @@ If you don't want to install die globally:
     npm install
     node .
 
-## Sharing
+## Features
+-----------
 
+### Sharing
 This application can be required into other die/express apps and mounted:
 
     var express = require('express');
