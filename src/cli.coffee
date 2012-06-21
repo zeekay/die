@@ -16,19 +16,16 @@ program
   .option('--js [in]', 'Javascript entrypoint')
   .option('--js-path [out]', 'path to compiled Javascript')
   .action (opts) ->
-    Die = require './die'
-    opts =
-      dist: opts.output
-      css: opts.css
-      cssPath: opts.cssPath
-      main: opts.js
-      jsPath: opts.jsPath
-      minify: opts.minify or true
-    for k,v of opts
-      if not v
-        delete opts[k]
-    app = new Die opts
-    app.build()
+    die = require('./index')
+      buildPath: opts.output
+      css:
+        main: opts.css
+        url: opts.cssPath
+      js:
+        main: opts.js
+        url: opts.jsPath
+      minify: opts.minify
+    die.build()
 
 program
   .command('new [name]')

@@ -1,45 +1,39 @@
+bundle = require './bundle'
 fs     = require 'fs'
-path   = require 'path'
-wrench = require 'wrench'
 minify = require './minify'
+wrench = require 'wrench'
 
-generatePath = (orig, ext) ->
-  out = path.basename(orig).split('.')
-  out.pop()
-  out.push ext
-  out.join('.')
+path   = require 'path'
+exists = path.existsSync
+join   = path.join
 
-module.exports = (die) ->
-  dest    = path.join die.base, die.options.dist or 'dist/'
-  js      = die.options.main
-  css     = die.options.css
-  jsPath  = die.options.jsPath
-  cssPath = die.options.cssPath
+module.exports = (opts) ->
+  dest = join opts.base, opts.buildPath or 'dist/'
+  console.log opts.minify
 
+  # remove previous build
   wrench.rmdirSyncRecursive dest, true
   fs.mkdirSync dest
 
-  if path.existsSync die.options.public
-    wrench.copyDirSyncRecursive die.options.public, dest
+  # copy static assets
+  dir = join opts.base, opts.staticPath
+  if exists dir
+    wrench.copyDirSyncRecursive dir, dest
 
-  if js and require.resolve js
-    if not jsPath
-      jsPath = generatePath js, 'js'
+  try
+    js = bundle.js opts.js, opts.base
+    src = js.bundle()
+    if opts.minify
+      src = minify.js src
+    fs.writeFileSync join(dest, opts.js.url), src
+  catch err
+    console.log err
 
-    source = die.jsPackage().compile()
-    if source
-      if die.options.minify
-        source = minify.js source
-
-      fs.writeFileSync path.join(dest, jsPath), source
-
-  if css and require.resolve css
-    if not cssPath
-      cssPath = generatePath css, 'css'
-
-    source = die.cssPackage().compile()
-    if source
-      if die.options.minify
-        source = minify.css source
-
-      fs.writeFileSync path.join(dest, cssPath), source
+  try
+    css = bundle.css opts.css, opts.base
+    src = css.bundle()
+    if opts.minify
+      src = minify.css src
+    fs.writeFileSync join(dest, opts.css.url), src
+  catch err
+    console.log err
