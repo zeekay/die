@@ -48,7 +48,7 @@ exports.createServer = (opts) ->
     catch err
       css = false
     if css
-      app.get opts.css.url, (req, res) =>
+      app.get opts.cssBundle.url, (req, res) =>
         res.header 'Content-Type', 'text/css'
         try
           res.send css.bundle()
@@ -62,7 +62,7 @@ exports.createServer = (opts) ->
     catch err
       js = false
     if js
-      app.get opts.js.url, (req, res) ->
+      app.get opts.jsBundle.url, (req, res) ->
         res.header 'Content-Type', 'application/javascript'
         try
           res.send js.bundle()

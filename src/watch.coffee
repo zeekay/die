@@ -7,8 +7,8 @@ module.exports = (die) ->
   for dir in (dirname join base, lib for lib in die.options?.js?.libs or [])
     unless dir in watch
       watch.push dir
-  js = die.options?.js?.main
-  css = die.options?.css?.main
+  js = die.options?.jsBundle?.main
+  css = die.options?.cssBundle?.main
   watch.push dirname join base, js if js
   watch.push dirname join base, css if css
 

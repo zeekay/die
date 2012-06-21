@@ -24,7 +24,7 @@ module.exports = (opts) ->
     src = js.bundle()
     if opts.minify
       src = minify.js src
-    fs.writeFileSync join(dest, opts.js.url), src
+    fs.writeFileSync join(dest, opts.jsBundle.url), src
   catch err
     console.trace err
 
@@ -33,6 +33,6 @@ module.exports = (opts) ->
     src = css.bundle()
     if opts.minify
       src = minify.css src
-    fs.writeFileSync join(dest, opts.css.url), src
+    fs.writeFileSync join(dest, opts.cssBundle.url), src
   catch err
     console.trace err
