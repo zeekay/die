@@ -5,13 +5,13 @@ task 'build', 'compile src/*.coffee to lib/*.js', ->
   exec.serial [
     'coffee -bc -o lib/ src/'
     'git add lib'
-    ['git', 'commit', 'lib', '-m', '"Compiled lib/*"']
   ]
 
 
 task 'publish', 'publish current version to NPM', ->
   invoke 'build'
   exec.serial [
+    ['git', 'commit', 'lib', '-m', '"Compiled lib/*"']
     'npm version patch'
     'git push'
     'npm publish'
