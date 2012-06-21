@@ -9,6 +9,6 @@ describe '{{name}}', ->
       app.listen app.settings.port, ->
         browser.visit "http://localhost:#{app.settings.port}/", -> done()
 
-    it 'has title', ->
+    it 'Index has title', ->
       title = browser.text 'title'
-      assert.equal title, '{{name}}'
+      assert.equal title, 'foo'

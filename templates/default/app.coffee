@@ -1,17 +1,16 @@
-die = require('../../src')
+md   = require('markdown').markdown
+read = require('fs').readFileSync
+die  = require('die')
   base: __dirname
 
 app = die.createServer ->
+
+  readme = md.toHTML read __dirname + '/README.md', 'utf8'
+
   @set 'view options'
     layout: false
 
   @get '/', ->
-    require('fs').readFile __dirname + '/README.md', (err, data) =>
-      readme = require('markdown').markdown.toHTML data.toString()
-      @render 'index', readme: readme
-
-  @get '/answer', ->
-    @json
-      answer: require('./client/js/deep-thought').calculate()
+    @render 'index', readme: readme
 
 module.exports = app
