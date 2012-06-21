@@ -2,6 +2,7 @@ fs       = require 'fs'
 mote     = require 'mote'
 version  = require('../package.json').version
 wrench   = require 'wrench'
+colors   = require 'colors'
 
 path     = require 'path'
 exists   = path.existsSync
@@ -55,4 +56,4 @@ module.exports = (name, {config, template, install, production}) ->
     cmd += " --production" if production
     exec cmd, cwd: join(process.cwd(), ctx.name)
 
-  console.log 'The die has been cast.'
+  console.log 'Iacta alea est...'.bold.red, ctx.name, 'has been created'
