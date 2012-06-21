@@ -63,7 +63,8 @@ program
   .command('watch')
   .description('  watch for changes and rebuild project')
   .action ->
-    die = require './index'
+    die = require('./index')
+      base: process.cwd()
     require('./watch') die
 
 help = -> console.log program.helpInformation()

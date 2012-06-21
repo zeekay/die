@@ -9,7 +9,6 @@ join   = path.join
 
 module.exports = (opts) ->
   dest = join opts.base, opts.buildPath or 'dist/'
-  console.log opts.minify
 
   # remove previous build
   wrench.rmdirSyncRecursive dest, true
