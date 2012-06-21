@@ -12,7 +12,8 @@
     "test": "die test"
   },
   "dependencies": {
-    "die": "{{dieVersion}}"
+    "die": "{{dieVersion}}",
+    "coffee-script": "~1.3.3"
   },
   "devDependencies": {
     "chai": "~1.0.4",
