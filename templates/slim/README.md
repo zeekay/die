@@ -1,6 +1,6 @@
 # {{name}}
 
-This is the default [Die][die] application. It demonstrates most of the basic features.
+This is the a minimal [Die][die] application, a single page JavaScript application.
 
 ## Getting started
 

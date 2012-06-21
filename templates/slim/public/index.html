@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <title>{{name}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content=""><meta name="author" content="">
+
+    <link rel="stylesheet" href="app.css">
+
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon" href="ico/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="ico/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="ico/apple-touch-icon-114x114.png">
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a href="" class="brand">{{name}}</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="content">
+      </div>
+      <hr>
+      <footer>
+        created with <a href="https://github.com/zeekay/die">die {{dieVersion}}</a>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+    <script>app = require('/app');
+        app.render();
+    </script>
+  </body>
+</html>
