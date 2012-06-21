@@ -11,4 +11,4 @@ describe '{{name}}', ->
 
     it 'Index has title', ->
       title = browser.text 'title'
-      assert.equal title, 'foo'
+      assert.equal title, '{{name}}'
