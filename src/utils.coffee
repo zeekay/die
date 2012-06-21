@@ -36,15 +36,40 @@ exports.resolve = (extensions, entry) ->
   throw err
 
 # Unbuffered exec
-exports.exec = (args, opts = {}) ->
+exports.exec = (args, opts = {}, callback) ->
+  # passed callback as second argument
+  if typeof opts is 'function'
+    callback = opts
+
+  # passed string of arguments instead of Array
   if not Array.isArray args
     args = args.split(/\s+/g)
+
   cmd = args.shift()
   cmd = spawn cmd, args, opts
+
+  # echo stdout/stderr
   cmd.stdout.on 'data', (data) ->
     process.stdout.write data
   cmd.stderr.on 'data', (data) ->
     process.stderr.write data
+
+  # callback on completion
+  cmd.on 'exit', (code) ->
+    if callback
+      callback null, code
+
+# Simple serial execution of commands, no error handling
+exports.exec.serial = (arr, callback=->) ->
+  complete = 0
+  iterate = ->
+    exports.exec arr[complete], ->
+      complete += 1
+      if complete == arr.length
+        callback()
+      else
+        iterate()
+  iterate()
 
 exports.getEncoding = (buffer) ->
     # Prepare

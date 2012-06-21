@@ -6,7 +6,9 @@ task 'build', 'compile src/*.coffee to lib/*.js', ->
 
 task 'publish', 'publish current version to NPM', ->
   invoke 'build'
-  exec ['git', 'commit', '-a', '-m', 'Recompile lib/*']
-  exec 'git push'
-  exec 'npm version patch'
-  exec 'npm publish'
+  exec.serial [
+    ['git', 'commit', '-a', '-m', '"Recompile lib/*"']
+    'git push'
+    'npm version patch'
+    'npm publish'
+  ]
