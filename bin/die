@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-require('../lib/cli')
+require('coffee-script');
+require('/Users/zkelling/play/die/src/cli');

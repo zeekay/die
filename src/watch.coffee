@@ -1,4 +1,3 @@
-compilers = require './compilers'
 path      = require 'path'
 
 module.exports = (die) ->

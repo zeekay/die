@@ -1,7 +1,7 @@
-{calculate} = require 'deep-thought'
+{calculate} = require './deep-thought'
 
 class App
-  template = require 'templates/index'
+  template = require './templates/index'
   render: ->
     $('#content').html template answer: calculate()
 

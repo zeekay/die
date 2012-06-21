@@ -1,28 +1,26 @@
 module.exports =
   # path to configuration files
-  configPath: '/config/'
+  configPath: '/config'
 
-  # default build dir
-  dist: '/dist/'
+  # path to compile assets to
+  buildPath: '/dist'
 
-  # js entry/exit
-  main: '/client/js/app'
-  jsPath: '/app.js'
+  # path to static files
+  staticPath: '/public'
 
-  # Add load paths
-  paths: ['/client/js']
-
-  # npm/Node dependencies
-  dependencies: []
-
-  # css entry/exit
-  css: '/client/css/app'
-  cssPath: '/app.css'
-
-  # Load before any other js
-  libs: []
-
-  # static dir
-  public: '/public'
-
+  # port to run from
   port: process.env.PORT or 3000
+
+  # bundled JavaScript
+  js:
+    # entry point for javascript
+    main: '/client/js/app'
+    # url to serve javascript from
+    url: '/app.js'
+    # libraries to prepend before bundled JavaScript
+    libs: []
+
+  # bundled CSS
+  css:
+    main: '/client/css/app'
+    url: '/app.css'

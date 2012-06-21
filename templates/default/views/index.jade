@@ -2,9 +2,11 @@ extends layout
 
 block content
   #content
+  hr
+  != readme
 
 block scripts
   script(src='app.js')
   script
-    app = require('app');
+    app = require('/app');
     app.render();

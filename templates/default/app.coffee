@@ -1,4 +1,4 @@
-die = require('die')
+die = require('../../src')
   base: __dirname
 
 app = die.createServer ->

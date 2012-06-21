@@ -1,6 +1,5 @@
 # Die
-
-Application and asset management to *die* for. Inspired by [Brunch][brunch], [Flatiron][flatiron], [Hem][hem], [Stitch][stitch], and [Zappa][zappa] (in no-particular order, other than alphabetical).
+Application and asset management to *die* for.
 
 ## Features
 
@@ -23,11 +22,11 @@ Die supports a [Zappa-ish][zappa] DSL for Express:
           y: 2
           z: 3
 
-### CommonJS Module support
-Supports CommonJS modules *in the browser* ala [Hem][hem] or [Stitch][stitch]:
+### CommonJS module support
+Use CommonJS modules *in the browser* (courtesy of [Browserify][browserify]):
 
     class HomeView extends Backbone.View
-      template: require 'templates/home'
+      template: require './templates/home'
       render: ->
         @$el.html @template()
         @
@@ -35,7 +34,7 @@ Supports CommonJS modules *in the browser* ala [Hem][hem] or [Stitch][stitch]:
 Here we are requiring a [Jade][jade] template (which is compiled to an optimized function) in our [Backbone][backbone] view.
 
 ### Stylus with nib and Bootstrap baked in
-Modernize your CSS with [Stylus][stylus], [Bootstrap][bootstrap] and [nib][nib] baked in already!
+Modernize your CSS with [Stylus][stylus]! [Bootstrap][bootstrap] and [nib][nib] baked in:
 
     // everything
     @import 'bootstrap'
@@ -94,14 +93,11 @@ Run tests:
 
 [backbone]: http://backbonejs.org/
 [bootstrap]: http://twitter.github.com/bootstrap/
-[brunch]: http://brunch.io/
+[browserify]: https://github.com/substack/node-browserify
 [express]: http://expressjs.com/
-[flatiron]: http://flatironjs.org/
-[hem]: https://github.com/maccman/hem)
 [jade]: http://jade-lang.com/
 [mocha]: https://visionmedia.github.com/mocha/
 [nib]: https://github.com/visionmedia/nib
-[stitch]: https://github.com/sstephenson/stitch
 [stylus]: http://learnboost.github.com/stylus/
 [templates]: https://github.com/zeekay/die/tree/master/templates
 [zappa]: https://github.com/mauricemach/zappa

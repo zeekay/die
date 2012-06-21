@@ -20,24 +20,14 @@ html(lang='en')
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
-          a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.brand(href='/') {{name}}
-          .nav-collapse
-            ul.nav
-              li.active
-                a(href='/') Home
-              li
-                a(href='https://github.com/zeekay/die') Die
-
+          a.brand(href='') {{name}}
     .container
-      block content
 
+      block content
       hr
 
       footer
-        p © {{user}} 2012 - Created with Die {{dieVersion}}
+        | created with
+        a(href="https://github.com/zeekay/die")  die v.0.42
 
     block scripts

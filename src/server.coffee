@@ -1,33 +1,38 @@
+bundle  = require './bundle'
+config  = require './config'
 express = require 'express'
-path    = require 'path'
 
-exports.createServer = (die) ->
+path    = require 'path'
+exists  = path.existsSync
+join    = path.join
+
+exports.createServer = (opts) ->
   app = express.createServer()
 
   # read configuration based on NODE_ENV
-  die.readConfig app.settings.env
+  opts = config.read opts, app.settings.env
 
-  app.configure =>
-    app.set 'port', die.options.port
+  app.configure ->
+    app.set 'port', opts.port
 
     # setup views
-    viewDir = path.join die.base, '/views'
-    if path.existsSync viewDir
-      app.set 'views', viewDir
+    dir = join opts.base, '/views'
+    if exists dir
+      app.set 'views', dir
       # use jade by default
       app.set 'view engine', 'jade'
 
     # setup static file serving
-    publicDir = path.join die.base, die.options.public
-    if path.existsSync publicDir
-      app.use express.static publicDir
+    dir = join opts.base, opts.staticPath
+    if exists dir
+      app.use express.static dir
     else
       # serve cwd if public dir doesn't exist.
-      app.use express.static die.base
+      app.use express.static opts.base
 
   app.configure 'test', ->
     # listen on a different port when running tests
-    app.set 'port', die.options.port + 1
+    app.set 'port', opts.port + 1
 
   app.configure 'development', ->
     app.use express.logger()
@@ -37,34 +42,36 @@ exports.createServer = (die) ->
     app.use express.errorHandler()
 
   # serve compiled CSS
-  if die.options.cssPath
-    app.get die.options.cssPath, (req, res) =>
+  if opts.css
+    css = bundle.css opts.css, opts.base
+    app.get opts.css.url, (req, res) =>
       res.header 'Content-Type', 'text/css'
       try
-        res.send die.cssPackage().compile()
+        res.send css.bundle()
       catch err
-        console.error 'CSS packaging error:', err
+        console.error 'Error bundling CSS:', err
 
   # serve compiled JS
-  if die.options.jsPath
-    app.get die.options.jsPath, (req, res) =>
+  if opts.js
+    js = bundle.js opts.js, opts.base
+    app.get opts.js.url, (req, res) ->
       res.header 'Content-Type', 'application/javascript'
       try
-        res.send die.jsPackage().compile()
+        res.send js.bundle()
       catch err
-        console.error 'JavaScript packaging error:', err
+        console.error 'Error bundling JavaScript:', err
 
   # run helper
   app.run = (func) ->
-    app.listen app.settings.port, ->
-      console.log "#{app.settings.env} server up and running at http://localhost:#{app.address().port}"
+    app.listen opts.port, ->
+      console.log "#{app.settings.env} server up and running at http://localhost:#{opts.port}"
       if typeof func is 'function'
         func()
     app
   app
 
 # enables a zappa-ish DSL for configuring express apps
-exports.enableDsl = (app, func) ->
+exports.extend = (app, func) ->
   if typeof func isnt 'function'
     return
 
@@ -96,4 +103,5 @@ exports.enableDsl = (app, func) ->
 
   # put things back in case someone else wants to interact with the express app we create normally
   for verb in ['get', 'post', 'put', 'del']
-    app[verb] = app["__orig_#{verb}"]
+    delete app[verb]
+    delete app["__orig_#{verb}"]

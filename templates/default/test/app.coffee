@@ -1,8 +1,7 @@
 assert  = require 'assert'
-die     = require 'die'
 zombie  = require 'zombie'
 browser = new zombie.Browser
-app = die.createServer()
+app     = require '../'
 
 describe '{{name}}', ->
   describe 'GET /', ->

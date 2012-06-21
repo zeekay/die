@@ -2,10 +2,12 @@ path   = require 'path'
 
 exports.defaults = require './defaults'
 
-exports.readConfig = (options, config) ->
+exports.read = (opts, config) ->
+  if not path.existsSync config
+    config = path.join opts.base, opts.configPath, config
   try
-    _options = require config
-    for key, val of _options
-      options[key] = val
+    _opts = require config
+    for key, val of _opts
+      opts[key] = val
   catch err
-  options
+  opts
