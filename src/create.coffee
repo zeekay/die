@@ -8,14 +8,15 @@ utils    = require './utils'
 encoding = utils.getEncoding
 exec     = utils.exec
 
-module.exports = (name, {config, template, install}, ctx = {}) ->
+module.exports = (name, {config, template, install, production}) ->
   template = template or 'default'
   src = path.join __dirname, '../templates', template
   dest = name
 
-  ctx.name = path.basename dest
-  ctx.user = process.env.USER
-  ctx.dieVersion = version
+  ctx =
+    name: path.basename dest
+    user: process.env.USER
+    dieVersion: version
 
   # update context with config options.
   if config
@@ -45,5 +46,6 @@ module.exports = (name, {config, template, install}, ctx = {}) ->
         fs.writeFileSync filePath, template ctx
 
   if install
-    # install packages
-    exec 'npm install'
+    cmd = "npm install"
+    cmd += " --production" if production
+    exec cmd, cwd: path.join(process.cwd(), ctx.name)

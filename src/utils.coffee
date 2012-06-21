@@ -1,6 +1,6 @@
-exists = require('path').existsSync
-fs     = require 'fs'
-{exec} = require 'child_process'
+exists  = require('path').existsSync
+fs      = require 'fs'
+{spawn} = require 'child_process'
 
 exports.concatRead = (files) ->
   if not Array.isArray files
@@ -35,10 +35,15 @@ exports.resolve = (extensions, entry) ->
   err = new Error "Unable to resolve path to #{entry}"
   throw err
 
-exports.exec = (cmd) ->
-  exec "npm_config_color=always #{cmd}", (err, stdout, stderr) ->
-    process.stdout.write stdout
-    process.stderr.write stderr
+# Unbuffered exec
+exports.exec = (args, opts = {}) ->
+  args = args.split(/\s+/g)
+  cmd = args.shift()
+  cmd = spawn cmd, args, opts
+  cmd.stdout.on 'data', (data) ->
+    process.stdout.write data
+  cmd.stderr.on 'data', (data) ->
+    process.stderr.write data
 
 exports.getEncoding = (buffer) ->
     # Prepare
