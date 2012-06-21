@@ -5,6 +5,7 @@ express = require 'express'
 path    = require 'path'
 exists  = path.existsSync
 join    = path.join
+dirname = path.dirname
 
 exports.createServer = (opts) ->
   app = express.createServer()
@@ -43,27 +44,32 @@ exports.createServer = (opts) ->
 
   # serve compiled CSS
   if opts.cssBundle
-    css = bundle.css opts.cssBundle, opts.base
-    app.get opts.cssBundle.url, (req, res) =>
-      res.header 'Content-Type', 'text/css'
-      try
-        res.send css.bundle()
-      catch err
-        console.error 'Error bundling CSS:'
-        console.trace err
-      return
+    dir = exists dirname join opts.base, opts.cssBundle.main
+    if dir
+      console.log dir
+      css = bundle.css opts.cssBundle, opts.base
+      app.get opts.cssBundle.url, (req, res) =>
+        res.header 'Content-Type', 'text/css'
+        try
+          res.send css.bundle()
+        catch err
+          console.error 'Error bundling CSS:'
+          console.trace err
+        return
 
   # serve compiled JS
   if opts.jsBundle
-    js = bundle.js opts.jsBundle, opts.base
-    app.get opts.jsBundle.url, (req, res) ->
-      res.header 'Content-Type', 'application/javascript'
-      try
-        res.send js.bundle()
-      catch err
-        console.error 'Error bundling JavaScript:'
-        console.trace err
-      return
+    dir = exists dirname join opts.base, opts.jsBundle.main
+    if dir
+      js = bundle.js opts.jsBundle, opts.base
+      app.get opts.jsBundle.url, (req, res) ->
+        res.header 'Content-Type', 'application/javascript'
+        try
+          res.send js.bundle()
+        catch err
+          console.error 'Error bundling JavaScript:'
+          console.trace err
+        return
 
   # run helper
   app.run = (func) ->
