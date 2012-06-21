@@ -13,17 +13,4 @@ If you don't want to install die globally:
     npm install
     node .
 
-## Features
------------
-
-### Sharing
-
-This application can be required into other [die]/[express] apps and mounted:
-
-    var express = require('express');
-    var app = express.createServer();
-    app.use('/{{name}}', require('{{name}}'));
-    app.listen(3000);
-
 [die]: https://github.com/zeekay/die
-[express]: http://expressjs.com/

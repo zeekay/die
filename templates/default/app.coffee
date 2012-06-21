@@ -6,12 +6,9 @@ app = die.createServer ->
     layout: false
 
   @get '/', ->
-    @render 'index'
-
-  @get '/readme', ->
     require('fs').readFile __dirname + '/README.md', (err, data) =>
       readme = require('markdown').markdown.toHTML data.toString()
-      @render 'readme', readme: readme
+      @render 'index', readme: readme
 
   @get '/answer', ->
     @json
