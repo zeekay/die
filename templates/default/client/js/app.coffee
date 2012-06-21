@@ -1,8 +1,8 @@
-{calculate} = require './deep-thought'
+caesar = require './caesar'
 
 class App
   template = require './templates/index'
   render: ->
-    $('#content').html template answer: calculate()
+    $('#content').html template quote: caesar.quote()
 
 module.exports = new App()

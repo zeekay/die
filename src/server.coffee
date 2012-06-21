@@ -44,9 +44,8 @@ exports.createServer = (opts) ->
 
   # serve compiled CSS
   if opts.cssBundle
-    dir = exists dirname join opts.base, opts.cssBundle.main
-    if dir
-      console.log dir
+    dir = dirname join opts.base, opts.cssBundle.main
+    if exists dir
       css = bundle.css opts.cssBundle, opts.base
       app.get opts.cssBundle.url, (req, res) =>
         res.header 'Content-Type', 'text/css'
@@ -59,8 +58,8 @@ exports.createServer = (opts) ->
 
   # serve compiled JS
   if opts.jsBundle
-    dir = exists dirname join opts.base, opts.jsBundle.main
-    if dir
+    dir = dirname join opts.base, opts.jsBundle.main
+    if exists dir
       js = bundle.js opts.jsBundle, opts.base
       app.get opts.jsBundle.url, (req, res) ->
         res.header 'Content-Type', 'application/javascript'
