@@ -6,6 +6,7 @@ nib        = require 'nib'
 stylus     = require 'stylus'
 
 path       = require 'path'
+basename   = path.basename
 dirname    = path.dirname
 join       = path.join
 
@@ -32,8 +33,6 @@ module.exports =
         result
 
   js: ({main, libs}, base = '') ->
-    main = join base, main
-    libs = (join base, lib for lib in libs)
     b = browserify()
     b.register '.jade', (body, filename) ->
       @ignore filename
@@ -42,6 +41,7 @@ module.exports =
         debug: false
         compileDebug: false
       "module.exports = #{func.toString()}"
+    libs = (join base, lib for lib in libs)
     b.prepend concatRead libs
-    b.require main
+    b.require "./#{basename main}", dirname: dirname join base, main
     b
