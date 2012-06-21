@@ -43,31 +43,27 @@ exports.createServer = (opts) ->
 
   # serve compiled CSS
   if opts.cssBundle
-    try
-      css = bundle.css opts.cssBundle, opts.base
-    catch err
-      css = false
-    if css
-      app.get opts.cssBundle.url, (req, res) =>
-        res.header 'Content-Type', 'text/css'
-        try
-          res.send css.bundle()
-        catch err
-          console.error 'Error bundling CSS:', err
+    css = bundle.css opts.cssBundle, opts.base
+    app.get opts.cssBundle.url, (req, res) =>
+      res.header 'Content-Type', 'text/css'
+      try
+        res.send css.bundle()
+      catch err
+        console.error 'Error bundling CSS:'
+        console.trace err
+      return
 
   # serve compiled JS
   if opts.jsBundle
-    try
-      js = bundle.js opts.jsBundle, opts.base
-    catch err
-      js = false
-    if js
-      app.get opts.jsBundle.url, (req, res) ->
-        res.header 'Content-Type', 'application/javascript'
-        try
-          res.send js.bundle()
-        catch err
-          console.error 'Error bundling JavaScript:', err
+    js = bundle.js opts.jsBundle, opts.base
+    app.get opts.jsBundle.url, (req, res) ->
+      res.header 'Content-Type', 'application/javascript'
+      try
+        res.send js.bundle()
+      catch err
+        console.error 'Error bundling JavaScript:'
+        console.trace err
+      return
 
   # run helper
   app.run = (func) ->
@@ -97,8 +93,8 @@ exports.extend = (app, func) ->
             next: next
             params: req.params
             query: req.query
-            request: req
-            response: res
+            req: req
+            res: res
             session: req.session
             settings: app.settings
             json: -> res.json.apply res, arguments
