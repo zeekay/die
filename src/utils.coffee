@@ -37,7 +37,8 @@ exports.resolve = (extensions, entry) ->
 
 # Unbuffered exec
 exports.exec = (args, opts = {}) ->
-  args = args.split(/\s+/g)
+  if not Array.isArray args
+    args = args.split(/\s+/g)
   cmd = args.shift()
   cmd = spawn cmd, args, opts
   cmd.stdout.on 'data', (data) ->
