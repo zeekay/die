@@ -73,17 +73,21 @@ and can be passed any sort of arbitrary variables when creating a new project wi
 ## Usage
 Create new project based off template:
 
-    die new <name> [--template <template name>]
+    die new <name> [--template <template name>, --install, --production]
 
-Serve project (or any static assets):
+Serve project (or just static files):
 
     die run
 
-Compile client-side assets (can be used independently of everything else):
+Compile client-side assets:
 
     die build
 
-Compile & watch for changes:
+Can also be used to build stand-alone CSS and JavaScript assets:
+
+    die build --minify --css [in] --css-path [out] --js [in] --js-path [out]
+
+Compile & watch client-side assets, recompiling on change:
 
     die watch
 
