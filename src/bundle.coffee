@@ -34,7 +34,7 @@ module.exports =
             result = css
         result
 
-  js: ({main, libs}, base = '') ->
+  js: ({main, libs}, base = '', symlink = true) ->
     b = browserify()
 
     for ext, fn of compilers
@@ -50,12 +50,15 @@ module.exports =
 
     # create a symlink to node_modules for browserify
     # this is a bit of a hack xD
-    fs.symlinkSync nm, ln, 'dir' if exists nm and not exists ln
+    if symlink and (exists nm) and (not exists ln)
+      fs.symlinkSync nm, ln, 'dir'
+    else
+      symlink = false
 
     # require JS entry point
     b.require join base, main
 
     # unlink
-    fs.unlinkSync ln if exists ln
+    fs.unlinkSync ln if symlink
 
     b

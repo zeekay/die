@@ -54,3 +54,5 @@ module.exports = (name, {config, template, install, production}) ->
     cmd = "npm install"
     cmd += " --production" if production
     exec cmd, cwd: join(process.cwd(), ctx.name)
+
+  console.log 'The die has been cast.'
