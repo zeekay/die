@@ -56,4 +56,4 @@ module.exports = (name, {config, template, install, production}) ->
     cmd += " --production" if production
     exec cmd, cwd: join(process.cwd(), ctx.name)
 
-  console.log 'Iacta alea est...'.bold.red, ctx.name, 'has been created'
+  console.log 'Iacta alea est...'.bold.red, ctx.name, 'is created.'
