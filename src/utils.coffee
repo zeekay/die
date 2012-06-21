@@ -36,7 +36,7 @@ exports.resolve = (extensions, entry) ->
   throw err
 
 exports.exec = (cmd) ->
-  exec cmd, (err, stdout, stderr) ->
+  exec "npm_config_color=always #{cmd}", (err, stdout, stderr) ->
     process.stdout.write stdout
     process.stderr.write stderr
 

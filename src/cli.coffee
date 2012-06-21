@@ -36,6 +36,7 @@ program
   .usage('[name] [options]')
   .option('-t, --template [name]', 'template to use')
   .option('-c, --config [config.json]', 'configuration file to supply context variables from')
+  .option('--no-install', 'do not run npm install automatically')
   .action (name, opts = {}) ->
     if not name
       return console.log 'Name of project is required'

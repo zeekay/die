@@ -1,22 +1,25 @@
-fs            = require 'fs'
-mote          = require 'mote'
-path          = require 'path'
-wrench        = require 'wrench'
-pkg           = require '../package.json'
-{getEncoding} = require './utils'
+fs       = require 'fs'
+mote     = require 'mote'
+path     = require 'path'
+version  = require('../package.json').version
+wrench   = require 'wrench'
 
-module.exports = (name, {config, template}, ctx = {}) ->
+utils    = require './utils'
+encoding = utils.getEncoding
+exec     = utils.exec
+
+module.exports = (name, {config, template, install}, ctx = {}) ->
   template = template or 'default'
   src = path.join __dirname, '../templates', template
   dest = name
 
   ctx.name = path.basename dest
   ctx.user = process.env.USER
-  ctx.dieVersion = pkg.version
+  ctx.dieVersion = version
 
   # update context with config options.
   if config
-    for key, val of config
+    for key, val of require config
       ctx[key] = val
 
   # make sure we don't clobber an existing directory.
@@ -37,6 +40,10 @@ module.exports = (name, {config, template}, ctx = {}) ->
     filePath = path.join dest, file
     if fs.statSync(filePath).isFile()
       buffer = fs.readFileSync(filePath)
-      if getEncoding(buffer) is 'utf8'
+      if encoding(buffer) is 'utf8'
         template = mote.compile buffer.toString()
         fs.writeFileSync filePath, template ctx
+
+  if install
+    # install packages
+    exec 'npm install'
