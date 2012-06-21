@@ -12,7 +12,7 @@ module.exports =
   port: process.env.PORT or 3000
 
   # bundled JavaScript
-  js:
+  jsBundle:
     # entry point for javascript
     main: '/client/js/app'
     # url to serve javascript from
@@ -21,6 +21,6 @@ module.exports =
     libs: []
 
   # bundled CSS
-  css:
+  cssBundle:
     main: '/client/css/app'
     url: '/app.css'

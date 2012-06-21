@@ -42,24 +42,32 @@ exports.createServer = (opts) ->
     app.use express.errorHandler()
 
   # serve compiled CSS
-  if opts.css
-    css = bundle.css opts.css, opts.base
-    app.get opts.css.url, (req, res) =>
-      res.header 'Content-Type', 'text/css'
-      try
-        res.send css.bundle()
-      catch err
-        console.error 'Error bundling CSS:', err
+  if opts.cssBundle
+    try
+      css = bundle.css opts.cssBundle, opts.base
+    catch err
+      css = false
+    if css
+      app.get opts.css.url, (req, res) =>
+        res.header 'Content-Type', 'text/css'
+        try
+          res.send css.bundle()
+        catch err
+          console.error 'Error bundling CSS:', err
 
   # serve compiled JS
-  if opts.js
-    js = bundle.js opts.js, opts.base
-    app.get opts.js.url, (req, res) ->
-      res.header 'Content-Type', 'application/javascript'
-      try
-        res.send js.bundle()
-      catch err
-        console.error 'Error bundling JavaScript:', err
+  if opts.jsBundle
+    try
+      js = bundle.js opts.jsBundle, opts.base
+    catch err
+      js = false
+    if js
+      app.get opts.js.url, (req, res) ->
+        res.header 'Content-Type', 'application/javascript'
+        try
+          res.send js.bundle()
+        catch err
+          console.error 'Error bundling JavaScript:', err
 
   # run helper
   app.run = (func) ->

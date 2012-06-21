@@ -1,7 +1,4 @@
 module.exports =
-  # path to configuration files
-  configPath: '/config'
-
   # path to compile assets to
   buildPath: '/dist'
 
@@ -12,12 +9,12 @@ module.exports =
   port: process.env.PORT or 3000
 
   # bundled CSS
-  css:
+  cssBundle:
     main: '/client/css/app'
     url: '/app.css'
 
   # bundled JavaScript
-  js:
+  jsBundle:
     # entry point for javascript
     main: '/client/js/app'
     # url to serve javascript from
