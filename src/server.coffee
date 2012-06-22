@@ -63,12 +63,11 @@ exports.createServer = (opts) ->
       app.get opts.jsBundle.url, (req, res) ->
         js = bundle.js opts.jsBundle, opts.base
         res.header 'Content-Type', 'application/javascript'
-        try
-          res.send js.bundle()
-        catch err
-          console.error 'Error bundling JavaScript:'
-          console.trace err
-        return
+        js.bundle (err, bundle) ->
+          if err
+            console.trace err
+          else
+            res.send bundle
 
   # run helper
   app.run = (func) ->

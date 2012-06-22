@@ -6,3 +6,5 @@ class App
     $('#content').html template quote: caesar.quote()
 
 module.exports = new App()
+
+alert require('mod').x

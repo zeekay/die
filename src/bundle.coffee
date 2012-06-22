@@ -1,5 +1,5 @@
 bootstrap  = require 'bootstrap-hemlock'
-browserify = require 'browserify'
+mandala    = require 'mandala'
 compilers  = require './compilers'
 fs         = require 'fs'
 jade       = require 'jade'
@@ -35,30 +35,6 @@ module.exports =
         result
 
   js: ({main, libs}, base = '', symlink = true) ->
-    b = browserify cache: false
-
-    for ext, fn of compilers
-      b.register '.'+ext, fn
-
-    # prepend all declared libs
-    libs = (join base, lib for lib in libs)
-    b.prepend concatRead libs
-
-    # guess node_modules dir
-    nm = join(base, 'node_modules')
-    ln = join dirname(join(base, main)), 'node_modules'
-
-    # create a symlink to node_modules for browserify
-    # this is a bit of a hack xD
-    if symlink and (exists nm) and (not exists ln)
-      fs.symlinkSync nm, ln, 'dir'
-    else
-      symlink = false
-
-    # require JS entry point
-    b.require join base, main
-
-    # unlink
-    fs.unlinkSync ln if symlink
-
-    b
+    mandala.createBundle
+      entry: join base, main
+      prepend: (join base, lib for lib in libs)
