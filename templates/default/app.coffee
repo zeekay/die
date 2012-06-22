@@ -1,6 +1,6 @@
 md   = require('markdown').markdown
 read = require('fs').readFileSync
-die  = require('../../src')
+die  = require('die')
   base: __dirname
 
 app = die.createServer ->
