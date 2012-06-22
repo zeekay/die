@@ -35,7 +35,7 @@ module.exports =
         result
 
   js: ({main, libs}, base = '', symlink = true) ->
-    b = browserify()
+    b = browserify cache: false
 
     for ext, fn of compilers
       b.register '.'+ext, fn

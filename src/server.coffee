@@ -46,8 +46,8 @@ exports.createServer = (opts) ->
   if opts.cssBundle
     dir = dirname join opts.base, opts.cssBundle.main
     if exists dir
-      css = bundle.css opts.cssBundle, opts.base
       app.get opts.cssBundle.url, (req, res) =>
+        css = bundle.css opts.cssBundle, opts.base
         res.header 'Content-Type', 'text/css'
         try
           res.send css.bundle()
@@ -60,8 +60,8 @@ exports.createServer = (opts) ->
   if opts.jsBundle
     dir = dirname join opts.base, opts.jsBundle.main
     if exists dir
-      js = bundle.js opts.jsBundle, opts.base
       app.get opts.jsBundle.url, (req, res) ->
+        js = bundle.js opts.jsBundle, opts.base
         res.header 'Content-Type', 'application/javascript'
         try
           res.send js.bundle()
