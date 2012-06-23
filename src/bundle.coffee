@@ -1,16 +1,13 @@
-bootstrap  = require 'bootstrap-hemlock'
-mandala    = require 'mandala'
-compilers  = require './compilers'
+bootstrap  = require 'die-bootstrap'
 fs         = require 'fs'
 jade       = require 'jade'
+mandala    = require 'mandala'
 nib        = require 'nib'
 stylus     = require 'stylus'
 
 path       = require 'path'
-basename   = path.basename
 dirname    = path.dirname
 join       = path.join
-exists     = path.existsSync
 
 utils      = require './utils'
 concatRead = utils.concatRead
