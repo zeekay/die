@@ -1,7 +1,7 @@
 bootstrap  = require 'die-bootstrap'
 fs         = require 'fs'
 jade       = require 'jade'
-mandala    = require 'mandala'
+requisite  = require 'requisite'
 nib        = require 'nib'
 stylus     = require 'stylus'
 
@@ -32,6 +32,6 @@ module.exports =
         result
 
   js: ({main, libs}, base = '', symlink = true) ->
-    mandala.createBundle
+    requisite.createBundle
       entry: join base, main
       prepend: (join base, lib for lib in libs)
