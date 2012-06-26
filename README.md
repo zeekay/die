@@ -6,45 +6,51 @@ Application and asset management to *die* for.
 ### Razor-sharp Express DSL
 Die supports a [Zappa-ish][zappa] DSL for Express:
 
-    die = require('die')
-        base: __dirname
+```coffeescript
+die = require('die')
+    base: __dirname
 
-    app = die.createServer ->
-      @set 'view options'
-        layout: false
+app = die.createServer ->
+  @set 'view options'
+    layout: false
 
-      @get '/', ->
-        @render 'index'
+  @get '/', ->
+    @render 'index'
 
-      @get '/json', ->
-        @json
-          x: 1
-          y: 2
-          z: 3
+  @get '/json', ->
+    @json
+      x: 1
+      y: 2
+      z: 3
+```
 
 ### CommonJS module support
 Use CommonJS modules *in the browser* (courtesy of [Browserify][browserify]):
 
-    class HomeView extends Backbone.View
-      template: require './templates/home'
-      render: ->
-        @$el.html @template()
-        @
+```coffeescript
+class HomeView extends Backbone.View
+  template: require './templates/home'
+  render: ->
+    @$el.html @template()
+    @
+```
 
 Here we are requiring a [Jade][jade] template (which is compiled to an optimized function) in our [Backbone][backbone] view.
 
 ### Stylus with nib and Bootstrap baked in
 Modernize your CSS with [Stylus][stylus]! [Bootstrap][bootstrap] and [nib][nib] baked in:
 
-    // everything
-    @import 'bootstrap'
+```stylus
+// everything
+@import 'bootstrap'
 
-    // only config and forms
-    @import 'bootstrap/config'
-    @import 'bootstrap/forms'
+// only config and forms
+@import 'bootstrap/config'
+@import 'bootstrap/forms'
 
     h1
       font-size 20px
+```
 
 ### Awesome testing with Mocha
 [Mocha][mocha] has emerged as the best-in-class JavaScript test framework, and Die supports it out of the box.
@@ -52,6 +58,7 @@ Modernize your CSS with [Stylus][stylus]! [Bootstrap][bootstrap] and [nib][nib] 
 ### Multi-app support
 By default each app created by Die is reusable by other [Die][die]/[Express][express] apps. Example configuration:
 
+```coffeescript
     die = require('die')
       base: __dirname
 
@@ -61,6 +68,7 @@ By default each app created by Die is reusable by other [Die][die]/[Express][exp
       @use '/app4', require 'app4'
 
     module.exports = app
+```
 
 Each app can of course require other apps recursively.
 
