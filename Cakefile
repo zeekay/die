@@ -7,6 +7,10 @@ task 'build', 'compile src/*.coffee to lib/*.js', ->
     'git add lib'
   ]
 
+task 'gh-pages', 'Publish docs to gh-pages', ->
+  brief = require('brief')
+    quiet: false
+  brief.updateGithubPages()
 
 task 'publish', 'publish current version to NPM', ->
   invoke 'build'
