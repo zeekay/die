@@ -1,152 +1,102 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Die by zeekay</title>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="chrome=1"><title>die by zeekay</title><link rel="stylesheet" href="stylesheets/styles.css"><link rel="stylesheet" href="stylesheets/pygment_trac.css"><link rel="stylesheet" href="stylesheets/code.css"><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><!--if lt IE 9--></head><body><div class="wrapper"><header><h1>die</h1><p>Application and asset management to die for.</p><p class="view"><a href="https://github.com/zeekay/die">View the Project on GitHub<small>zeekay/die</small></a></p><ul><li><a href="https://github.com/zeekay/die/zipball/master">Download<strong>ZIP File</strong></a></li><li><a href="https://github.com/zeekay/die/tarball/master">Download<strong>TAR Ball</strong></a></li><li><a href="https://github.com/zeekay/die">View On<strong>GitHub</strong></a></li></ul></header><section><p><h1>Die</h1>
+<p>Application and asset management to <em>die</em> for.
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Die</h1>
-        <p>Application and asset management to die for.</p>
-
-        <p class="view"><a href="https://github.com/zeekay/die">View the Project on GitHub <small>zeekay/die</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/zeekay/die/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/zeekay/die/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/zeekay/die">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>Application and asset management to <em>die</em> for.</h3>
-
+</p>
 <h2>Features</h2>
-
 <h3>Razor-sharp Express DSL</h3>
+<p>Die supports a <a href="https://github.com/mauricemach/zappa">Zappa-ish</a> DSL for Express:
 
-<p>Die supports a <a href="https://github.com/mauricemach/zappa">Zappa-ish</a> DSL for Express:</p>
-
-<pre><code>die = require('die')
+</p>
+<pre><code class="lang-coffeescript">die = require(<span class="string">'die'</span>)
     base: __dirname
 
-app = die.createServer -&gt;
-  @set 'view options'
-    layout: false
+app = die.createServer ->
+  @set <span class="string">'view options'</span>
+    layout: <span class="literal">false</span>
 
-  @get '/', -&gt;
-    @render 'index'
+  @get <span class="string">'/'</span>, ->
+    @render <span class="string">'index'</span>
 
-  @get '/json', -&gt;
+  @get <span class="string">'/json'</span>, ->
     @json
-      x: 1
-      y: 2
-      z: 3
-</code></pre>
-
+      x: <span class="number">1</span>
+      y: <span class="number">2</span>
+      z: <span class="number">3</span></code></pre>
 <h3>CommonJS module support</h3>
+<p>Use CommonJS modules <em>in the browser</em> (courtesy of <a href="https://github.com/substack/node-browserify">Browserify</a>):
 
-<p>Use CommonJS modules <em>in the browser</em> (courtesy of <a href="https://github.com/substack/node-browserify">Browserify</a>):</p>
-
-<pre><code>class HomeView extends Backbone.View
-  template: require './templates/home'
-  render: -&gt;
+</p>
+<pre><code class="lang-coffeescript"><span class="keyword">class</span> HomeView <span class="keyword">extends</span> Backbone.View
+  template: require <span class="string">'./templates/home'</span>
+  render: ->
     @$el.html @template()
-    @
-</code></pre>
+    @</code></pre>
+<p>Here we are requiring a <a href="http://jade-lang.com/">Jade</a> template (which is compiled to an optimized function) in our <a href="http://backbonejs.org/">Backbone</a> view.
 
-<p>Here we are requiring a <a href="http://jade-lang.com/">Jade</a> template (which is compiled to an optimized function) in our <a href="http://backbonejs.org/">Backbone</a> view.</p>
-
+</p>
 <h3>Stylus with nib and Bootstrap baked in</h3>
+<p>Modernize your CSS with <a href="http://learnboost.github.com/stylus/">Stylus</a>! <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="https://github.com/visionmedia/nib">nib</a> baked in:
 
-<p>Modernize your CSS with <a href="http://learnboost.github.com/stylus/">Stylus</a>! <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="https://github.com/visionmedia/nib">nib</a> baked in:</p>
-
-<pre><code>// everything
-@import 'bootstrap'
+</p>
+<pre><code class="lang-css">// everything
+@import &#39;bootstrap&#39;
 
 // only config and forms
-@import 'bootstrap/config'
-@import 'bootstrap/forms'
+@import &#39;bootstrap/config&#39;
+@import &#39;bootstrap/forms&#39;
 
-h1
-  font-size 20px
-</code></pre>
-
+    h1
+      font-size 20px</code></pre>
 <h3>Awesome testing with Mocha</h3>
+<p><a href="https://visionmedia.github.com/mocha/">Mocha</a> has emerged as the best-in-class JavaScript test framework, and Die supports it out of the box.
 
-<p><a href="https://visionmedia.github.com/mocha/">Mocha</a> has emerged as the best-in-class JavaScript test framework, and Die supports it out of the box.</p>
-
+</p>
 <h3>Multi-app support</h3>
+<p>By default each app created by Die is reusable by other [Die][die]/<a href="http://expressjs.com/">Express</a> apps. Example configuration:
 
-<p>By default each app created by Die is reusable by other [Die][die]/<a href="http://expressjs.com/">Express</a> apps. Example configuration:</p>
+</p>
+<pre><code class="lang-coffeescript">    die = require(<span class="string">'die'</span>)
+      base: __dirname
 
-<pre><code>die = require('die')
-  base: __dirname
+    app = die.createServer ->
+      @use <span class="string">'/app2'</span>, require <span class="string">'app2'</span>
+      @use <span class="string">'/app3'</span>, require <span class="string">'app3'</span>
+      @use <span class="string">'/app4'</span>, require <span class="string">'app4'</span>
 
-app = die.createServer -&gt;
-  @use '/app2', require 'app2'
-  @use '/app3', require 'app3'
-  @use '/app4', require 'app4'
+    module.exports = app</code></pre>
+<p>Each app can of course require other apps recursively.
 
-module.exports = app
-</code></pre>
-
-<p>Each app can of course require other apps recursively.</p>
-
+</p>
 <h3>Project Templates</h3>
-
-<p>Never write boilerplate code again, take advantage of Die's project templates.
+<p>Never write boilerplate code again, take advantage of Die&#39;s project templates.
 Structure your projects however you like, each file in a template folder will be treated as a Mustache template
 and can be passed any sort of arbitrary variables when creating a new project with <code>die new</code>. Check out the
-<a href="https://github.com/zeekay/die/tree/master/templates">default templates</a> for examples.</p>
+<a href="https://github.com/zeekay/die/tree/master/templates">default templates</a> for examples.
 
+</p>
 <h2>Usage</h2>
+<p>Create new project based off template:
 
-<p>Create new project based off template:</p>
+</p>
+<pre><code>die new <span class="tag">&lt;<span class="title">name</span>></span> [--template <span class="tag">&lt;<span class="title">template</span> <span class="attribute">name</span>></span>, --install, --production]</code></pre>
+<p>Serve project (or just static files):
 
-<pre><code>die new &lt;name&gt; [--template &lt;template name&gt;, --install, --production]
-</code></pre>
+</p>
+<pre><code><span class="title">die</span> run</code></pre>
+<p>Compile client-side assets:
 
-<p>Serve project (or just static files):</p>
+</p>
+<pre><code><span class="title">die</span> build</code></pre>
+<p>Can also be used to build stand-alone CSS and JavaScript assets:
 
-<pre><code>die run
-</code></pre>
+</p>
+<pre><code>die build --minify --css [<span class="keyword">in</span>] --css-path [<span class="keyword">out</span>] --js [<span class="keyword">in</span>] --js-path [<span class="keyword">out</span>]</code></pre>
+<p>Compile &amp; watch client-side assets, recompiling on change:
 
-<p>Compile client-side assets:</p>
+</p>
+<pre><code><span class="title">die</span> watch</code></pre>
+<p>Run tests:
 
-<pre><code>die build
-</code></pre>
-
-<p>Can also be used to build stand-alone CSS and JavaScript assets:</p>
-
-<pre><code>die build --minify --css [in] --css-path [out] --js [in] --js-path [out]
-</code></pre>
-
-<p>Compile &amp; watch client-side assets, recompiling on change:</p>
-
-<pre><code>die watch
-</code></pre>
-
-<p>Run tests:</p>
-
-<pre><code>die test
-</code></pre>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/zeekay">zeekay</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
-</html>
+</p>
+<pre><code><span class="title">die</span> test</code></pre>
+</p></section><footer></footer></div><script src="javascripts/scale.fix.js"></script></body><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script></html>
