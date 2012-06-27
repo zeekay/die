@@ -55,15 +55,15 @@ h1
 <p>By default each app created by Die is reusable by other [Die][die]/<a href="http://expressjs.com/">Express</a> apps. Example configuration:
 
 </p>
-<pre><code class="lang-coffeescript">    die = require(<span class="string">'die'</span>)
-      base: __dirname
+<pre><code class="lang-coffeescript">die = require(<span class="string">'die'</span>)
+  base: __dirname
 
-    app = die.createServer ->
-      @use <span class="string">'/app2'</span>, require <span class="string">'app2'</span>
-      @use <span class="string">'/app3'</span>, require <span class="string">'app3'</span>
-      @use <span class="string">'/app4'</span>, require <span class="string">'app4'</span>
+app = die.createServer ->
+  @use <span class="string">'/app2'</span>, require <span class="string">'app2'</span>
+  @use <span class="string">'/app3'</span>, require <span class="string">'app3'</span>
+  @use <span class="string">'/app4'</span>, require <span class="string">'app4'</span>
 
-    module.exports = app</code></pre>
+module.exports = app</code></pre>
 <p>Each app can of course require other apps recursively.
 
 </p>
