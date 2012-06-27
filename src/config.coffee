@@ -1,9 +1,10 @@
-path   = require 'path'
+path         = require 'path'
+{existsSync} = require './utils'
 
 exports.defaults = require './defaults'
 
 exports.read = (opts, config) ->
-  if not path.existsSync config
+  if not existsSync config
     config = path.join opts.base, opts.configPath, config
   try
     _opts = require config

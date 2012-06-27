@@ -3,9 +3,10 @@ config  = require './config'
 express = require 'express'
 
 path    = require 'path'
-exists  = path.existsSync
 join    = path.join
 dirname = path.dirname
+
+existsSync = requrie './utils'
 
 exports.createServer = (opts) ->
   app = express.createServer()
@@ -18,14 +19,14 @@ exports.createServer = (opts) ->
 
     # setup views
     dir = join opts.base, '/views'
-    if exists dir
+    if existsSync dir
       app.set 'views', dir
       # use jade by default
       app.set 'view engine', 'jade'
 
     # setup static file serving
     dir = join opts.base, opts.staticPath
-    if exists dir
+    if existsSync dir
       app.use express.static dir
     else
       # serve cwd if public dir doesn't exist.
@@ -45,7 +46,7 @@ exports.createServer = (opts) ->
   # serve compiled CSS
   if opts.cssBundle
     dir = dirname join opts.base, opts.cssBundle.main
-    if exists dir
+    if existsSync dir
       app.get opts.cssBundle.url, (req, res) =>
         css = bundle.css opts.cssBundle, opts.base
         res.header 'Content-Type', 'text/css'
@@ -59,7 +60,7 @@ exports.createServer = (opts) ->
   # serve compiled JS
   if opts.jsBundle
     dir = dirname join opts.base, opts.jsBundle.main
-    if exists dir
+    if existsSync dir
       app.get opts.jsBundle.url, (req, res) ->
         js = bundle.js opts.jsBundle, opts.base
         res.header 'Content-Type', 'application/javascript'

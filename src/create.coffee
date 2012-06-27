@@ -1,17 +1,17 @@
-fs       = require 'fs'
-mote     = require 'mote'
-version  = require('../package.json').version
-wrench   = require 'wrench'
-colors   = require 'colors'
+fs         = require 'fs'
+mote       = require 'mote'
+version    = require('../package.json').version
+wrench     = require 'wrench'
+colors     = require 'colors'
 
-path     = require 'path'
-exists   = path.existsSync
-basename = path.basename
-join     = path.join
+path       = require 'path'
+basename   = path.basename
+join       = path.join
 
-utils    = require './utils'
-encoding = utils.getEncoding
-exec     = utils.exec
+utils      = require './utils'
+encoding   = utils.getEncoding
+exec       = utils.exec
+existsSync = utils.existsSync
 
 module.exports = (name, {config, template, install, production}) ->
   template = template or 'default'
@@ -29,7 +29,7 @@ module.exports = (name, {config, template, install, production}) ->
       ctx[key] = val
 
   # make sure we don't clobber an existing directory.
-  if exists dest
+  if existsSync dest
     return console.log "#{dest} already exists."
 
   # copy template to dest

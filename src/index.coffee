@@ -1,8 +1,4 @@
-path = require 'path'
-fs   = require 'fs'
-
-# The location of exists/existsSync changed in node v0.8.0.
-{existsSync} = if fs.existsSync then fs else path
+{existsSync} = require './utils'
 
 # This is a bit of a hack, if `../src` exists then assume we're being required
 # from the git repo. To make development a bit easier we'll require the

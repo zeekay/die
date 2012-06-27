@@ -1,6 +1,14 @@
-exists  = require('path').existsSync
 fs      = require 'fs'
+path    = require 'path'
 {spawn} = require 'child_process'
+
+# The location of exists/existsSync changed in node v0.8.0.
+if fs.existsSync
+  exports.existsSync = fs.existsSync
+  exports.exists     = fs.exists
+else
+  exports.existsSync = path.existsSync
+  exports.exists     = path.exists
 
 exports.concatRead = (files) ->
   if not Array.isArray files

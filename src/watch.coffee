@@ -1,4 +1,5 @@
-{dirname, existsSync, join} = require 'path'
+{dirname, join} = require 'path'
+{existsSync}    = require './utils'
 
 module.exports = (die) ->
   base = die.options.base

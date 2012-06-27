@@ -4,8 +4,9 @@ minify = require './minify'
 wrench = require 'wrench'
 
 path   = require 'path'
-exists = path.existsSync
 join   = path.join
+
+{existsSync} = require './utils'
 
 module.exports = (opts) ->
   dest = join opts.base, opts.buildPath or 'dist/'
@@ -16,7 +17,7 @@ module.exports = (opts) ->
 
   # copy static assets
   dir = join opts.base, opts.staticPath
-  if exists dir
+  if existsSync dir
     wrench.copyDirSyncRecursive dir, dest
 
   try
