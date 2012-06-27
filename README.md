@@ -40,7 +40,7 @@ Here we are requiring a [Jade][jade] template (which is compiled to an optimized
 ### Stylus with nib and Bootstrap baked in
 Modernize your CSS with [Stylus][stylus]! [Bootstrap][bootstrap] and [nib][nib] baked in:
 
-```css
+```stylus
 // everything
 @import 'bootstrap'
 
@@ -81,27 +81,39 @@ and can be passed any sort of arbitrary variables when creating a new project wi
 ## Usage
 Create new project based off template:
 
-    die new <name> [--template <template name>, --install, --production]
+```bash
+die new <name> [--template <template name>, --install, --production]
+```
 
 Serve project (or just static files):
 
-    die run
+```bash
+die run
+```
 
 Compile client-side assets:
 
-    die build
+```bash
+die build
+```
 
 Can also be used to build stand-alone CSS and JavaScript assets:
 
-    die build --minify --css [in] --css-path [out] --js [in] --js-path [out]
+```bash
+die build --minify --css [in] --css-path [out] --js [in] --js-path [out]
+```
 
 Compile & watch client-side assets, recompiling on change:
 
-    die watch
+```bash
+die watch
+```
 
 Run tests:
 
-    die test
+```bash
+die test
+```
 
 [backbone]: http://backbonejs.org/
 [bootstrap]: http://twitter.github.com/bootstrap/
