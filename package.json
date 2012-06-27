@@ -24,7 +24,7 @@
       "type": "MIT",
       "url": "https://github.com/zeekay/die/blob/master/LICENSE"
     }
-  ]
+  ],
   "main": "lib/",
   "bin": {
     "die": "./bin/die"
