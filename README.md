@@ -40,7 +40,7 @@ Here we are requiring a [Jade][jade] template (which is compiled to an optimized
 ### Stylus with nib and Bootstrap baked in
 Modernize your CSS with [Stylus][stylus]! [Bootstrap][bootstrap] and [nib][nib] baked in:
 
-```stylus
+```css
 // everything
 @import 'bootstrap'
 
