@@ -32,6 +32,6 @@ module.exports =
         result
 
   js: ({main, libs}, base = '', symlink = true) ->
-    requisite.createBundle
+    requisite.createBundler
       entry: join base, main
       prepend: (join base, lib for lib in libs)

@@ -4,10 +4,10 @@ path    = require 'path'
 
 # The location of exists/existsSync changed in node v0.8.0.
 if fs.existsSync
-  exports.existsSync = fs.existsSync
+  exports.existsSync = existsSync = fs.existsSync
   exports.exists     = fs.exists
 else
-  exports.existsSync = path.existsSync
+  exports.existsSync = existsSync = path.existsSync
   exports.exists     = path.exists
 
 exports.concatRead = (files) ->
@@ -32,12 +32,12 @@ exports.concatRead = (files) ->
   concatBuf.toString()
 
 exports.resolve = (extensions, entry) ->
-  if exists entry
+  if existsSync entry
     return entry
 
   for ext in extensions
     filename = entry + ext
-    if exists filename
+    if existsSync filename
       return filename
 
   err = new Error "Unable to resolve path to #{entry}"
