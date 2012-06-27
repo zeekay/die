@@ -21,19 +21,19 @@ module.exports = (opts) ->
     wrench.copyDirSyncRecursive dir, dest
 
   try
-    js = bundle.js opts.jsBundle, opts.base
-    src = js.bundle()
-    if opts.minify
-      src = minify.js src
-    fs.writeFileSync join(dest, opts.jsBundle.url), src
-  catch err
-    console.trace err
-
-  try
     css = bundle.css opts.cssBundle, opts.base
     src = css.bundle()
     if opts.minify
       src = minify.css src
     fs.writeFileSync join(dest, opts.cssBundle.url), src
+  catch err
+    console.trace err
+
+  try
+    js = bundle.js opts.jsBundle, opts.base
+    js.bundle (err, src) ->
+      if opts.minify
+        src = minify.js src
+      fs.writeFileSync join(dest, opts.jsBundle.url), src
   catch err
     console.trace err
