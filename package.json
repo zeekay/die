@@ -13,7 +13,6 @@
   "dependencies": {
     "clean-css": "~0.4.1",
     "colors": "~0.6.0-1",
-    "commander": "~0.6.1",
     "die-bootstrap": "~2.0.1",
     "express": "~2.5.10",
     "jade": "~0.26.1",
