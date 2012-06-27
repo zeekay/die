@@ -2,10 +2,7 @@
 
 task 'build', 'compile src/*.coffee to lib/*.js', ->
   console.log 'Compiling src/*.coffee to lib/*.js'
-  exec.serial [
-    'coffee -bc -o lib/ src/'
-    'git add lib'
-  ]
+  exec 'coffee -bc -o lib/ src/'
 
 task 'gh-pages', 'Publish docs to gh-pages', ->
   brief = require('brief')
