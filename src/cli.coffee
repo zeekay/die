@@ -1,5 +1,5 @@
 path    = require 'path'
-program = require 'jade/commander'
+program = require 'jade/node_modules/commander'
 pkg     = require '../package.json'
 
 program
