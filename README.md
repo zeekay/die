@@ -40,7 +40,7 @@ Here we are requiring a [Jade][jade] template (which is compiled to an optimized
 ### Stylus with nib and Bootstrap baked in
 Modernize your CSS with [Stylus][stylus]! [Bootstrap][bootstrap] and [nib][nib] baked in:
 
-```stylus
+```css
 // everything
 @import 'bootstrap'
 
@@ -48,8 +48,8 @@ Modernize your CSS with [Stylus][stylus]! [Bootstrap][bootstrap] and [nib][nib] 
 @import 'bootstrap/config'
 @import 'bootstrap/forms'
 
-    h1
-      font-size 20px
+h1
+  font-size 20px
 ```
 
 ### Awesome testing with Mocha
