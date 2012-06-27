@@ -19,6 +19,7 @@ wrapper = (opts) ->
 wrapper.Die = Die
 
 # Helper functions.
+wrapper.cli = -> require './cli'
 wrapper.run = -> wrapper().run()
 wrapper.build = -> wrapper().build()
 wrapper.test = test
