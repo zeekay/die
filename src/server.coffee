@@ -6,7 +6,7 @@ path    = require 'path'
 join    = path.join
 dirname = path.dirname
 
-existsSync = requrie './utils'
+existsSync = require './utils'
 
 exports.createServer = (opts) ->
   app = express.createServer()
