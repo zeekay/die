@@ -35,42 +35,6 @@ exports.resolve = (extensions, entry) ->
   err = new Error "Unable to resolve path to #{entry}"
   throw err
 
-# Unbuffered exec
-exports.exec = (args, opts = {}, callback) ->
-  # passed callback as second argument
-  if typeof opts is 'function'
-    callback = opts
-
-  # passed string of arguments instead of Array
-  if not Array.isArray args
-    args = args.split(/\s+/g)
-
-  cmd = args.shift()
-  cmd = spawn cmd, args, opts
-
-  # echo stdout/stderr
-  cmd.stdout.on 'data', (data) ->
-    process.stdout.write data
-  cmd.stderr.on 'data', (data) ->
-    process.stderr.write data
-
-  # callback on completion
-  cmd.on 'exit', (code) ->
-    if callback
-      callback null, code
-
-# Simple serial execution of commands, no error handling
-exports.exec.serial = (arr, callback=->) ->
-  complete = 0
-  iterate = ->
-    exports.exec arr[complete], ->
-      complete += 1
-      if complete == arr.length
-        callback()
-      else
-        iterate()
-  iterate()
-
 exports.getEncoding = (buffer) ->
     # Prepare
     contentStartBinary = buffer.toString('binary',0,24)
@@ -88,3 +52,38 @@ exports.getEncoding = (buffer) ->
 
     # Return encoding
     return encoding
+
+exports.exec = (args, callback) ->
+  # Simple serial execution of commands, no error handling
+  serial = (arr) ->
+    complete = 0
+    iterate = ->
+      exports.exec arr[complete], ->
+        complete += 1
+        if complete == arr.length
+          return
+        else
+          iterate()
+    iterate()
+    # passed callback as second argument
+    if typeof opts is 'function'
+      callback = opts
+
+  if Array.isArray args
+    return serial args
+
+  args = args.split(/\s+/g)
+  cmd = args.shift()
+  proc = spawn cmd, args
+
+  # echo stdout/stderr
+  proc.stdout.on 'data', (data) ->
+    process.stdout.write data
+
+  proc.stderr.on 'data', (data) ->
+    process.stderr.write data
+
+  # callback on completion
+  proc.on 'exit', (code) ->
+    if typeof callback is 'function'
+      callback null, code
