@@ -1,9 +1,8 @@
-path    = require 'path'
 program = require 'jade/node_modules/commander'
-pkg     = require '../package.json'
+{existsSync, join} = require 'path'
 
 program
-  .version(pkg.version)
+  .version(require('../package.json').version)
   .usage('[command] [options]')
 
 program
@@ -19,10 +18,10 @@ program
     die = require('./index')
       buildPath: opts.output
       css:
-        main: opts.css
+        entry: opts.css
         url: opts.cssPath
       js:
-        main: opts.js
+        entry: opts.js
         url: opts.jsPath
       minify: opts.minify
     die.build()
@@ -47,11 +46,30 @@ program
   .action (opts) ->
     if opts.port
       process.env.PORT = opts.port
-    try
-      app = require process.cwd()
-    catch err
-      app = require './index'
+
+    packageJson = join process.cwd(), 'package.json'
+    if existsSync packageJson
+      main = require(packageJson).main
+      if main
+        app = require main
+        app.run()
+        return
+
+    serverJs = require.resolve join process.cwd(), 'server'
+    if existsSync serverJs
+      app = require serverJs
+      app.run()
+      return
+
+    indexJs = require.resolve join process.cwd(), 'index'
+    if existsSync indexJs
+      app = require indexJs
+      app.run()
+      return
+
+    app = require('./index')
     app.run()
+
 
 program
   .command('test')

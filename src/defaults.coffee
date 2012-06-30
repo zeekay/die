@@ -1,12 +1,12 @@
 module.exports =
   # path to configuration files
-  configPath: '/config'
+  configPath: './config'
 
   # path to compile assets to
-  buildPath: '/dist'
+  buildPath: './dist'
 
   # path to static files
-  staticPath: '/public'
+  staticPath: './public'
 
   # port to run from
   port: process.env.PORT or 3000
@@ -14,13 +14,16 @@ module.exports =
   # bundled JavaScript
   jsBundle:
     # entry point for javascript
-    main: '/client/js/app'
+    entry: './client/js/app'
     # url to serve javascript from
     url: '/app.js'
-    # libraries to prepend before bundled JavaScript
-    libs: []
+    # scripts to include before/after bundled Javascript
+    before: []
+    after: []
 
   # bundled CSS
   cssBundle:
-    main: '/client/css/app'
+    # entry point for css
+    entry: './client/css/app'
+    # url to server CSS bundle from
     url: '/app.css'

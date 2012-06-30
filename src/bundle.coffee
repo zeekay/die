@@ -14,11 +14,11 @@ concatRead = utils.concatRead
 resolve    = utils.resolve
 
 module.exports =
-  css: ({main}, base = '') ->
-    main = join base, main
-    filename = resolve ['.css', '.styl'], main
-    bundler =
-      bundle: ->
+  createCssBundle: ({entry}, base='') ->
+    entry = join base, entry
+    filename = resolve ['.css', '.styl'], entry
+    bundle =
+      compile: ->
         body = fs.readFileSync filename, 'utf8'
         result = ''
         stylus(body)
@@ -31,7 +31,13 @@ module.exports =
             result = css
         result
 
-  js: ({main, libs}, base = '', symlink = true) ->
-    requisite.createBundler
-      entry: join base, main
-      before: (join base, lib for lib in libs)
+  createJsBundle: (opts, base='') ->
+    # clone opts
+    _opts = {}
+    for k,v of opts
+      _opts[k] = v
+
+    _opts.entry  = join base, opts.entry
+    _opts.after  = (join base, src for src in opts.after or [])
+    _opts.before = (join base, src for src in opts.before or [])
+    requisite.createBundler _opts
