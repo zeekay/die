@@ -56,7 +56,7 @@ h1
 [Mocha][mocha] has emerged as the best-in-class JavaScript test framework, and Die supports it out of the box.
 
 ### Multi-app support
-By default each app created by Die is reusable by other [Die][die]/[Express][express] apps. Example configuration:
+By default each app created by Die is reusable by other Die/[Express][express] apps. Example configuration:
 
 ```coffeescript
 die = require('die')
