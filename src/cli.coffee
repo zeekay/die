@@ -1,5 +1,6 @@
-program = require 'jade/node_modules/commander'
-{existsSync, join} = require 'path'
+program      = require 'jade/node_modules/commander'
+{existsSync} = require './utils'
+{join}       = require 'path'
 
 program
   .version(require('../package.json').version)
