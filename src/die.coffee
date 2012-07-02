@@ -15,7 +15,6 @@ class Die
 
   createServer: (func) ->
     if not @app
-      console.log 'called createServer'
       @app = require('./server').createServer @options
       if func
         @app.extend func
@@ -23,15 +22,15 @@ class Die
       # Expose common express middleware
       express = require 'express'
       @bodyParser = ->
-        express.bodyParser.call express, arguments
+        express.bodyParser.apply express, arguments
       @cookieParser = ->
-        express.cookieParser.call express, arguments
+        express.cookieParser.apply express, arguments
       @session = ->
-        express.session.call express, arguments
+        express.session.apply express, arguments
       @methodOverride = ->
-        express.methodOverride.call express, arguments
+        express.methodOverride.apply express, arguments
       @errorHandler = ->
-        express.errorHandler.call express, arguments
+        express.errorHandler.apply express, arguments
     @app
 
   extend: (func) ->

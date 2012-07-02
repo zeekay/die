@@ -10,8 +10,6 @@ module.exports =
     entry = join base, entry
     filename = resolve ['.css', '.styl'], entry
 
-    console.log filename
-    console.log plugins
     bundler =
       compile: ->
         body = fs.readFileSync filename, 'utf8'

@@ -77,6 +77,23 @@ exports.createServer = (opts) ->
 # enables a zappa-ish DSL for configuring express apps
 exports.extend = (app, func) ->
 
+  # configuration shortcuts
+  app.development = (func) ->
+    app.configure 'development', ->
+      func.call app
+
+  app.production = (func) ->
+    app.configure 'production', ->
+      func.call app
+
+  # Shortcut to add routes out of a folder
+  app.addRoutes = (routes) ->
+    if not Array.isArray routes
+      routes = [routes]
+
+    # for route in routes
+      exports.extend app, route
+
   # setup specialized route handlers
   for verb in ['get', 'post', 'put', 'del']
     do (verb) ->

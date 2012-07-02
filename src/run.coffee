@@ -42,6 +42,6 @@ module.exports = (app, opts={}) ->
     cluster.on "exit", (worker, code, signal) ->
       exitCode = worker.process.exitCode
       console.log "worker #{worker.id} died (#{exitCode}). restarting..."
-      cluster.fork()
+      setTimeout cluster.fork, 250
   else
     app.listen port
