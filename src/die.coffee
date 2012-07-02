@@ -1,6 +1,4 @@
-build  = require './build'
 config = require './config'
-server = require './server'
 
 class Die
   constructor: (options = {}) ->
@@ -13,15 +11,61 @@ class Die
 
   build: ->
     @options = config.read @options, 'production'
-    build @options
+    require('./build')(@options)
 
   createServer: (func) ->
-    app = server.createServer @options
-    server.extend app, func
-    app
+    if not @app
+      console.log 'called createServer'
+      @app = require('./server').createServer @options
+      if func
+        @app.extend func
+
+      # Expose common express middleware
+      express = require 'express'
+      @bodyParser = ->
+        express.bodyParser.call express, arguments
+      @cookieParser = ->
+        express.cookieParser.call express, arguments
+      @session = ->
+        express.session.call express, arguments
+      @methodOverride = ->
+        express.methodOverride.call express, arguments
+      @errorHandler = ->
+        express.errorHandler.call express, arguments
+    @app
+
+  extend: (func) ->
+    @createServer()
+    @app.extend func
+    @
+
+  inject: (dieApp) ->
+    @createServer()
+    @app.use dieApp.app
+
+    if @options.cssBundle and dieApp.cssBundle
+      css = @options.cssBundle
+      # other = dieApp.options.cssBundle
+      # for k,v of other.functions
+      #   if not css.functions[k]
+      #     css.functions[k] = v
+      # cssPath = dirname join dieApp.base, other.entry
+      # css.include = css.include.concat cssPath, other.include
+      # css.plugins = css.plugins.concat other.plugins
+
+    if @options.jsBundle and dieApp.jsBundle
+      js = @options.cssBundle
+      # other = dieApp.options.jsBundle
+      # js.modulePaths = js.modulePaths.concat other.modulePaths
+    @
+
+  mount: (url, dieApp) ->
+    @createServer()
+    @app.use url, dieApp.app
+    @
 
   run: (func) ->
-    app = @createServer func
-    app.run()
+    @createServer func
+    require('./run')(@app)
 
 module.exports = Die

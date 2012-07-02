@@ -1,43 +1,49 @@
-bootstrap  = require 'die-bootstrap'
-fs         = require 'fs'
-jade       = require 'jade'
-requisite  = require 'requisite'
-nib        = require 'nib'
-stylus     = require 'stylus'
-
-path       = require 'path'
-dirname    = path.dirname
-join       = path.join
-
-utils      = require './utils'
-concatRead = utils.concatRead
-resolve    = utils.resolve
+fs = require 'fs'
+{dirname, join} = require 'path'
+{concatRead, resolve} = require './utils'
 
 module.exports =
-  createCssBundle: ({entry}, base='') ->
+  createCssBundler: ({entry, include, plugins, functions}, base='') ->
+    include = include or []
+    plugins = plugins or []
+    functions = functions or {}
     entry = join base, entry
     filename = resolve ['.css', '.styl'], entry
-    bundle =
+
+    console.log filename
+    console.log plugins
+    bundler =
       compile: ->
         body = fs.readFileSync filename, 'utf8'
-        result = ''
-        stylus(body)
+        stylus = require('stylus')(body)
           .set('filename', filename)
           .include(dirname(filename))
-          .use(bootstrap())
-          .use(nib())
-          .render (err, css) ->
-            throw err if err
-            result = css
-        result
 
-  createJsBundle: (opts, base='') ->
-    # clone opts
+        for path in include
+          stylus.include path
+
+        if plugins.length == 0
+          plugins = [require('die-bootstrap'), require('nib')]
+
+        for plugin in plugins
+          stylus.use plugin()
+
+        for name, fn of functions
+          stylus.define name, fn
+
+        res = ''
+        stylus.render (err, css) ->
+          throw err if err
+          res = css
+        res
+
+  createJsBundler: (opts, base='') ->
+    # clone opts to prevent options getting mangled
     _opts = {}
-    for k,v of opts
+    for k, v of opts
       _opts[k] = v
 
     _opts.entry  = join base, opts.entry
     _opts.after  = (join base, src for src in opts.after or [])
     _opts.before = (join base, src for src in opts.before or [])
-    requisite.createBundler _opts
+    require('requisite').createBundler _opts

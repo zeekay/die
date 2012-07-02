@@ -1,4 +1,3 @@
-bundle  = require './bundle'
 config  = require './config'
 express = require 'express'
 
@@ -44,8 +43,8 @@ exports.createServer = (opts) ->
     app.use express.errorHandler()
 
   # serve CSS bundle
-  if opts.cssBundle
-    cssBundle = bundle.createCssBundle opts.cssBundle, opts.base
+  if opts.cssBundle and existsSync dirname opts.cssBundle.entry
+    cssBundle = require('./bundle').createCssBundler opts.cssBundle, opts.base
     app.get opts.cssBundle.url, (req, res) ->
       res.header 'Content-Type', 'text/css'
       try
@@ -55,8 +54,8 @@ exports.createServer = (opts) ->
       return
 
   # serve JavaScript bundle
-  if opts.jsBundle
-    jsBundle = bundle.createJsBundle opts.jsBundle, opts.base
+  if opts.jsBundle and existsSync dirname opts.jsBundle.entry
+    jsBundle = require('./bundle').createJsBundler opts.jsBundle, opts.base
     app.get opts.jsBundle.url, (req, res) ->
       res.header 'Content-Type', 'application/javascript'
       jsBundle.bundle (err, content) ->
@@ -65,19 +64,18 @@ exports.createServer = (opts) ->
         else
           res.send content
 
-  # run helper
-  app.run = (func) ->
-    app.listen opts.port, ->
-      console.log "#{app.settings.env} server up and running at http://localhost:#{opts.port}"
-      if typeof func is 'function'
-        func()
+  app.extend = (func) ->
+    if typeof func is 'function'
+      exports.extend app, func
+    else
+      throw new Error "Function required for extend"
     app
+
+  # Return express app instance.
   app
 
 # enables a zappa-ish DSL for configuring express apps
 exports.extend = (app, func) ->
-  if typeof func isnt 'function'
-    return
 
   # setup specialized route handlers
   for verb in ['get', 'post', 'put', 'del']

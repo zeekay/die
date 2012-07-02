@@ -20,6 +20,8 @@ module.exports =
     # scripts to include before/after bundled Javascript
     before: []
     after: []
+    # Extra paths to search for modules
+    modulePaths: []
 
   # bundled CSS
   cssBundle:
@@ -27,3 +29,9 @@ module.exports =
     entry: './client/css/app'
     # url to server CSS bundle from
     url: '/app.css'
+    # Extra functions for stylus
+    functions: {}
+    # Extra paths for stylus to include
+    include: []
+    # Extra plugins for stylus to use
+    plugins: []

@@ -1,16 +1,15 @@
-md   = require('markdown').markdown
-read = require('fs').readFileSync
-die  = require('die')
+md  = require('markdown').markdown
+fs  = require 'fs'
+
+app = require('die')
   base: __dirname
 
-app = die.createServer ->
-
-  readme = md.toHTML read __dirname + '/README.md', 'utf8'
-
+app.extend ->
   @set 'view options'
     layout: false
 
   @get '/', ->
-    @render 'index', readme: readme
+    fs.readFile __dirname + '/README.md', 'utf8', (err, content) =>
+      @render 'index', readme: md.toHTML content
 
 module.exports = app

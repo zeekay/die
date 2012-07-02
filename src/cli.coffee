@@ -1,6 +1,6 @@
-program      = require 'jade/node_modules/commander'
-{existsSync} = require './utils'
-{join}       = require 'path'
+program         = require 'jade/node_modules/commander'
+{existsSync}    = require './utils'
+{dirname, join} = require 'path'
 
 program
   .version(require('../package.json').version)
@@ -45,32 +45,25 @@ program
   .description('  serve project')
   .option('-p, --port [number]', 'port to run server on')
   .action (opts) ->
+    run = require './run'
     if opts.port
       process.env.PORT = opts.port
 
-    packageJson = join process.cwd(), 'package.json'
-    if existsSync packageJson
-      main = require(packageJson).main
-      if main
-        app = require main
-        app.run()
+    for path in (join process.cwd(), name for name in ['package.json', 'server', 'index'])
+      try
+        resolved = require.resolve path
+      catch err
+        resolved = false
+      if resolved and path.indexOf('package.json') > 0
+        resolved = join(dirname path, require(resolved)).main or false
+
+      if resolved
+        run require(resolved).app,
+          workers: 1
         return
 
-    serverJs = require.resolve join process.cwd(), 'server'
-    if existsSync serverJs
-      app = require serverJs
-      app.run()
-      return
-
-    indexJs = require.resolve join process.cwd(), 'index'
-    if existsSync indexJs
-      app = require indexJs
-      app.run()
-      return
-
-    app = require('./index')
-    app.run()
-
+    run require('./index').app,
+      workers: 1
 
 program
   .command('test')
