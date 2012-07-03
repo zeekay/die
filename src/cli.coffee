@@ -48,32 +48,24 @@ module.exports = ->
     .option('-p, --port [number]', 'port to run server on')
     .option('-w, --workers [number]', 'number of workers processes to run')
     .action ({app, port, workers}) ->
-      run = require './run'
       Die = require './die'
+
       port ?= process.env.PORT ?= 3000
       workers ?= 1
 
-      return run require app if app
-
-      root = process.cwd()
-      for path in (join root, mod for mod in ['package.json', 'index', 'server'])
+      if not app
         try
-          resolved = require.resolve path
+          mod = require.resolve process.cwd()
         catch err
-          resolved = false
-        if resolved and path.indexOf('package.json') > 0
-          resolved = join(dirname path, require(resolved)).main or false
+          mod = false
 
-        if resolved
-          app = require resolved
-          if app instanceof Die
-            return run require(resolved).app,
-              port: port
-              workers: workers
+        if mod
+          app = require mod
+        else
+          app = new Die
+          app.defaultServer()
 
-      # run with defaults
-      app = new Die
-      run app,
+      require('./run') app,
         port: port
         workers: workers
 
