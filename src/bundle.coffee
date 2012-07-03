@@ -54,7 +54,7 @@ module.exports =
     opts.before = (join base, src for src in @before or [])
 
     # Create bundler
-    requisite = require('requisite').createBundler opts
+    requisite = require('requisite')(opts)
 
     # Return compiler for middleware
     compiler = (cb) ->
