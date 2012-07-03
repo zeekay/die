@@ -7,33 +7,37 @@
 <p>Die supports a <a href="https://github.com/mauricemach/zappa">Zappa-ish</a> DSL for Express:
 
 </p>
-<pre><code class="lang-coffeescript">die = require(<span class="string">'die'</span>)
+<pre><code class="lang-javascript">app = require(<span class="string">'die'</span>)({
+    base: __dirname
+});
+
+app.extend(<span class="keyword">function</span>(){
+    <span class="keyword">this</span>.get(<span class="string">'/'</span>, <span class="keyword">function</span>(){
+        <span class="keyword">this</span>.render(<span class="string">'index'</span>);
+    });
+});
+
+Or even more succintly:
+
+```coffeescript
+app = require(<span class="string">'die'</span>)
     base: __dirname
 
-app = die.createServer ->
-  @set <span class="string">'view options'</span>
-    layout: <span class="literal">false</span>
-
+app.extend ->
   @get <span class="string">'/'</span>, ->
-    @render <span class="string">'index'</span>
-
-  @get <span class="string">'/json'</span>, ->
-    @json
-      x: <span class="number">1</span>
-      y: <span class="number">2</span>
-      z: <span class="number">3</span></code></pre>
+    @render <span class="string">'index'</span></code></pre>
 <h3>CommonJS module support</h3>
 <p>Use CommonJS modules <em>in the browser</em> (courtesy of <a href="https://github.com/substack/node-browserify">Browserify</a>):
 
 </p>
-<pre><code class="lang-coffeescript"><span class="keyword">class</span> HomeView <span class="keyword">extends</span> Backbone.View
-  template: require <span class="string">'./templates/home'</span>
-  render: ->
-    @$el.html @template()
-    @</code></pre>
-<p>Here we are requiring a <a href="http://jade-lang.com/">Jade</a> template (which is compiled to an optimized function) in our <a href="http://backbonejs.org/">Backbone</a> view.
-
-</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> HomeView = Backbone.View.extend({
+  <span class="comment">// Require a template in to your Backbone view, which is bundled up as a javascript function.</span>
+  template: require(<span class="string">'./templates/home'</span>),
+  render: <span class="keyword">function</span>() {
+    <span class="comment">// We just call our required template, rendering it out.</span>
+    $(<span class="keyword">this</span>.el).html(<span class="keyword">this</span>.template())
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  }</code></pre>
 <h3>Stylus with nib and Bootstrap baked in</h3>
 <p>Modernize your CSS with <a href="http://learnboost.github.com/stylus/">Stylus</a>! <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="https://github.com/visionmedia/nib">nib</a> baked in:
 
@@ -52,18 +56,14 @@ h1
 
 </p>
 <h3>Multi-app support</h3>
-<p>By default each app created by Die is reusable by other [Die][die]/<a href="http://expressjs.com/">Express</a> apps. Example configuration:
+<p>By default each app created by Die is reusable by other Die/<a href="http://expressjs.com/">Express</a> apps. Example configuration:
 
 </p>
-<pre><code class="lang-coffeescript">die = require(<span class="string">'die'</span>)
-  base: __dirname
+<pre><code class="lang-javascript"><span class="comment">// Add app2's static paths to the stack, make client-side code available.</span>
+app.inject(app2);
 
-app = die.createServer ->
-  @use <span class="string">'/app2'</span>, require <span class="string">'app2'</span>
-  @use <span class="string">'/app3'</span>, require <span class="string">'app3'</span>
-  @use <span class="string">'/app4'</span>, require <span class="string">'app4'</span>
-
-module.exports = app</code></pre>
+<span class="comment">// Mount app3 in it's entirety at /app3</span>
+app.mount(<span class="string">'/app3'</span>, app3);</code></pre>
 <p>Each app can of course require other apps recursively.
 
 </p>
