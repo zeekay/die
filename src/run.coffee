@@ -1,5 +1,4 @@
 cluster = require("cluster")
-numCPUs = require("os").cpus().length
 {join}  = require 'path'
 
 reload = ->
@@ -8,7 +7,7 @@ reload = ->
 
 module.exports = (app, {port, watch, workers} = {}) ->
   app = app.app if app.app
-  workers ?= numCPUs
+  workers ?= 1
   watch ?= true
   port ?= process.env.PORT or 3000
 
