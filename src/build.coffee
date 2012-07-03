@@ -2,9 +2,7 @@ bundle = require './bundle'
 fs     = require 'fs'
 minify = require './minify'
 wrench = require 'wrench'
-
-path   = require 'path'
-join   = path.join
+{join} = require 'path'
 
 {existsSync} = require './utils'
 

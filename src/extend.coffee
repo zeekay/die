@@ -31,8 +31,8 @@ module.exports = extend = (app, func) ->
             next: next
             params: req.params
             query: req.query
-            req: req
-            res: res
+            request: req
+            response: res
             session: req.session
             settings: app.settings
             json: -> res.json.apply res, arguments
