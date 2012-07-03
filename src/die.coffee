@@ -2,7 +2,6 @@
 {join} = require 'path'
 
 class Die
-
   # Export common middleware lazily
   for middleware in ['bodyParser', 'cookieParser', 'errorHandlerH', 'methodOverride', 'session']
     do (middleware) =>
@@ -35,48 +34,33 @@ class Die
     @readConfig 'production'
     require('./build')(@options)
 
-  createServer: (func) ->
+  defaultServer: ->
     @readConfig process.env.NODE_ENV or 'development'
+    @createServer @server.default @options
 
-    if not @app
-      @app = @server.createServer @options
-      if func
-        @server.extend @app, func
-
-    @app
+  createServer: (func) ->
+    @app = @server.createServer func
+    @
 
   extend: (func) ->
-    @createServer()
+    @defaultServer() if not @app
     @server.extend @app, func
     @
 
   inject: (dieApp) ->
-    @createServer()
+    @defaultServer() if not @app
     @app.use dieApp.app
-
-    if @options.cssBundle and dieApp.cssBundle
-      css = @options.cssBundle
-      # other = dieApp.options.cssBundle
-      # for k,v of other.functions
-      #   if not css.functions[k]
-      #     css.functions[k] = v
-      # cssPath = dirname join dieApp.base, other.entry
-      # css.include = css.include.concat cssPath, other.include
-      # css.plugins = css.plugins.concat other.plugins
-
-    if @options.jsBundle and dieApp.jsBundle
-      js = @options.cssBundle
-      # other = dieApp.options.jsBundle
-      # js.modulePaths = js.modulePaths.concat other.modulePaths
+    @apps.push dieApp
     @
 
   mount: (url, dieApp) ->
-    @createServer()
+    @defaultServer() if not @app
     @app.use url, dieApp.app
+    @apps.push dieApp
     @
 
-  run: (func) ->
-    @createServer func
-    require('./run')(@app, @options)
+  run: (opts = @options) ->
+    @defaultServer() if not @app
+    require('./run')(@app, opts)
 
 module.exports = Die
