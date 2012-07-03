@@ -56,7 +56,7 @@ module.exports = ->
       return run require app if app
 
       root = process.cwd()
-      for path in (join root, mod for mod in ['package.json', 'server', 'index'])
+      for path in (join root, mod for mod in ['package.json', 'index', 'server'])
         try
           resolved = require.resolve path
         catch err
