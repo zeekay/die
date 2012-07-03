@@ -6,36 +6,41 @@ Application and asset management to *die* for.
 ### Razor-sharp Express DSL
 Die supports a [Zappa-ish][zappa] DSL for Express:
 
+```javascript
+app = require('die')({
+    base: __dirname
+});
+
+app.extend(function(){
+    this.get('/', function(){
+        this.render('index');
+    });
+});
+
+Or even more succintly:
+
 ```coffeescript
-die = require('die')
+app = require('die')
     base: __dirname
 
-app = die.createServer ->
-  @set 'view options'
-    layout: false
-
+app.extend ->
   @get '/', ->
     @render 'index'
-
-  @get '/json', ->
-    @json
-      x: 1
-      y: 2
-      z: 3
 ```
 
 ### CommonJS module support
 Use CommonJS modules *in the browser* (courtesy of [Browserify][browserify]):
 
-```coffeescript
-class HomeView extends Backbone.View
-  template: require './templates/home'
-  render: ->
-    @$el.html @template()
-    @
+```javascript
+var HomeView = Backbone.View.extend({
+  // Require a template in to your Backbone view, which is bundled up as a javascript function.
+  template: require('./templates/home'),
+  render: function() {
+    // We just call our required template, rendering it out.
+    $(this.el).html(this.template())
+    return this;
+  }
 ```
-
-Here we are requiring a [Jade][jade] template (which is compiled to an optimized function) in our [Backbone][backbone] view.
 
 ### Stylus with nib and Bootstrap baked in
 Modernize your CSS with [Stylus][stylus]! [Bootstrap][bootstrap] and [nib][nib] baked in:
@@ -58,16 +63,12 @@ h1
 ### Multi-app support
 By default each app created by Die is reusable by other Die/[Express][express] apps. Example configuration:
 
-```coffeescript
-die = require('die')
-  base: __dirname
+```javascript
+// Add app2's static paths to the stack, make client-side code available.
+app.inject(app2);
 
-app = die.createServer ->
-  @use '/app2', require 'app2'
-  @use '/app3', require 'app3'
-  @use '/app4', require 'app4'
-
-module.exports = app
+// Mount app3 in it's entirety at /app3
+app.mount('/app3', app3);
 ```
 
 Each app can of course require other apps recursively.
