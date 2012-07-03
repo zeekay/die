@@ -30,7 +30,6 @@ class Die
       return
 
     @options = extend options, @options
-    console.log @options
 
   build: ->
     @readConfig 'production'
