@@ -15,9 +15,10 @@ class Die
 
   createServer: (func) ->
     if not @app
-      @app = require('./server').createServer @options
+      @server = require('./server')
+      @app = @server.createServer @options
       if func
-        @app.extend func
+        @server.extend @app, func
 
       # Expose common express middleware
       express = require 'express'
@@ -35,7 +36,7 @@ class Die
 
   extend: (func) ->
     @createServer()
-    @app.extend func
+    @server.extend @app, func
     @
 
   inject: (dieApp) ->

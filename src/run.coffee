@@ -1,5 +1,6 @@
 cluster = require("cluster")
 numCPUs = require("os").cpus().length
+{join}  = require 'path'
 
 reload = ->
   for id, worker of cluster.workers
@@ -8,6 +9,7 @@ reload = ->
 module.exports = (app, opts={}) ->
   port = opts.port or 3000
   numWorkers = opts.workers or numCPUs
+  watch = opts.watch or true
 
   if cluster.isMaster
     # Handle keypresses
@@ -42,6 +44,6 @@ module.exports = (app, opts={}) ->
     cluster.on "exit", (worker, code, signal) ->
       exitCode = worker.process.exitCode
       console.log "worker #{worker.id} died (#{exitCode}). restarting..."
-      setTimeout cluster.fork, 250
+      cluster.fork()
   else
     app.listen port
