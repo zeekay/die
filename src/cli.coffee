@@ -47,7 +47,7 @@ module.exports = ->
     .option('-a, --app [module]', 'app to run')
     .option('-p, --port [number]', 'port to run server on')
     .option('-w, --workers [number]', 'number of workers processes to run')
-    .action ({port, workers}) ->
+    .action ({app, port, workers}) ->
       run = require './run'
       Die = require './die'
       port ?= process.env.PORT ?= 3000
@@ -72,7 +72,8 @@ module.exports = ->
               workers: workers
 
       # run with defaults
-      run require('./index'),
+      app = new Die
+      run app,
         port: port
         workers: workers
 
