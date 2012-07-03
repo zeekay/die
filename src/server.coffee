@@ -36,7 +36,6 @@ exports.createServer = (opts) ->
     bundles = {}
 
     for bundle in [opts.jsBundle, opts.cssBundle]
-      console.dir bundle
       if bundle and existsSync dirname bundle.entry
         bundles[bundle.url] = bundle.create bundle, opts.base
 
@@ -98,8 +97,6 @@ exports.extend = (app, func) ->
       route.call app
 
   func.call app
-
-  console.log app.stack
 
   # put things back in case someone else wants to interact with the express app we create normally
   for verb in ['get', 'post', 'put', 'del']
