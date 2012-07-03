@@ -77,6 +77,6 @@ class Die
 
   run: (func) ->
     @createServer func
-    require('./run')(@app)(@options)
+    require('./run')(@app, @options)
 
 module.exports = Die

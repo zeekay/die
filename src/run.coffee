@@ -6,10 +6,11 @@ reload = ->
   for id, worker of cluster.workers
     worker.destroy()
 
-module.exports = (app, {port, watch, workers}) ->
+module.exports = (app, {port, watch, workers} = {}) ->
   app = app.app if app.app
   workers ?= numCPUs
   watch ?= true
+  port ?= process.env.PORT or 3000
 
   if cluster.isMaster
     # Handle keypresses
