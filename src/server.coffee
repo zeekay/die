@@ -65,7 +65,7 @@ exports.extend = (app, func) ->
       func.call app
 
   # setup specialized route handlers
-  for verb in ['get', 'post', 'put', 'del']
+  for verb in ['all', 'get', 'post', 'put', 'del']
     do (verb) ->
       # save a reference to original
       app["__orig_#{verb}"] = app[verb]
