@@ -5,4 +5,7 @@ class App
   render: ->
     $('#content').html template quote: caesar.quote()
 
-module.exports = new App()
+module.exports = app = new App()
+
+$(document).ready ->
+  app.render()

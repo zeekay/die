@@ -10,7 +10,7 @@ else
   exports.existsSync = existsSync = path.existsSync
   exports.exists     = path.exists
 
-exports.extend = (obj, ext...) ->
+exports.extend = extend = (obj, ext...) ->
   return {} if not obj?
   for other in ext
     for own key, val of other

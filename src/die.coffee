@@ -15,7 +15,7 @@ class Die
 
   constructor: (options = {}) ->
     @options = extend {}, require './defaults'
-    @options = extend @options, options
+    @options = extend options, @options
 
     # Set base path for this app
     @base = @options.base = options.base or process.cwd()
@@ -25,9 +25,12 @@ class Die
 
   readConfig: (config = 'default') ->
     try
-      opts = require join(@base, @options.configPath, config)
-      @options = extend @options, opts
+      options = require join(@base, @options.configPath, config)
     catch err
+      return
+
+    @options = extend options, @options
+    console.log @options
 
   build: ->
     @readConfig 'production'
