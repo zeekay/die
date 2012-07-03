@@ -43,13 +43,19 @@ program
 program
   .command('run')
   .description('  serve project')
+  .option('-a, --app [module]', 'app to run')
   .option('-p, --port [number]', 'port to run server on')
-  .action (opts) ->
+  .option('-w, --workers [number]', 'number of workers processes to run')
+  .action ({port, workers}) ->
     run = require './run'
-    if opts.port
-      process.env.PORT = opts.port
+    Die = require './die'
+    port ?= process.env.PORT ?= 3000
+    workers ?= 1
 
-    for path in (join process.cwd(), name for name in ['package.json', 'server', 'index'])
+    return run require app if app
+
+    root = process.cwd()
+    for path in (join root, mod for mod in ['package.json', 'server', 'index'])
       try
         resolved = require.resolve path
       catch err
@@ -58,12 +64,16 @@ program
         resolved = join(dirname path, require(resolved)).main or false
 
       if resolved
-        run require(resolved).app,
-          workers: 1
-        return
+        app = require resolved
+        if app instanceof Die
+          return run require(resolved).app,
+            port: port
+            workers: workers
 
-    run require('./index').app,
-      workers: 1
+    # run with defaults
+    run require('./index'),
+      port: port
+      workers: workers
 
 program
   .command('test')

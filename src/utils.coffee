@@ -10,6 +10,16 @@ else
   exports.existsSync = existsSync = path.existsSync
   exports.exists     = path.exists
 
+exports.extend = (obj, ext...) ->
+  return {} if not obj?
+  for other in ext
+    for own key, val of other
+      if not obj[key]? or typeof val isnt "object"
+        obj[key] = val
+      else
+        obj[key] = extend obj[key], val
+  obj
+
 exports.concatRead = (files) ->
   if not Array.isArray files
     files = [files]

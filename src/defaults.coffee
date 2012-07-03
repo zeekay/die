@@ -22,6 +22,9 @@ module.exports =
     after: []
     # Extra paths to search for modules
     modulePaths: []
+    # Bundle creation function, should return a compiler
+    # which will be used by the bundle middleware
+    create: require('./bundle').createJsBundle
 
   # bundled CSS
   cssBundle:
@@ -35,3 +38,6 @@ module.exports =
     include: []
     # Extra plugins for stylus to use
     plugins: []
+    # Bundle creation function, should return a compiler
+    # which will be used by the bundle middleware
+    create: require('./bundle').createCssBundle

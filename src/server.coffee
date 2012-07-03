@@ -1,4 +1,3 @@
-config  = require './config'
 express = require 'express'
 
 path    = require 'path'
@@ -9,9 +8,6 @@ dirname = path.dirname
 
 exports.createServer = (opts) ->
   app = express.createServer()
-
-  # read configuration based on NODE_ENV
-  opts = config.read opts, app.settings.env
 
   app.configure ->
     app.set 'port', opts.port
@@ -36,26 +32,18 @@ exports.createServer = (opts) ->
     app.set 'port', opts.port + 1
 
   app.configure 'development', ->
+    # Serve bundles
     bundles = {}
 
-    # css Bundles
-    if opts.cssBundle and existsSync dirname opts.cssBundle.entry
-      cssBundle = require('./bundle').createCssBundler opts.cssBundle, opts.base
-      bundles['/app.css'] = (cb) ->
-        try
-          cb null, cssBundle.compile()
-        catch err
-          cb err, ''
+    for bundle in [opts.jsBundle, opts.cssBundle]
+      console.dir bundle
+      if bundle and existsSync dirname bundle.entry
+        bundles[bundle.url] = bundle.create bundle, opts.base
 
-    # js Bundles
-    if opts.jsBundle and existsSync dirname opts.jsBundle.entry
-      jsBundle = require('./bundle').createJsBundler opts.jsBundle, opts.base
-      console.dir jsBundle
-      bundles['/app.js'] = (cb) ->
-        jsBundle.bundle (err, body) ->
-          cb err, body
+    if Object.keys(bundles).length > 0
+      app.use require('./middleware')(bundles)
 
-    app.use require('./middleware')(bundles)
+    # Enable logger and pretty stack traces
     app.use express.logger()
     app.use express.errorHandler {dumpExceptions: true, showStack: true}
 

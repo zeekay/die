@@ -1,37 +1,46 @@
-config = require './config'
+{extend, existsSync} = require './utils'
+{join} = require 'path'
 
 class Die
-  constructor: (options = {}) ->
-    for key, val of options
-      @options[key] = val
-    @options.base = options.base or process.cwd()
-    @options = config.read @options, 'default'
 
-  options: config.defaults
+  # Export common middleware lazily
+  for middleware in ['bodyParser', 'cookieParser', 'errorHandlerH', 'methodOverride', 'session']
+    do (middleware) =>
+      Object.defineProperty @, middleware,
+        get: -> require('express')[middleware]
+
+  # Lazy require server
+  Object.defineProperty @::, 'server',
+    get: -> require './server'
+
+  constructor: (options = {}) ->
+    @options = extend {}, require './defaults'
+    @options = extend @options, options
+
+    # Set base path for this app
+    @base = @options.base = options.base or process.cwd()
+
+    # Try to read default config
+    @readConfig()
+
+  readConfig: (config = 'default') ->
+    try
+      opts = require join(@base, @options.configPath, config)
+      @options = extend @options, opts
+    catch err
 
   build: ->
-    @options = config.read @options, 'production'
+    @readConfig 'production'
     require('./build')(@options)
 
   createServer: (func) ->
+    @readConfig process.env.NODE_ENV or 'development'
+
     if not @app
-      @server = require('./server')
       @app = @server.createServer @options
       if func
         @server.extend @app, func
 
-      # Expose common express middleware
-      express = require 'express'
-      @bodyParser = ->
-        express.bodyParser.apply express, arguments
-      @cookieParser = ->
-        express.cookieParser.apply express, arguments
-      @session = ->
-        express.session.apply express, arguments
-      @methodOverride = ->
-        express.methodOverride.apply express, arguments
-      @errorHandler = ->
-        express.errorHandler.apply express, arguments
     @app
 
   extend: (func) ->

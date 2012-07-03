@@ -6,10 +6,10 @@ reload = ->
   for id, worker of cluster.workers
     worker.destroy()
 
-module.exports = (app, opts={}) ->
-  port = opts.port or 3000
-  numWorkers = opts.workers or numCPUs
-  watch = opts.watch or true
+module.exports = (app, {port, watch, workers}) ->
+  app = app.app if app.app
+  workers ?= numCPUs
+  watch ?= true
 
   if cluster.isMaster
     # Handle keypresses
@@ -30,16 +30,11 @@ module.exports = (app, opts={}) ->
           reload()
 
     # Fork workers
-    for i in [1..numWorkers]
+    for i in [1..workers]
       cluster.fork()
 
-    started = 0
     cluster.on "listening", (worker, addr) ->
-      started += 1
-      if started == numWorkers
-        console.log "die running @ http://#{addr.address}:#{addr.port}"
-      else if started > numWorkers
-        console.log "worker #{worker.id} up @ http://#{addr.address}:#{addr.port}"
+      console.log "worker #{worker.id} up @ http://#{addr.address}:#{addr.port}"
 
     cluster.on "exit", (worker, code, signal) ->
       exitCode = worker.process.exitCode
