@@ -1,10 +1,24 @@
 # Extend an express app with a zappa-ish DSL
 module.exports = extend = (app, func) ->
 
-  # configuration shortcuts
-  app.__configure = app.configure
+  patched = []
 
-  app.configure = (env, func) ->
+  patch = (name, replacement) ->
+    if app[name]
+      app["__orig__#{name}"] = app[name]
+    app[name] = replacement
+    patched.push name
+
+  unpatch = ->
+    for name in patched
+      if app["__orig__#{name}"]
+        app[name] = app["__orig__#{name}"]
+        delete app["__orig__#{name}"]
+      else
+        delete app[name]
+
+  # configuration shortcuts
+  patch 'configure', (env, func) ->
     if not func
       app.__configure ->
         env.call app
@@ -14,16 +28,13 @@ module.exports = extend = (app, func) ->
 
   for env in ['development', 'production', 'test']
     do (env) ->
-      app[env] = (func) ->
+      patch env, (func) ->
         app.configure env, func
 
   # setup specialized route handlers
   for verb in ['all', 'get', 'post', 'put', 'del']
     do (verb) ->
-      # save a reference to original
-      app["__orig_#{verb}"] = app[verb]
-
-      app[verb] = (path, handler) ->
+      patch verb, (path, handler) ->
         app["__orig_#{verb}"] path, (req, res, next) ->
           ctx =
             app: app
@@ -42,29 +53,21 @@ module.exports = extend = (app, func) ->
           handler.apply ctx, req.params
 
   # Shortcut to add routes
-  app.addRoutes = (routes) ->
+  patch 'addRoutes', (routes) ->
     if not Array.isArray routes
       routes = [routes]
 
     for route in routes
       route.call app
 
+  # Expose middleware
+  patch 'middleware', require './middleware'
+
+  # Extend app using func
   func.call app
 
-  # Reset app.configure
-  app.configure = app.__configure
-  delete app.__configure
-  delete app.development
-  delete app.production
-  delete app.test
+  # Unpatch app
+  unpatch()
 
-  # Reset verbs
-  for verb in ['get', 'post', 'put', 'del']
-    delete app[verb]
-    delete app["__orig_#{verb}"]
-
-  # Remove sugar
-  delete app.addRoutes
-
-  # Return mangled app!
+  # Return extended app
   app

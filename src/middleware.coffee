@@ -1,4 +1,13 @@
-module.exports = bundler = (bundles, opts={}) ->
+module.exports = middleware = {}
+
+# Export common express middleware lazily.
+for mw in ['bodyParser', 'cookieParser', 'errorHandler', 'methodOverride', 'session']
+  do (mw) =>
+    Object.defineProperty middleware, mw,
+      get: -> require('express')[mw]
+
+# Connect/Express middleware for bundling static resources such as JavaScript/CoffeeScript.
+middleware.bundler = (bundles, opts={}) ->
   maxAge = opts.maxAge or 0
   (req, res, next) ->
     url = req.url

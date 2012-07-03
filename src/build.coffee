@@ -1,4 +1,3 @@
-bundle = require './bundle'
 fs     = require 'fs'
 minify = require './minify'
 wrench = require 'wrench'
@@ -18,20 +17,8 @@ module.exports = (opts) ->
   if existsSync dir
     wrench.copyDirSyncRecursive dir, dest
 
-  try
-    cssBundle = bundle.createCssBundle opts.cssBundle, opts.base
-    src = cssBundle.compile()
-    if opts.minify
-      src = minify.css src
-    fs.writeFileSync join(dest, opts.cssBundle.url), src
-  catch err
-    console.trace err
-
-  try
-    jsBundle = bundle.createJsBundle opts.jsBundle, opts.base
-    jsBundle.bundle (err, src) ->
-      if opts.minify
-        src = minify.js src
-      fs.writeFileSync join(dest, opts.jsBundle.url), src
-  catch err
-    console.trace err
+  # compile bundles
+  for bundle in [opts.jsBundle, opts.cssBundle]
+    if bundle and existsSync dirname bundle.entry
+      bundle.create(opts.base) (err, body) ->
+        fs.writeFileSync join(dest, bundle.url), body

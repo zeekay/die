@@ -1,7 +1,27 @@
+Die             = require './die'
 program         = require 'jade/node_modules/commander'
 {existsSync}    = require './utils'
 {dirname, join} = require 'path'
 
+# Return app in current working directory, or default Die app
+appOrDefault = (opts) ->
+  # Try to resolve current directory
+  try
+    mod = require.resolve process.cwd()
+  catch err
+    mod = false
+
+  # Try to require Die app
+  if mod
+    app = require mod
+    # If we actually have a Die app instance, use it
+    if app instanceof Die
+      return app
+
+  # Return default Die app
+  new Die
+
+# Commandline handler
 module.exports = ->
   program
     .version(require('../package.json').version)
@@ -17,16 +37,18 @@ module.exports = ->
     .option('--js [in]', 'Javascript entrypoint')
     .option('--js-path [out]', 'path to compiled Javascript')
     .action (opts) ->
-      die = require('./index')
+      app = appOrDefault()
+      app.updateOptions
         buildPath: opts.output
-        css:
+        cssBundle:
           entry: opts.css
           url: opts.cssPath
-        js:
+          minify: opts.minify
+        jsBundle:
           entry: opts.js
           url: opts.jsPath
-        minify: opts.minify
-      die.build()
+          minify: opts.minify
+      app.build()
 
   program
     .command('new [name]')
@@ -49,21 +71,9 @@ module.exports = ->
     .option('-w, --workers [number]', 'number of workers processes to run')
     .action ({app, port, workers}) ->
       Die = require './die'
-
       port ?= process.env.PORT ?= 3000
       workers ?= 1
-
-      if not app
-        try
-          mod = require.resolve process.cwd()
-        catch err
-          mod = false
-
-        if mod
-          app = require mod
-        else
-          app = new Die
-          app.defaultServer()
+      app ?= appOrDefault()
 
       require('./run') app,
         port: port
@@ -72,16 +82,16 @@ module.exports = ->
   program
     .command('test')
     .description('  run tests')
-    .action ->
-      require('./test')()
+    .option('-a, --args [arguments]', 'arguments for mocha')
+    .action ({args}) ->
+      require('./test') args
 
   program
     .command('watch')
     .description('  watch for changes and rebuild project')
     .action ->
-      die = require('./index')
-        base: process.cwd()
-      require('./watch') die
+      app = appOrDefault()
+      require('./watch') app
 
   help = -> console.log program.helpInformation()
 

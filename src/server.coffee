@@ -38,7 +38,7 @@ exports.default = (opts) ->
           bundles[bundle.url] = bundle.create opts.base
 
       if Object.keys(bundles).length > 0
-        @use require('./middleware')(bundles)
+        @use require('./middleware').bundle(bundles)
 
       # Enable logger and pretty stack traces
       @use express.logger()
