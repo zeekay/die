@@ -13,13 +13,13 @@
   },
   "dependencies": {
     "die": "{{dieVersion}}",
-    "coffee-script": "~1.3.3",
-    "markdown": "~0.4.0"
+    "coffee-script": "*",
+    "markdown": "*"
   },
   "devDependencies": {
-    "chai": "~1.0.4",
-    "mocha": "~1.2.0",
-    "zombie": "~1.3.1"
+    "chai": "*",
+    "mocha": "*",
+    "supertest": "*"
   },
   "engines": {
     "node": "*"
