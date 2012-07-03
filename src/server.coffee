@@ -35,7 +35,7 @@ exports.default = (opts) ->
 
       for bundle in [opts.jsBundle, opts.cssBundle]
         if bundle and existsSync dirname bundle.entry
-          bundles[bundle.url] = bundle.create bundle, opts.base
+          bundles[bundle.url] = bundle.create opts.base
 
       if Object.keys(bundles).length > 0
         @use require('./middleware')(bundles)
