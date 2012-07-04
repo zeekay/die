@@ -15,12 +15,11 @@ app.extend(<span class="keyword">function</span>(){
     <span class="keyword">this</span>.get(<span class="string">'/'</span>, <span class="keyword">function</span>(){
         <span class="keyword">this</span>.render(<span class="string">'index'</span>);
     });
-});
+});</code></pre>
+<p>Or even more succintly:
 
-Or even more succintly:
-
-```coffeescript
-app = require(<span class="string">'die'</span>)
+</p>
+<pre><code class="lang-coffeescript">app = require(<span class="string">'die'</span>)
     base: __dirname
 
 app.extend ->
