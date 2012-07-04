@@ -1,3 +1,5 @@
+## Introduction
+
 Die is a framework for building reusable JavaScript applications. It can be used to build anything
 from a single-page application to a full stack web application framework. Die does it's best to stay out
 of your way, allowing you the utmost in control over your application.
