@@ -15,8 +15,14 @@ class Die
     @updateOptions 'default'
     @updateOptions process.env.NODE_ENV or 'development'
 
-    # Create default app
-    @app = @createServer server.default(@options)
+    # Lazily create default app
+    Object.defineProperty @, 'app',
+      get: =>
+        # Replace accessor with @app
+        delete @app
+        @app = @createServer server.default(@options)
+        enumerable: true
+        configurable: true
 
   # update options using configuration file or object
   updateOptions: (options) ->
@@ -32,10 +38,10 @@ class Die
     require('./build')(@options)
 
   createServer: (func) ->
-    @app = server.createServer func
+    @_app = server.createServer func
 
   extend: (func) ->
-    @app = server.extend @app, func
+    server.extend @app, func
     @
 
   inject: (dieApp) ->
