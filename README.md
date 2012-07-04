@@ -18,7 +18,7 @@ app.extend(function(){
 });
 ```
 
-Or even more succintly:
+Or even more succintly with [CoffeeScript][coffee]:
 
 ```coffeescript
 app = require('die')
@@ -29,7 +29,8 @@ app.extend ->
 ```
 
 ### CommonJS module support
-Use CommonJS modules *in the browser* (courtesy of [Browserify][browserify]):
+JavaScript is an isomorphic language, working on both the browser and server.
+Organize your code using CommonJS and it'll be bundled up automatically with [Requisite][requisite].
 
 ```javascript
 var HomeView = Backbone.View.extend({
@@ -40,6 +41,10 @@ var HomeView = Backbone.View.extend({
     $(this.el).html(this.template())
     return this;
   }
+}
+
+// Export your view and require it from anywhere else in your code.
+module.exports = HomeView
 ```
 
 ### Stylus with nib and Bootstrap baked in
@@ -118,11 +123,12 @@ die test
 
 [backbone]: http://backbonejs.org/
 [bootstrap]: http://twitter.github.com/bootstrap/
-[browserify]: https://github.com/substack/node-browserify
+[coffee]: http://coffeescript.org
 [express]: http://expressjs.com/
 [jade]: http://jade-lang.com/
 [mocha]: https://visionmedia.github.com/mocha/
 [nib]: https://github.com/visionmedia/nib
+[requisite]: https://requisitejs.org/
 [stylus]: http://learnboost.github.com/stylus/
 [templates]: https://github.com/zeekay/die/tree/master/templates
 [zappa]: https://github.com/mauricemach/zappa
