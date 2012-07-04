@@ -8,10 +8,10 @@
   },
   "keywords": [
     "application",
-    "express",
-    "server",
     "bundle",
-    "requisite"
+    "express",
+    "requisite",
+    "server"
   ],
   "author": {
     "name": "Zach Kelling",
@@ -30,22 +30,22 @@
     "die": "./bin/die"
   },
   "dependencies": {
-    "clean-css": "~0.4.1",
+    "clean-css":     "~0.4.1",
     "coffee-script": "~1.3.3",
-    "colors": "~0.6.0-1",
+    "colors":        "~0.6.0-1",
     "die-bootstrap": "~2.0.1",
-    "express": "~2.5.10",
-    "jade": "~0.26.1",
-    "mote": "~0.2.0",
-    "nib": "~0.5.0",
-    "requisite": "~0.3.4",
-    "stylus": "~0.27.1",
-    "watch": "~0.5.1",
-    "wrench": "~1.3.9"
+    "express":       "~2.5.10",
+    "jade":          "~0.26.1",
+    "mote":          "~0.2.0",
+    "nib":           "~0.5.0",
+    "requisite":     "~0.3.4",
+    "stylus":        "~0.27.1",
+    "watch":         "~0.5.1",
+    "wrench":        "~1.3.9"
   },
   "devDependencies": {
-    "chai": "*",
-    "mocha": "*",
+    "chai":      "*",
+    "mocha":     "*",
     "supertest": "*"
   },
   "engines": {
