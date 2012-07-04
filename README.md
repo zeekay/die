@@ -16,6 +16,7 @@ app.extend(function(){
         this.render('index');
     });
 });
+```
 
 Or even more succintly:
 
