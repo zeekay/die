@@ -16,7 +16,7 @@ app.extend(<span class="keyword">function</span>(){
         <span class="keyword">this</span>.render(<span class="string">'index'</span>);
     });
 });</code></pre>
-<p>Or even more succintly:
+<p>Or even more succintly with <a href="http://coffeescript.org">CoffeeScript</a>:
 
 </p>
 <pre><code class="lang-coffeescript">app = require(<span class="string">'die'</span>)
@@ -25,7 +25,8 @@ app.extend(<span class="keyword">function</span>(){
 app.extend ->
   @get <span class="string">'/'</span>, -> @render <span class="string">'index'</span></code></pre>
 <h3>CommonJS module support</h3>
-<p>Use CommonJS modules <em>in the browser</em> (courtesy of <a href="https://github.com/substack/node-browserify">Browserify</a>):
+<p>JavaScript is an isomorphic language, working on both the browser and server.
+Organize your code using CommonJS and it&#39;ll be bundled up automatically with <a href="https://requisitejs.org/">Requisite</a>.
 
 </p>
 <pre><code class="lang-javascript"><span class="keyword">var</span> HomeView = Backbone.View.extend({
@@ -35,7 +36,11 @@ app.extend ->
     <span class="comment">// We just call our required template, rendering it out.</span>
     $(<span class="keyword">this</span>.el).html(<span class="keyword">this</span>.template())
     <span class="keyword">return</span> <span class="keyword">this</span>;
-  }</code></pre>
+  }
+}
+
+<span class="comment">// Export your view and require it from anywhere else in your code.</span>
+module.exports = HomeView</code></pre>
 <h3>Stylus with nib and Bootstrap baked in</h3>
 <p>Modernize your CSS with <a href="http://learnboost.github.com/stylus/">Stylus</a>! <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="https://github.com/visionmedia/nib">nib</a> baked in:
 
