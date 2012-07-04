@@ -34,9 +34,10 @@ app.extend ->
   @get '/', -> @render 'index'
 ```
 
-### CommonJS module support
-JavaScript is an [isomorphic language][isomorphic], which means it can execute on both the server
-and the client. Die lets you leverage this ability, bundling up all your client code automatically.
+### Share code between client and server
+JavaScript is an [isomorphic language][isomorphic], which means it can execute on both the client
+and server. Die lets you leverage this by allowing you to organize your code into [Node.js][node]
+compatible [modules][modules].
 
 ```javascript
 var HomeView = Backbone.View.extend({
@@ -49,9 +50,12 @@ var HomeView = Backbone.View.extend({
   }
 }
 
-// Export your view and require it from anywhere else in your code.
+// Exports your view so that it can be used elsewhere in your client code, or even on the server.
 module.exports = HomeView
 ```
+
+Die uses [Requisite][requisite] to package up your client code, resolving dependencies, and bundling
+ everything together for you automatically.
 
 ### Stylus with nib and Bootstrap baked in
 Modernize your CSS with [Stylus][stylus]! [Bootstrap][bootstrap] and [nib][nib] baked in:
@@ -69,10 +73,12 @@ h1
 ```
 
 ### Awesome testing with Mocha
-[Mocha][mocha] has emerged as the best-in-class JavaScript test framework, and Die supports it out of the box.
+[Mocha][mocha] has emerged as a best-in-class JavaScript testing framework, and Die supports it out
+of the box.
 
 ### Multi-app support
-By default each app created by Die is reusable by other Die/[Express][express] apps. Example configuration:
+By default each app created by Die is reusable by other Die/[Express][express] apps. Example
+configuration:
 
 ```javascript
 // Add app2's static paths to the stack, make client-side code available.
@@ -86,9 +92,9 @@ Each app can of course require other apps recursively.
 
 ### Project Templates
 Never write boilerplate code again, take advantage of Die's project templates.
-Structure your projects however you like, each file in a template folder will be treated as a Mustache template
-and can be passed any sort of arbitrary variables when creating a new project with `die new`. Check out the
-[default templates][templates] for examples.
+Structure your projects however you like, each file in a template folder will be treated as a
+Mustache template and can be passed any sort of arbitrary variables when creating a new project
+with `die new`. Check out the [default templates][templates] for examples.
 
 ## Usage
 Create new project based off template:
@@ -134,6 +140,7 @@ die test
 [isomorphic]: blog.nodejitsu.com/scaling-isomorphic-javascript-code
 [jade]: http://jade-lang.com/
 [mocha]: https://visionmedia.github.com/mocha/
+[modules]: http://nodejs.org/api/modules.html
 [nib]: https://github.com/visionmedia/nib
 [node]: http://nodejs.org
 [requisite]: https://requisitejs.org/
