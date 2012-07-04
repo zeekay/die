@@ -1,10 +1,14 @@
-# Die
-Application and asset management to *die* for.
+Die is a framework for building reusable JavaScript applications. It can be used to build anything
+from a single-page application to a full stack web application framework. Die does it's best to stay out
+of your way, allowing you the utmost in control over your application.
+
+Use the defaults or just what you need and build whatever you want.
 
 ## Features
 
-### Razor-sharp Express DSL
-Die supports a [Zappa-ish][zappa] DSL for Express:
+### Razor-sharp DSL for Express
+Die supports a [Zappa-ish][zappa] DSL for [Express][express] making the already fast process
+of building [Node.js][node] server applications with [Express][express] even faster!
 
 ```javascript
 app = require('die')({
@@ -29,8 +33,8 @@ app.extend ->
 ```
 
 ### CommonJS module support
-JavaScript is an isomorphic language, working on both the browser and server.
-Organize your code using CommonJS and it'll be bundled up automatically with [Requisite][requisite].
+JavaScript is an [isomorphic language][isomorphic], which means it can execute on both the server
+and the client. Die lets you leverage this ability, bundling up all your client code automatically.
 
 ```javascript
 var HomeView = Backbone.View.extend({
@@ -125,6 +129,7 @@ die test
 [bootstrap]: http://twitter.github.com/bootstrap/
 [coffee]: http://coffeescript.org
 [express]: http://expressjs.com/
+[isomorphic]: blog.nodejitsu.com/scaling-isomorphic-javascript-code
 [jade]: http://jade-lang.com/
 [mocha]: https://visionmedia.github.com/mocha/
 [nib]: https://github.com/visionmedia/nib
