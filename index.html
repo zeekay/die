@@ -30,9 +30,10 @@ app.extend(<span class="keyword">function</span>(){
 
 app.extend ->
   @get <span class="string">'/'</span>, -> @render <span class="string">'index'</span></code></pre>
-<h3>CommonJS module support</h3>
-<p>JavaScript is an <a href="blog.nodejitsu.com/scaling-isomorphic-javascript-code">isomorphic language</a>, which means it can execute on both the server
-and the client. Die lets you leverage this ability, bundling up all your client code automatically.
+<h3>Share code between client and server</h3>
+<p>JavaScript is an <a href="blog.nodejitsu.com/scaling-isomorphic-javascript-code">isomorphic language</a>, which means it can execute on both the client
+and server. Die lets you leverage this by allowing you to organize your code into <a href="http://nodejs.org">Node.js</a>
+compatible <a href="http://nodejs.org/api/modules.html">modules</a>.
 
 </p>
 <pre><code class="lang-javascript"><span class="keyword">var</span> HomeView = Backbone.View.extend({
@@ -45,8 +46,12 @@ and the client. Die lets you leverage this ability, bundling up all your client 
   }
 }
 
-<span class="comment">// Export your view and require it from anywhere else in your code.</span>
+<span class="comment">// Exports your view so that it can be used elsewhere in your client code, or even on the server.</span>
 module.exports = HomeView</code></pre>
+<p>Die uses <a href="https://requisitejs.org/">Requisite</a> to package up your client code, resolving dependencies, and bundling
+ everything together for you automatically.
+
+</p>
 <h3>Stylus with nib and Bootstrap baked in</h3>
 <p>Modernize your CSS with <a href="http://learnboost.github.com/stylus/">Stylus</a>! <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="https://github.com/visionmedia/nib">nib</a> baked in:
 
@@ -61,11 +66,13 @@ module.exports = HomeView</code></pre>
 h1
   font-size 20px</code></pre>
 <h3>Awesome testing with Mocha</h3>
-<p><a href="https://visionmedia.github.com/mocha/">Mocha</a> has emerged as the best-in-class JavaScript test framework, and Die supports it out of the box.
+<p><a href="https://visionmedia.github.com/mocha/">Mocha</a> has emerged as a best-in-class JavaScript testing framework, and Die supports it out
+of the box.
 
 </p>
 <h3>Multi-app support</h3>
-<p>By default each app created by Die is reusable by other Die/<a href="http://expressjs.com/">Express</a> apps. Example configuration:
+<p>By default each app created by Die is reusable by other Die/<a href="http://expressjs.com/">Express</a> apps. Example
+configuration:
 
 </p>
 <pre><code class="lang-javascript"><span class="comment">// Add app2's static paths to the stack, make client-side code available.</span>
@@ -78,9 +85,9 @@ app.mount(<span class="string">'/app3'</span>, app3);</code></pre>
 </p>
 <h3>Project Templates</h3>
 <p>Never write boilerplate code again, take advantage of Die&#39;s project templates.
-Structure your projects however you like, each file in a template folder will be treated as a Mustache template
-and can be passed any sort of arbitrary variables when creating a new project with <code>die new</code>. Check out the
-<a href="https://github.com/zeekay/die/tree/master/templates">default templates</a> for examples.
+Structure your projects however you like, each file in a template folder will be treated as a
+Mustache template and can be passed any sort of arbitrary variables when creating a new project
+with <code>die new</code>. Check out the <a href="https://github.com/zeekay/die/tree/master/templates">default templates</a> for examples.
 
 </p>
 <h2>Usage</h2>
