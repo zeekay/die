@@ -132,17 +132,17 @@ Run tests:
 die test
 ```
 
-[backbone]: http://backbonejs.org/
-[bootstrap]: http://twitter.github.com/bootstrap/
+[backbone]: http://backbonejs.org
+[bootstrap]: http://twitter.github.com/bootstrap
 [coffee]: http://coffeescript.org
-[express]: http://expressjs.com/
+[express]: http://expressjs.com
 [isomorphic]: blog.nodejitsu.com/scaling-isomorphic-javascript-code
-[jade]: http://jade-lang.com/
-[mocha]: https://visionmedia.github.com/mocha/
+[jade]: http://jade-lang.com
+[mocha]: https://visionmedia.github.com/mocha
 [modules]: http://nodejs.org/api/modules.html
 [nib]: https://github.com/visionmedia/nib
 [node]: http://nodejs.org
-[requisite]: https://requisitejs.org/
-[stylus]: http://learnboost.github.com/stylus/
+[requisite]: http://requisitejs.org
+[stylus]: http://learnboost.github.com/stylus
 [templates]: https://github.com/zeekay/die/tree/master/templates
 [zappa]: https://github.com/mauricemach/zappa
