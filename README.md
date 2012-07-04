@@ -135,6 +135,7 @@ die test
 [jade]: http://jade-lang.com/
 [mocha]: https://visionmedia.github.com/mocha/
 [nib]: https://github.com/visionmedia/nib
+[node]: http://nodejs.org
 [requisite]: https://requisitejs.org/
 [stylus]: http://learnboost.github.com/stylus/
 [templates]: https://github.com/zeekay/die/tree/master/templates
