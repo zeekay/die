@@ -1,35 +1,25 @@
+{patcher} = require './utils'
+
 # Extend an express app with a zappa-ish DSL
-module.exports = extend = (app, func) ->
+module.exports = (app, func) ->
 
-  patched = []
-
-  patch = (name, replacement) ->
-    if app[name]
-      app["__orig__#{name}"] = app[name]
-    app[name] = replacement
-    patched.push name
-
-  unpatch = ->
-    for name in patched
-      if app["__orig__#{name}"]
-        app[name] = app["__orig__#{name}"]
-        delete app["__orig__#{name}"]
-      else
-        delete app[name]
+  # create monkey patching utilities
+  {patch, unpatch} = patcher app
 
   # configuration shortcuts
+  app.__orig__configure = app.configure
   patch 'configure', (env, func) ->
-    if not func
-      app.__configure ->
-        env.call app
-    else
-      app.__configure env, ->
+    if func
+      app.__orig__configure env, ->
         func.call app
+    else
+      app.__orig__configure ->
+        env.call app
 
   for env in ['development', 'production', 'test']
-    do (env) ->
-      patch env, (func) ->
-        app.configure env, func
+    patch env, (func) ->
+      app.__orig__configure env, ->
+        func.call app
 
   # setup specialized route handlers
   for verb in ['all', 'get', 'post', 'put', 'del']

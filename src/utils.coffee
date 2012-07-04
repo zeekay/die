@@ -20,6 +20,27 @@ exports.extend = extend = (obj, ext...) ->
         obj[key] = extend obj[key], val
   obj
 
+# Monkey-patch, unpatch existing object.
+exports.patcher = (obj, prefix = '__orig__') ->
+  patched = []
+  patcher =
+    patch: (name, replacement) ->
+      if obj[name]
+        obj[prefix+name] = obj[name]
+      obj[name] = replacement
+      patched.push name
+      return
+
+    unpatch: ->
+      while patched.length
+        name = patched.pop()
+        if obj[prefix+name]
+          obj[name] = obj[prefix+name]
+          delete obj[prefix+name]
+        else
+          delete obj[name]
+        return
+
 exports.concatRead = (files) ->
   if not Array.isArray files
     files = [files]
