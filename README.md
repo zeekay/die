@@ -41,16 +41,15 @@ compatible [modules][modules].
 
 ```javascript
 var HomeView = Backbone.View.extend({
-  // Require a template in to your Backbone view, which is bundled up as a javascript function.
+  // Require another module (a compiled template) in to your Backbone view.
   template: require('./templates/home'),
   render: function() {
-    // We just call our required template, rendering it out.
     $(this.el).html(this.template())
     return this;
   }
 }
 
-// Exports your view so that it can be used elsewhere in your client code, or even on the server.
+// Export your view so that it can be used from other modules.
 module.exports = HomeView
 ```
 
