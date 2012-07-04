@@ -9,8 +9,8 @@ of your way, allowing you the utmost in control over your application.
 </p>
 <h2>Features</h2>
 <h3>Razor-sharp DSL for Express</h3>
-<p>Die supports a <a href="https://github.com/mauricemach/zappa">Zappa-ish</a> DSL for <a href="http://expressjs.com/">Express</a> making the already fast process
-of building <a href="http://nodejs.org">Node.js</a> server applications with <a href="http://expressjs.com/">Express</a> even faster!
+<p>Die supports a <a href="https://github.com/mauricemach/zappa">Zappa-ish</a> DSL for <a href="http://expressjs.com">Express</a> making the already fast process
+of building <a href="http://nodejs.org">Node.js</a> server applications with <a href="http://expressjs.com">Express</a> even faster!
 
 </p>
 <pre><code class="lang-javascript">app = require(<span class="string">'die'</span>)({
@@ -37,23 +37,22 @@ compatible <a href="http://nodejs.org/api/modules.html">modules</a>.
 
 </p>
 <pre><code class="lang-javascript"><span class="keyword">var</span> HomeView = Backbone.View.extend({
-  <span class="comment">// Require a template in to your Backbone view, which is bundled up as a javascript function.</span>
+  <span class="comment">// Require another module (a compiled template) in to your Backbone view.</span>
   template: require(<span class="string">'./templates/home'</span>),
   render: <span class="keyword">function</span>() {
-    <span class="comment">// We just call our required template, rendering it out.</span>
     $(<span class="keyword">this</span>.el).html(<span class="keyword">this</span>.template())
     <span class="keyword">return</span> <span class="keyword">this</span>;
   }
 }
 
-<span class="comment">// Exports your view so that it can be used elsewhere in your client code, or even on the server.</span>
+<span class="comment">// Export your view so that it can be used from other modules.</span>
 module.exports = HomeView</code></pre>
-<p>Die uses <a href="https://requisitejs.org/">Requisite</a> to package up your client code, resolving dependencies, and bundling
+<p>Die uses <a href="http://requisitejs.org">Requisite</a> to package up your client code, resolving dependencies, and bundling
  everything together for you automatically.
 
 </p>
 <h3>Stylus with nib and Bootstrap baked in</h3>
-<p>Modernize your CSS with <a href="http://learnboost.github.com/stylus/">Stylus</a>! <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="https://github.com/visionmedia/nib">nib</a> baked in:
+<p>Modernize your CSS with <a href="http://learnboost.github.com/stylus">Stylus</a>! <a href="http://twitter.github.com/bootstrap">Bootstrap</a> and <a href="https://github.com/visionmedia/nib">nib</a> baked in:
 
 </p>
 <pre><code class="lang-css">// everything
@@ -66,12 +65,12 @@ module.exports = HomeView</code></pre>
 h1
   font-size 20px</code></pre>
 <h3>Awesome testing with Mocha</h3>
-<p><a href="https://visionmedia.github.com/mocha/">Mocha</a> has emerged as a best-in-class JavaScript testing framework, and Die supports it out
+<p><a href="https://visionmedia.github.com/mocha">Mocha</a> has emerged as a best-in-class JavaScript testing framework, and Die supports it out
 of the box.
 
 </p>
 <h3>Multi-app support</h3>
-<p>By default each app created by Die is reusable by other Die/<a href="http://expressjs.com/">Express</a> apps. Example
+<p>By default each app created by Die is reusable by other Die/<a href="http://expressjs.com">Express</a> apps. Example
 configuration:
 
 </p>
