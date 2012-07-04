@@ -25,8 +25,7 @@ app = require('die')
     base: __dirname
 
 app.extend ->
-  @get '/', ->
-    @render 'index'
+  @get '/', -> @render 'index'
 ```
 
 ### CommonJS module support
