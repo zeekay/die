@@ -1,10 +1,15 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="chrome=1"><title>die by zeekay</title><link rel="stylesheet" href="stylesheets/styles.css"><link rel="stylesheet" href="stylesheets/pygment_trac.css"><link rel="stylesheet" href="stylesheets/code.css"><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><!--if lt IE 9--></head><body><div class="wrapper"><header><h1>die</h1><p>Application and asset management to die for.</p><p class="view"><a href="https://github.com/zeekay/die">View the Project on GitHub<small>zeekay/die</small></a></p><ul><li><a href="https://github.com/zeekay/die/zipball/master">Download<strong>ZIP File</strong></a></li><li><a href="https://github.com/zeekay/die/tarball/master">Download<strong>TAR Ball</strong></a></li><li><a href="https://github.com/zeekay/die">View On<strong>GitHub</strong></a></li></ul></header><section><p><h1>Die</h1>
-<p>Application and asset management to <em>die</em> for.
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="chrome=1"><title>die by zeekay</title><link rel="stylesheet" href="stylesheets/styles.css"><link rel="stylesheet" href="stylesheets/pygment_trac.css"><link rel="stylesheet" href="stylesheets/code.css"><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><!--if lt IE 9--></head><body><div class="wrapper"><header><h1>die</h1><p>Application and asset management to die for.</p><p class="view"><a href="https://github.com/zeekay/die">View the Project on GitHub<small>zeekay/die</small></a></p><ul><li><a href="https://github.com/zeekay/die/zipball/master">Download<strong>ZIP File</strong></a></li><li><a href="https://github.com/zeekay/die/tarball/master">Download<strong>TAR Ball</strong></a></li><li><a href="https://github.com/zeekay/die">View On<strong>GitHub</strong></a></li></ul></header><section><p><p>Die is a framework for building reusable JavaScript applications. It can be used to build anything
+from a single-page application to a full stack web application framework. Die does it&#39;s best to stay out
+of your way, allowing you the utmost in control over your application.
+
+</p>
+<p>Use the defaults or just what you need and build whatever you want.
 
 </p>
 <h2>Features</h2>
-<h3>Razor-sharp Express DSL</h3>
-<p>Die supports a <a href="https://github.com/mauricemach/zappa">Zappa-ish</a> DSL for Express:
+<h3>Razor-sharp DSL for Express</h3>
+<p>Die supports a <a href="https://github.com/mauricemach/zappa">Zappa-ish</a> DSL for <a href="http://expressjs.com/">Express</a> making the already fast process
+of building [Node.js][node] server applications with <a href="http://expressjs.com/">Express</a> even faster!
 
 </p>
 <pre><code class="lang-javascript">app = require(<span class="string">'die'</span>)({
@@ -25,8 +30,8 @@ app.extend(<span class="keyword">function</span>(){
 app.extend ->
   @get <span class="string">'/'</span>, -> @render <span class="string">'index'</span></code></pre>
 <h3>CommonJS module support</h3>
-<p>JavaScript is an isomorphic language, working on both the browser and server.
-Organize your code using CommonJS and it&#39;ll be bundled up automatically with <a href="https://requisitejs.org/">Requisite</a>.
+<p>JavaScript is an <a href="blog.nodejitsu.com/scaling-isomorphic-javascript-code">isomorphic language</a>, which means it can execute on both the server
+and the client. Die lets you leverage this ability, bundling up all your client code automatically.
 
 </p>
 <pre><code class="lang-javascript"><span class="keyword">var</span> HomeView = Backbone.View.extend({
