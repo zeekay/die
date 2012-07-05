@@ -40,4 +40,4 @@ module.exports = (trigger) ->
     patch method, (original) ->
       ->
         watch(file) if file = arguments[idx]
-        original.apply @, arguments
+        original arguments

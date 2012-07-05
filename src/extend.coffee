@@ -10,10 +10,10 @@ module.exports = extend = (app, func) ->
   patch 'configure', (original) ->
     (env, func) ->
       if func
-        original.call app, env, ->
+        original env, ->
           func.call app
       else
-        original.call app, ->
+        original ->
           env.call app
 
   for env in ['development', 'production', 'test']
@@ -25,7 +25,7 @@ module.exports = extend = (app, func) ->
   for verb in ['all', 'get', 'post', 'put', 'del']
     patch verb, (original) ->
       (path, handler) ->
-        original.call app, path, (req, res, next) ->
+        original path, (req, res, next) ->
           ctx =
             app: app
             body: req.body

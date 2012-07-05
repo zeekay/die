@@ -24,9 +24,14 @@ exports.extend = extend = (obj, ext...) ->
 exports.patcher = (obj) ->
   patched = []
   patcher =
-    patch: (name, fn) ->
+    patch: (name, func) ->
       original = obj[name]
-      replacement = fn(original)
+      if typeof original is 'function'
+        wrapper = ->
+          original.apply obj, arguments
+        replacement = func wrapper
+      else
+        replacement = func original
       obj[name] = replacement
       patched.push [name, original]
       return
