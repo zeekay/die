@@ -2,9 +2,11 @@ middleware = {}
 
 # Export common express middleware lazily.
 for mw in ['bodyParser', 'cookieParser', 'errorHandler', 'methodOverride', 'session']
-  do (mw) =>
+  do (mw) ->
     Object.defineProperty middleware, mw,
-      get: -> require('express')[mw]
+      enumerable: true
+      get: ->
+        require('express')[mw]
 
 # Connect/Express middleware for bundling static resources such as JavaScript/CoffeeScript.
 middleware.bundle = (bundles, opts={}) ->

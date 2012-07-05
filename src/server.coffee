@@ -7,7 +7,8 @@ exports.extend = (app, func) ->
   extend app, func
 
 exports.createServer = (func) ->
-  extend express.createServer(), func
+  app = express.createServer()
+  extend app, func
 
 exports.default = (opts) ->
   ->
@@ -50,3 +51,4 @@ exports.default = (opts) ->
     @test ->
       # listen on a different port when running tests
       @set 'port', opts.port + 1
+    @

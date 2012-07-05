@@ -7,7 +7,10 @@ module.exports = extend = (app, func) ->
   {patch, unpatch} = patcher app
 
   # configuration shortcuts
+  configure = null
   patch 'configure', (original) ->
+    # Save a reference for the other helper methods
+    configure = original
     (env, func) ->
       if func
         original env, ->
@@ -18,8 +21,10 @@ module.exports = extend = (app, func) ->
 
   for env in ['development', 'production', 'test']
     patch env, ->
-      (func) ->
-        app.configure env, func
+      do (env) ->
+        (func) ->
+          configure.call app, env, ->
+            func.call app
 
   # setup specialized route handlers
   for verb in ['all', 'get', 'post', 'put', 'del']
