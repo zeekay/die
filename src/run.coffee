@@ -1,14 +1,17 @@
-cluster = require("cluster")
-{join}  = require 'path'
+cluster  = require 'cluster'
+{join}   = require 'path'
+{notify} = require './utils'
 
-reload = ->
+exports.reload = reload = ->
+  notify
+    title: 'Die'
+    message: 'Changes detected, automatically reloading'
   for id, worker of cluster.workers
     worker.destroy()
 
-module.exports = (app, {port, watch, workers} = {}) ->
+exports.run = (app, {port, workers} = {}) ->
   app = app.app if app.app
   workers ?= 1
-  watch ?= true
   port ?= process.env.PORT or 3000
 
   if cluster.isMaster

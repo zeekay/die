@@ -1,4 +1,3 @@
-Die             = require './die'
 program         = require 'jade/node_modules/commander'
 {existsSync}    = require './utils'
 {dirname, join} = require 'path'
@@ -15,7 +14,7 @@ appOrDefault = (opts) ->
   if mod
     app = require mod
     # If we actually have a Die app instance, use it
-    if app instanceof Die
+    if app instanceof require('./die')
       return app
 
   # Return default Die app
@@ -68,14 +67,19 @@ module.exports = ->
     .description('  serve project')
     .option('-a, --app [module]', 'app to run')
     .option('-p, --port [number]', 'port to run server on')
+    .option('-r, --reload', 'automatically reload on file changes')
     .option('-w, --workers [number]', 'number of workers processes to run')
-    .action ({app, port, workers}) ->
-      Die = require './die'
+    .action ({app, port, reload, workers}) ->
       port ?= process.env.PORT ?= 3000
       workers ?= 1
+
+      {run} = require './run'
+      if reload
+        require('./reloader') require('./run').reload
+
       app ?= appOrDefault()
 
-      require('./run') app,
+      run app,
         port: port
         workers: workers
 

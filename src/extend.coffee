@@ -1,39 +1,39 @@
 {patcher} = require './utils'
 
 # Extend an express app with a zappa-ish DSL
-module.exports = (app, func) ->
+module.exports = extend = (app, func) ->
 
   # create monkey patching utilities
   {patch, unpatch} = patcher app
 
   # configuration shortcuts
-  app.__orig__configure = app.configure
-  patch 'configure', (env, func) ->
-    if func
-      app.__orig__configure env, ->
-        func.call app
-    else
-      app.__orig__configure ->
-        env.call app
+  patch 'configure', (original) ->
+    (env, func) ->
+      if func
+        original.call app, env, ->
+          func.call app
+      else
+        original.call app, ->
+          env.call app
 
   for env in ['development', 'production', 'test']
-    patch env, (func) ->
-      app.__orig__configure env, ->
-        func.call app
+    patch env, ->
+      (func) ->
+        app.configure env, func
 
   # setup specialized route handlers
   for verb in ['all', 'get', 'post', 'put', 'del']
-    do (verb) ->
-      patch verb, (path, handler) ->
-        app["__orig_#{verb}"] path, (req, res, next) ->
+    patch verb, (original) ->
+      (path, handler) ->
+        original.call app, path, (req, res, next) ->
           ctx =
             app: app
             body: req.body
             next: next
             params: req.params
             query: req.query
-            request: req
-            response: res
+            req: req
+            res: res
             session: req.session
             settings: app.settings
             json: -> res.json.apply res, arguments
@@ -43,15 +43,16 @@ module.exports = (app, func) ->
           handler.apply ctx, req.params
 
   # Shortcut to add routes
-  patch 'addRoutes', (routes) ->
-    if not Array.isArray routes
-      routes = [routes]
+  patch 'addRoutes', ->
+    (routes) ->
+      if not Array.isArray routes
+        routes = [routes]
 
-    for route in routes
-      route.call app
+      for route in routes
+        extend app, route
 
   # Expose middleware
-  patch 'middleware', require './middleware'
+  patch 'middleware', -> require './middleware'
 
   # Extend app using func
   func.call app

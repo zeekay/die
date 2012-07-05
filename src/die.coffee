@@ -17,12 +17,12 @@ class Die
 
     # Lazily create default app
     Object.defineProperty @, 'app',
+      configurable: true
+      enumerable: true
       get: =>
         # Replace accessor with @app
         delete @app
         @app = @createServer server.default(@options)
-        enumerable: true
-        configurable: true
 
   # update options using configuration file or object
   updateOptions: (options) ->
@@ -38,10 +38,10 @@ class Die
     require('./build')(@options)
 
   createServer: (func) ->
-    @_app = server.createServer func
+    @app = server.createServer func
 
   extend: (func) ->
-    server.extend @app, func
+    require('./extend') @app, func
     @
 
   inject: (dieApp) ->
@@ -55,6 +55,6 @@ class Die
     @
 
   run: (opts = @options) ->
-    require('./run')(@app, opts)
+    require('./run').run(@app, opts)
 
 module.exports = Die

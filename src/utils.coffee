@@ -21,25 +21,21 @@ exports.extend = extend = (obj, ext...) ->
   obj
 
 # Monkey-patch, unpatch existing object.
-exports.patcher = (obj, prefix = '__orig__') ->
+exports.patcher = (obj) ->
   patched = []
   patcher =
-    patch: (name, replacement) ->
-      if obj[name]
-        obj[prefix+name] = obj[name]
+    patch: (name, fn) ->
+      original = obj[name]
+      replacement = fn(original)
       obj[name] = replacement
-      patched.push name
+      patched.push [name, original]
       return
 
     unpatch: ->
       while patched.length
-        name = patched.pop()
-        if obj[prefix+name]
-          obj[name] = obj[prefix+name]
-          delete obj[prefix+name]
-        else
-          delete obj[name]
-        return
+        [name, original] = patched.pop()
+        obj[name] = original
+      return
 
 exports.concatRead = (files) ->
   if not Array.isArray files
@@ -126,3 +122,8 @@ exports.exec = (args, callback) ->
   proc.on 'exit', (code) ->
     if typeof callback is 'function'
       callback null, code
+
+exports.notify = ({icon, message, title}) ->
+  icon ?= '../assets/node.ico'
+  title ?= 'Die'
+  spawn '../assets/notify.sh', [icon, message, title]
