@@ -1,7 +1,7 @@
 fs     = require 'fs'
 minify = require './minify'
 wrench = require 'wrench'
-{join} = require 'path'
+{dirname, join} = require 'path'
 
 {existsSync} = require './utils'
 
