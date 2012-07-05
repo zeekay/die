@@ -11,7 +11,7 @@ appOrDefault = (opts) ->
     mod = false
 
   # Try to require Die app
-  {Die} = require('./die')
+  Die = require('./die')
   if mod
     app = require mod
     # If we actually have a Die app instance, use it
