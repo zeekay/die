@@ -11,10 +11,11 @@ appOrDefault = (opts) ->
     mod = false
 
   # Try to require Die app
+  Die = require './die'
   if mod
     app = require mod
     # If we actually have a Die app instance, use it
-    if app instanceof require('./die')
+    if app instanceof Die
       return app
 
   # Return default Die app
