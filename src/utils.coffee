@@ -132,3 +132,15 @@ exports.notify = ({icon, message, title}) ->
   icon ?= '../assets/node.ico'
   title ?= 'Die'
   spawn '../assets/notify.sh', [icon, message, title]
+
+# Requires all the files from a directory
+exports.requireAll = (dir, {exclude} = {}) ->
+  exclude ?= []
+  allowed = (file) ->
+    for excluded in exclude
+      if file == excluded or file == dir
+        return false
+    true
+
+  files = (path.join dir, file for file in fs.readdirSync dir).filter allowed
+  (require file for file in files)

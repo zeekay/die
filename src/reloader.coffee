@@ -14,7 +14,7 @@ module.exports = (trigger) ->
           watched.push dir
           options =
             persistent: true
-            interval: 400
+            interval: 500
             ignoreDotfiles: true
           watchTree dir, options, (file, curr, prev) =>
             if curr and (curr.nlink is 0 or +curr.mtime isnt +prev?.mtime)

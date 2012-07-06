@@ -1,6 +1,7 @@
 cluster  = require 'cluster'
 {join}   = require 'path'
 {notify} = require './utils'
+reloader = require './reloader'
 
 exports.reload = reload = ->
   notify

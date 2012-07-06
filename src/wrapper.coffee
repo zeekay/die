@@ -18,9 +18,15 @@ for mod in readdirSync __dirname
         get: -> require join __dirname, mod
         enumerable: true
 
-# Borrow version information from `package.json`.
-Object.defineProperty wrapper, 'version',
-  get: -> require('../package.json').version
-  enumerable: true
+# Extra properties to export
+extra =
+  'version': '../package.json'
+  # 'requireAll': './utils'
+
+for property, mod of extra
+  do (property, mod) ->
+    Object.defineProperty wrapper, property,
+      get: -> require(mod)[property]
+      enumerable: true
 
 module.exports = wrapper

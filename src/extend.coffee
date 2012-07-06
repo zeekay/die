@@ -47,17 +47,17 @@ module.exports = extend = (app, func) ->
             send: -> res.send.apply res, arguments
           handler.apply ctx, req.params
 
-  # Shortcut to add routes
-  patch 'addRoutes', ->
-    (routes) ->
-      if not Array.isArray routes
-        routes = [routes]
-
-      for route in routes
-        extend app, route
-
   # Expose middleware
   patch 'middleware', -> require './middleware'
+
+  # Helper method
+  patch 'apply', ->
+    (funcs) ->
+      if not Array.isArray funcs
+        funcs = [funcs]
+
+      for _func in funcs
+        _func.call app
 
   # Extend app using func
   func.call app
