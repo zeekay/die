@@ -3,6 +3,7 @@ server = require './server'
 {join} = require 'path'
 
 class Die
+  apps: []
   constructor: (options = {}) ->
     # Clone default options
     @options = extend {}, require './defaults'
