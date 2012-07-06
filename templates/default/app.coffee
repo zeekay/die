@@ -5,7 +5,7 @@ app = require('die')
   base: __dirname
 
 app.extend ->
-  @set 'view options'
+  @set 'view options',
     layout: false
 
   @get '/', ->
