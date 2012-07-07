@@ -2,6 +2,9 @@ program         = require 'jade/node_modules/commander'
 {existsSync}    = require './utils'
 {dirname, join} = require 'path'
 
+# Try to require Die app
+Die = require('./die')
+
 # Return app in current working directory, or default Die app
 appOrDefault = (opts) ->
   # Try to resolve current directory
@@ -10,8 +13,6 @@ appOrDefault = (opts) ->
   catch err
     mod = false
 
-  # Try to require Die app
-  Die = require('./die')
   if mod
     app = require mod
     # If we actually have a Die app instance, use it
@@ -74,9 +75,10 @@ module.exports = ->
       port ?= process.env.PORT ?= 3000
       workers ?= 1
 
-      {run} = require './run'
+      {run, reload} = require './run'
+
       if reload
-        require('./reloader') require('./run').reload
+        require('./reloader') reload
 
       app ?= appOrDefault()
 

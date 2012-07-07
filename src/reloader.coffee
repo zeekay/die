@@ -2,7 +2,6 @@ path = require 'path'
 fs   = require 'fs'
 vm   = require 'vm'
 {patcher} = require './utils'
-{watchTree} = require 'watch'
 
 module.exports = (trigger) ->
   if require('cluster').isMaster
@@ -12,13 +11,7 @@ module.exports = (trigger) ->
         dir = path.dirname file
         if dir not in watched
           watched.push dir
-          options =
-            persistent: true
-            interval: 500
-            ignoreDotfiles: true
-          watchTree dir, options, (file, curr, prev) =>
-            if curr and (curr.nlink is 0 or +curr.mtime isnt +prev?.mtime)
-              trigger()
+          fs.watch dir, -> trigger()
 
     hooks = {}
 
