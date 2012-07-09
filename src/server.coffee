@@ -19,8 +19,15 @@ exports.default = (opts) ->
       dir = join opts.base, '/views'
       if existsSync dir
         @set 'views', dir
-        # use jade by default
+        # Use jade by default
         @set 'view engine', 'jade'
+        # Disable layouts
+        @set 'view options',
+          layout: false
+
+    @development ->
+      # Enable logging
+      @use express.logger()
 
       # setup static file serving
       dir = join opts.base, opts.staticPath
@@ -30,7 +37,6 @@ exports.default = (opts) ->
         # serve cwd if public dir doesn't exist.
         @use express.static opts.base
 
-    @development ->
       # Serve bundles
       bundles = {}
 
@@ -41,14 +47,8 @@ exports.default = (opts) ->
       if Object.keys(bundles).length > 0
         @use require('./middleware').bundle(bundles)
 
-      # Enable logger and pretty stack traces
-      @use express.logger()
-      @use express.errorHandler {dumpExceptions: true, showStack: true}
-
-    @production ->
-      @use express.errorHandler()
-
     @test ->
       # listen on a different port when running tests
       @set 'port', opts.port + 1
+
     @

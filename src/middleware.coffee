@@ -11,7 +11,7 @@ for mw in ['bodyParser', 'cookieParser', 'errorHandler', 'methodOverride', 'sess
 # Connect/Express middleware for bundling static resources such as JavaScript/CoffeeScript.
 middleware.bundle = (bundles, opts={}) ->
   maxAge = opts.maxAge or 0
-  (req, res, next) ->
+  _bundle = (req, res, next) ->
     url = req.url
     return next() if not (fn = bundles[url])
 
@@ -38,5 +38,7 @@ middleware.bundle = (bundles, opts={}) ->
       res.writeHead 200
       res.end body, 'utf8'
 
+  # Wrap this is a named function to make debugging easier.
+  `function bundle(req, res, next) { return _bundle(req, res, next); };`
 
 module.exports = middleware

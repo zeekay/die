@@ -56,6 +56,6 @@ class Die
     @
 
   run: (opts = @options) ->
-    require('./run').run(@app, opts)
+    @app.listen opts.port or 3000
 
 module.exports = Die

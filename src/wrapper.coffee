@@ -11,7 +11,7 @@ wrapper.run = -> wrapper().run()
 
 # Lazily export other modules
 for mod in readdirSync __dirname
-  if not (/index|die|wrapper/.test mod)
+  if not (/index|die|wrapper|worker/.test mod)
     do (mod) ->
       name = basename(mod).split('.')[0]
       Object.defineProperty wrapper, name,
