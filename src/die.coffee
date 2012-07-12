@@ -56,7 +56,8 @@ class Die
     @
 
   run: (opts = @options) ->
-    @app.listen opts.port or 3000
-    console.log "die #{app.settings.env} server up and running at http://localhost:#{opts.port}"
+    port = opts.port or 3000
+    @app.listen port
+    console.log "die #{@app.settings.env} server up and running at http://localhost:#{port}"
 
 module.exports = Die
