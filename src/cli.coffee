@@ -1,24 +1,14 @@
-program         = require 'jade/node_modules/commander'
-{existsSync}    = require './utils'
-{dirname, join} = require 'path'
+program      = require 'jade/node_modules/commander'
+{existsSync} = require './utils'
+{dirname, join, resolve} = require 'path'
 
 # Return app in current working directory, or default Die app
 appOrDefault = (opts) ->
   # Try to resolve current directory
   try
-    mod = require.resolve process.cwd()
+    require.resolve process.cwd()
   catch err
-    mod = false
-
-  # Try to require Die app
-  if mod
-    app = require mod
-    # If we actually have a Die app instance, use it
-    if app instanceof require('./die')
-      return app
-
-  # Return default Die app
-  new Die
+    path.resolve './die'
 
 # Commandline handler
 module.exports = ->
@@ -70,17 +60,15 @@ module.exports = ->
     .option('-r, --reload', 'automatically reload on file changes')
     .option('-w, --workers [number]', 'number of workers processes to run')
     .action ({app, port, reload, workers}) ->
+      app ?= appOrDefault()
       port ?= process.env.PORT ?= 3000
+      reload ?= false
       workers ?= 1
 
-      {run} = require './run'
-      if reload
-        require('./reloader') require('./run').reload
-
-      app ?= appOrDefault()
-
-      run app,
+      require('./run')
+        app: app
         port: port
+        reload: reload
         workers: workers
 
   program

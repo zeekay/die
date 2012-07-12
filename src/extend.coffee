@@ -28,17 +28,9 @@ module.exports = extend = (app, func) ->
 
   # setup specialized route handlers
   for verb in ['all', 'get', 'post', 'put', 'del']
-    # SNTX TODO delete console.logs
-    # SNTX STOP TODO get previous commit and console log req, res, etc..
-    console.log verb
     patch verb, (original) ->
       (path, handler) ->
         original path, (req, res, next) ->
-          console.log original.toString()
-          console.log path
-          #console.log req.name
-          #console.log res.name
-          #console.log next.name
           ctx =
             app: app
             body: req.body
@@ -55,19 +47,17 @@ module.exports = extend = (app, func) ->
             send: -> res.send.apply res, arguments
           handler.apply ctx, req.params
 
-  # Shortcut to add routes
-  patch 'addRoutes', ->
-    (routes) ->
-      #console.log "SNTX: inside addRoutes"
-      if not Array.isArray routes
-        routes = [routes]
-
-      for route in routes
-        #console.log route.toString()
-        extend app, route
-
   # Expose middleware
   patch 'middleware', -> require './middleware'
+
+  # Helper method
+  patch 'apply', ->
+    (funcs) ->
+      if not Array.isArray funcs
+        funcs = [funcs]
+
+      for _func in funcs
+        _func.call app
 
   # Extend app using func
   func.call app

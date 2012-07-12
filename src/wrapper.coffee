@@ -11,16 +11,22 @@ wrapper.run = -> wrapper().run()
 
 # Lazily export other modules
 for mod in readdirSync __dirname
-  if not (/index|die|wrapper/.test mod)
+  if not (/index|die|wrapper|worker/.test mod)
     do (mod) ->
       name = basename(mod).split('.')[0]
       Object.defineProperty wrapper, name,
         get: -> require join __dirname, mod
         enumerable: true
 
-# Borrow version information from `package.json`.
-Object.defineProperty wrapper, 'version',
-  get: -> require('../package.json').version
-  enumerable: true
+# Extra properties to export
+extra =
+  'version': '../package.json'
+  # 'requireAll': './utils'
+
+for property, mod of extra
+  do (property, mod) ->
+    Object.defineProperty wrapper, property,
+      get: -> require(mod)[property]
+      enumerable: true
 
 module.exports = wrapper

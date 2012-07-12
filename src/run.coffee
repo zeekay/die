@@ -1,47 +1,75 @@
 cluster  = require 'cluster'
+fs       = require 'fs'
 {join}   = require 'path'
 {notify} = require './utils'
 
-exports.reload = reload = ->
+# Reload all workers
+reload = ->
   notify
     title: 'Die'
-    message: 'Changes detected, automatically reloading'
+    message: 'Change detected, automatically reloading'
   for id, worker of cluster.workers
     worker.destroy()
 
-exports.run = (app, {port, workers} = {}) ->
-  app = app.app if app.app
-  workers ?= 1
-  port ?= process.env.PORT or 3000
+# Start up debugger
+debug = ->
+  for id, worker of cluster.workers
+    # Only kill first worker
+    pid = worker.process.pid
+    require('child_process').exec "kill -s 30 #{pid}"
+    return
 
-  if cluster.isMaster
-    # Handle keypresses
-    process.stdin.resume()
-    process.stdin.setEncoding "utf8"
-    process.stdin.setRawMode true
-    process.stdin.on "data", (char) ->
-      switch char
-        when "\u0003" # ctrl-c
-          process.exit()
-        when "\u0004" # ctrl-d
-          process.exit()
-        when "q"
-          process.exit()
-        when "\u0012" # ctrl-r
-          reload()
-        when "r"
-          reload()
+# Watch files for changes
+watch = do ->
+  watched = {}
+  ({filename}) ->
+    # We only support fs.watch
+    return if not fs.watch
 
-    # Fork workers
-    for i in [1..workers]
-      cluster.fork()
+    if watched[filename]
+      watched[filename].close()
+    watched[filename] = fs.watch filename, -> reload()
 
-    cluster.on "listening", (worker, addr) ->
-      console.log "worker #{worker.id} up @ http://#{addr.address}:#{addr.port}"
+module.exports = ({app, port, workers} = {}) ->
+  # Configure forking behavior
+  cluster.setupMaster
+    silent: false
+    # Have to use compiled worker.coffee
+    exec: join __dirname, '..', 'lib/worker.js'
 
-    cluster.on "exit", (worker, code, signal) ->
-      exitCode = worker.process.exitCode
-      console.log "worker #{worker.id} died (#{exitCode}). restarting..."
-      cluster.fork()
-  else
-    app.listen port
+  # Fork workers
+  for i in [1..workers]
+    worker = cluster.fork
+      app: app
+      port: port
+    worker.on 'message', watch
+
+  cluster.on "listening", (worker, addr) ->
+    console.log "worker #{worker.id} up @ http://#{addr.address}:#{addr.port}"
+
+  cluster.on "exit", (worker, code, signal) ->
+    exitCode = worker.process.exitCode
+    console.log "worker #{worker.id} died (#{exitCode}). restarting..."
+    worker = cluster.fork
+      app: app
+      port: port
+    worker.on 'message', watch
+
+  # Handle keypresses
+  process.stdin.resume()
+  process.stdin.setEncoding "utf8"
+  process.stdin.setRawMode true
+  process.stdin.on "data", (char) ->
+    switch char
+      when "\u0003" # ctrl-c
+        process.exit()
+      when "\u0004" # ctrl-d
+        debug()
+      when "d"
+        debug()
+      when "q"
+        process.exit()
+      when "\u0012" # ctrl-r
+        reload()
+      when "r"
+        reload()

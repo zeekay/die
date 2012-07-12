@@ -38,8 +38,12 @@ exports.patcher = (obj) ->
 
     unpatch: ->
       while patched.length
+        console.log name
         [name, original] = patched.pop()
-        obj[name] = original
+        if original
+          obj[name] = original
+        else
+          delete obj[name]
       return
 
 exports.concatRead = (files) ->
@@ -132,3 +136,18 @@ exports.notify = ({icon, message, title}) ->
   icon ?= '../assets/node.ico'
   title ?= 'Die'
   spawn '../assets/notify.sh', [icon, message, title]
+
+# Requires all the files from a directory
+exports.requireAll = (dir, {exclude} = {}) ->
+  exclude ?= []
+
+  allowed = (file) ->
+    for excluded in exclude
+      if file == excluded or file == dir
+        return false
+    if /\/index\.\w+$/.test file
+      return false
+    true
+
+  files = (path.join dir, file for file in fs.readdirSync dir).filter allowed
+  (require file for file in files)

@@ -3,6 +3,7 @@ server = require './server'
 {join} = require 'path'
 
 class Die
+  apps: []
   constructor: (options = {}) ->
     # Clone default options
     @options = extend {}, require './defaults'
@@ -55,6 +56,8 @@ class Die
     @
 
   run: (opts = @options) ->
-    require('./run').run(@app, opts)
+    port = opts.port or 3000
+    @app.listen port
+    console.log "die #{@app.settings.env} server up and running at http://localhost:#{port}"
 
 module.exports = Die
