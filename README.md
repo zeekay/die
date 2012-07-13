@@ -146,3 +146,16 @@ die test
 [stylus]: http://learnboost.github.com/stylus
 [templates]: https://github.com/zeekay/die/tree/master/templates
 [zappa]: https://github.com/mauricemach/zappa
+
+## Development
+
+Before you can hack on die you need to:
+
+* Clone your forks of [Requisite][requisite] and die in the same parent folder
+
+* Set up [Requisite][requisite]
+  * `cd requisite/; npm install && cake build`
+
+* Set up die
+  * `cd../die/; git branch develop; git co develop`
+  * `npm install && npm link ../requisite && cake build`
