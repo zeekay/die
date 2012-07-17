@@ -3,18 +3,26 @@ program      = require 'jade/node_modules/commander'
 {dirname, join, resolve} = require 'path'
 
 # Return app in current working directory, or default Die app
-appOrDefault = (opts) ->
+appOrDefault = (app) ->
+  app = if app then resolve app else null
   # Try to resolve current directory
   try
-    require.resolve process.cwd()
+    require.resolve app ? process.cwd()
   catch err
-    path.resolve './die'
+    resolve './die'
 
 # Commandline handler
 module.exports = ->
   program
+    .command('*')
     .version(require('../package.json').version)
     .usage('[command] [options]')
+    .action (file) ->
+      # Reconstruct arguments and run again
+      args = process.argv.splice 0, 2
+      for arg in ['run', '--app', file]
+        args.push arg
+      program.parse args
 
   program
     .command('build')
@@ -60,7 +68,7 @@ module.exports = ->
     .option('-r, --reload', 'automatically reload on file changes')
     .option('-w, --workers [number]', 'number of workers processes to run')
     .action ({app, port, reload, workers}) ->
-      app ?= appOrDefault()
+      app = appOrDefault app
       port ?= process.env.PORT ?= 3000
       reload ?= false
       workers ?= 1

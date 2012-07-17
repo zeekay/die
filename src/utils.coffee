@@ -38,7 +38,6 @@ exports.patcher = (obj) ->
 
     unpatch: ->
       while patched.length
-        console.log name
         [name, original] = patched.pop()
         if original
           obj[name] = original
