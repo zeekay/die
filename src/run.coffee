@@ -37,7 +37,7 @@ watch = do ->
       else
         throw err
 
-module.exports = ({app, port, reload, workers} = {}) ->
+module.exports = (opts = {}) ->
   # Configure forking behavior
   cluster.setupMaster
     silent: false
@@ -45,11 +45,11 @@ module.exports = ({app, port, reload, workers} = {}) ->
     exec: join __dirname, '..', 'lib/worker.js'
 
   # Fork workers
-  for i in [1..workers]
+  for i in [1..opts.workers]
     worker = cluster.fork
-      app: app
-      port: port
-    if reload
+      app: opts.app
+      port: opts.port
+    if opts.reload
       worker.on 'message', watch
 
   cluster.on "listening", (worker, addr) ->
@@ -59,9 +59,9 @@ module.exports = ({app, port, reload, workers} = {}) ->
     exitCode = worker.process.exitCode
     console.log "worker #{worker.id} died (#{exitCode}). restarting..."
     worker = cluster.fork
-      app: app
-      port: port
-    if reload
+      app: opts.app
+      port: opts.port
+    if opts.reload
       worker.on 'message', watch
 
   # Handle keypresses
