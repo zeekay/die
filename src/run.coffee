@@ -28,9 +28,16 @@ watch = do ->
 
     if watched[filename]
       watched[filename].close()
-    watched[filename] = fs.watch filename, -> reload()
+    try
+      watched[filename] = fs.watch filename, -> reload()
+    catch err
+      if err.code == 'EMFILE'
+        console.log 'Too many open files, try to increase the number of open files'
+        process.exit()
+      else
+        throw err
 
-module.exports = ({app, port, workers} = {}) ->
+module.exports = ({app, port, reload, workers} = {}) ->
   # Configure forking behavior
   cluster.setupMaster
     silent: false
@@ -42,7 +49,8 @@ module.exports = ({app, port, workers} = {}) ->
     worker = cluster.fork
       app: app
       port: port
-    worker.on 'message', watch
+    if reload
+      worker.on 'message', watch
 
   cluster.on "listening", (worker, addr) ->
     console.log "worker #{worker.id} up @ http://#{addr.address}:#{addr.port}"
@@ -53,7 +61,8 @@ module.exports = ({app, port, workers} = {}) ->
     worker = cluster.fork
       app: app
       port: port
-    worker.on 'message', watch
+    if reload
+      worker.on 'message', watch
 
   # Handle keypresses
   process.stdin.resume()

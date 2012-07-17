@@ -18,11 +18,9 @@ module.exports = ->
     .version(require('../package.json').version)
     .usage('[command] [options]')
     .action (file) ->
-      # Reconstruct arguments and run again
-      args = process.argv.splice 0, 2
-      for arg in ['run', '--app', file]
-        args.push arg
-      program.parse args
+      process.argv.splice 2, 0, '--app'
+      process.argv.splice 2, 0, 'run'
+      program.parse process.argv
 
   program
     .command('build')
@@ -62,7 +60,7 @@ module.exports = ->
 
   program
     .command('run')
-    .description('  serve project')
+    .description('  run project')
     .option('-a, --app [module]', 'app to run')
     .option('-p, --port [number]', 'port to run server on')
     .option('-r, --reload', 'automatically reload on file changes')
