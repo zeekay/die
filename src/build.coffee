@@ -19,6 +19,7 @@ module.exports = (opts) ->
 
   # compile bundles
   for bundle in [opts.jsBundle, opts.cssBundle]
-    if bundle and existsSync dirname bundle.entry
-      bundle.create(opts.base) (err, body) ->
-        fs.writeFileSync join(dest, bundle.url), body
+    do (bundle) ->
+      if bundle and existsSync dirname bundle.entry
+        bundle.create(opts.base) (err, body) ->
+          fs.writeFileSync join(dest, bundle.url), body

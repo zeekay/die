@@ -32,7 +32,7 @@ module.exports = ->
     .option('--js [in]', 'Javascript entrypoint')
     .option('--js-path [out]', 'path to compiled Javascript')
     .action (opts) ->
-      app = appOrDefault()
+      app = require appOrDefault()
       app.updateOptions
         buildPath: opts.output
         cssBundle:
@@ -88,7 +88,7 @@ module.exports = ->
     .command('watch')
     .description('  watch for changes and rebuild project')
     .action ->
-      app = appOrDefault()
+      app = require appOrDefault()
       require('./watch') app
 
   help = -> console.log program.helpInformation()
