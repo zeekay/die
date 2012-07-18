@@ -6,8 +6,8 @@ class Die
   apps: []
   constructor: (options = {}) ->
     # Clone default options
-    @options = extend {}, require './defaults'
-    @options = extend options, @options
+    @options = extend {}, require './default'
+    @options = extend @options, options
 
     # Set base path for this app
     @base = @options.base = options.base or process.cwd()
@@ -32,7 +32,8 @@ class Die
         options = require join(@base, @options.configPath, options)
       catch err
         return @options
-    @options = extend options, @options
+
+    @options = extend @options, options
 
   build: ->
     @updateOptions 'production'

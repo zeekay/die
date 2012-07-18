@@ -14,7 +14,7 @@ module.exports =
   # bundled JavaScript
   jsBundle:
     # entry point for javascript
-    entry: './client/js/app'
+    entry: './assets/js/app'
     # url to serve javascript from
     url: '/app.js'
     # scripts to include before/after bundled Javascript
@@ -29,7 +29,7 @@ module.exports =
   # bundled CSS
   cssBundle:
     # entry point for css
-    entry: './client/css/app'
+    entry: './assets/css/app'
     # url to server CSS bundle from
     url: '/app.css'
     # Extra functions for stylus

@@ -10,27 +10,27 @@ module.exports =
 
   # bundled CSS
   cssBundle:
-    entry: './client/css/app'
+    entry: './assets/css/app'
     url: '/app.css'
 
   # bundled JavaScript
   jsBundle:
     # entry point for javascript
-    entry: './client/js/app'
+    entry: './assets/js/app'
     # url to serve javascript from
     url: '/app.js'
     # libraries to prepend before bundled JavaScript
     before: [
-      './vendor/jquery-1.7.2.min.js'
-      './vendor/bootstrap-alert.js'
-      './vendor/bootstrap-button.js'
-      './vendor/bootstrap-carousel.js'
-      './vendor/bootstrap-collapse.js'
-      './vendor/bootstrap-dropdown.js'
-      './vendor/bootstrap-modal.js'
-      './vendor/bootstrap-scrollspy.js'
-      './vendor/bootstrap-tab.js'
-      './vendor/bootstrap-tooltip.js'
-      './vendor/bootstrap-transition.js'
-      './vendor/bootstrap-typeahead.js'
+      './assets/vendor/jquery-1.7.2.min.js'
+      './assets/vendor/bootstrap-alert.js'
+      './assets/vendor/bootstrap-button.js'
+      './assets/vendor/bootstrap-carousel.js'
+      './assets/vendor/bootstrap-collapse.js'
+      './assets/vendor/bootstrap-dropdown.js'
+      './assets/vendor/bootstrap-modal.js'
+      './assets/vendor/bootstrap-scrollspy.js'
+      './assets/vendor/bootstrap-tab.js'
+      './assets/vendor/bootstrap-tooltip.js'
+      './assets/vendor/bootstrap-transition.js'
+      './assets/vendor/bootstrap-typeahead.js'
     ]
