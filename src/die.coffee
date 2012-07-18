@@ -25,6 +25,9 @@ class Die
         delete @app
         @app = @createServer server.default(@options)
 
+    # extend for backwards compatibility
+    @extend = @configure
+
   # update options using configuration file or object
   updateOptions: (options) ->
     if typeof options is 'string'
@@ -42,7 +45,10 @@ class Die
   createServer: (func) ->
     @app = server.createServer func
 
-  extend: (func) ->
+  initialize: (func) ->
+    @_initialize = func
+
+  configure: (func) ->
     require('./extend') @app, func
     @
 
@@ -57,6 +63,7 @@ class Die
     @
 
   run: (opts = @options) ->
+    @extend @_initialize if @_initialize
     port = opts.port or 3000
     @app.listen port
     console.log "die #{@app.settings.env} server up and running at http://localhost:#{port}"

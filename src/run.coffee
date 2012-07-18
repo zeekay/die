@@ -53,7 +53,7 @@ module.exports = (opts = {}) ->
       worker.on 'message', watch
 
   cluster.on "listening", (worker, addr) ->
-    console.log "worker #{worker.id} up @ http://#{addr.address}:#{addr.port}"
+    console.log "worker #{worker.id} listening on #{addr.address}:#{addr.port}"
 
   cluster.on "exit", (worker, code, signal) ->
     exitCode = worker.process.exitCode
