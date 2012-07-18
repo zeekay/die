@@ -1,5 +1,5 @@
-program      = require 'jade/node_modules/commander'
-{existsSync} = require './utils'
+program = require 'jade/node_modules/commander'
+{existsSync, requireAll} = require './utils'
 {dirname, join, resolve} = require 'path'
 
 # Return app in current working directory, or default Die app
@@ -10,6 +10,8 @@ appOrDefault = (app) ->
     require.resolve app ? process.cwd()
   catch err
     resolve './die'
+
+commandDir = process.cwd() + '/commands'
 
 # Commandline handler
 module.exports = ->
@@ -92,6 +94,11 @@ module.exports = ->
       require('./watch') app
 
   help = -> console.log program.helpInformation()
+
+  # Add custom project-specific commands
+  if existsSync commandDir
+    for command in requireAll commandDir
+      command program
 
   program.parse process.argv
 

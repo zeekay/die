@@ -27,7 +27,7 @@ exports.default = (opts) ->
 
     @development ->
       # Enable logging
-      @use express.logger()
+      @use express.logger 'dev'
 
       # setup static file serving
       dir = join opts.base, opts.staticPath

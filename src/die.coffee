@@ -66,6 +66,6 @@ class Die
     @extend @_initialize if @_initialize
     port = opts.port or 3000
     @app.listen port
-    console.log "die #{@app.settings.env} server up and running at http://localhost:#{port}"
+    console.log "die running with #{@app.settings.env} settings"
 
 module.exports = Die
