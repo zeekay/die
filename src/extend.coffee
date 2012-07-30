@@ -45,7 +45,7 @@ module.exports = extend = (app, func) ->
             redirect: -> res.redirect.apply res, arguments
             render: -> res.render.apply res, arguments
             send: -> res.send.apply res, arguments
-          handler.apply ctx, req.params
+          handler.apply ctx, (v for k,v of req.params)
 
   # Expose middleware
   patch 'middleware', -> require './middleware'
@@ -57,6 +57,8 @@ module.exports = extend = (app, func) ->
         funcs = [funcs]
 
       for _func in funcs
+        if not _func or not _func.call
+          throw new Error 'Not a valid route'
         _func.call app
 
   # Extend app using func
