@@ -21,6 +21,7 @@ module.exports = ->
     .usage('[command] [options]')
     .action (file) ->
       process.argv.splice 2, 0, '--app'
+      process.argv.splice 2, 0, '-r'
       process.argv.splice 2, 0, 'run'
       program.parse process.argv
 
