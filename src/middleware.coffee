@@ -1,13 +1,5 @@
 middleware = {}
 
-# Export common express middleware lazily.
-for mw in ['bodyParser', 'cookieParser', 'errorHandler', 'methodOverride', 'session']
-  do (mw) ->
-    Object.defineProperty middleware, mw,
-      enumerable: true
-      get: ->
-        require('express')[mw]
-
 # Connect/Express middleware for bundling static resources such as JavaScript/CoffeeScript.
 middleware.bundle = (bundles, opts={}) ->
   maxAge = opts.maxAge or 0
@@ -40,5 +32,37 @@ middleware.bundle = (bundles, opts={}) ->
 
   # Wrap this is a named function to make debugging easier.
   `function bundle(req, res, next) { return _bundle(req, res, next); };`
+
+# Export connect middleware
+connectMiddleware = [
+  'basicAuth'
+  'bodyParser'
+  'compiler'
+  'compress'
+  'cookieParser'
+  'csrf'
+  'directory'
+  'errorHandler'
+  'favicon'
+  'limit'
+  'logger'
+  'methodOverride'
+  'profiler'
+  'query'
+  'responseTime'
+  'router'
+  'session'
+  'static'
+  'staticCache'
+  'vhost'
+]
+
+# Export common express middleware lazily.
+for mw in connectMiddleware
+  do (mw) ->
+    Object.defineProperty middleware, mw,
+      enumerable: true
+      get: ->
+        require('express/node_modules/connect').middleware[mw]
 
 module.exports = middleware
