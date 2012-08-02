@@ -7,10 +7,20 @@ require 'coffee-script' if path.extname(app) is '.coffee'
 
 # Notify master of files to watch for changes.
 require('./watcher') (filename) ->
-  process.send filename: filename
+  process.send
+    type: 'watch'
+    filename: filename
 
-# Get express app
-app = require(app)
+# Try to require die app
+try
+  app = require app
+  if app.constructor.name != 'Die'
+    throw new Error 'Not a valid die app'
+catch err
+  process.send
+    type: 'error'
+    error: err.toString()
+  process.exit()
 
 app.extend ->
   @configure ->

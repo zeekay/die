@@ -11,15 +11,20 @@ appOrDefault = (app) ->
   catch err
     resolve './die'
 
+help = ->
+  console.log program.helpInformation()
+
 commandDir = process.cwd() + '/commands'
 
 # Commandline handler
 module.exports = ->
   program
-    .command('*')
     .version(require('../package.json').version)
-    .usage('[command] [options]')
-    .action (file) ->
+
+  program
+    .command('*')
+    .description('default action (run)')
+    .action ->
       process.argv.splice 2, 0, '--app'
       process.argv.splice 2, 0, '-r'
       process.argv.splice 2, 0, 'run'
@@ -27,7 +32,7 @@ module.exports = ->
 
   program
     .command('build')
-    .description('  assemble project')
+    .description('assemble project')
     .option('-o, --output [dir]', 'output dir')
     .option('-m, --minify', 'minify output')
     .option('--css [in]', 'CSS entrypoint')
@@ -50,7 +55,7 @@ module.exports = ->
 
   program
     .command('new [name]')
-    .description('  create new project')
+    .description('create new project')
     .usage('[name] [options]')
     .option('-t, --template [name]', 'template to use')
     .option('-c, --config [config.json]', 'configuration file to supply context variables from')
@@ -63,7 +68,7 @@ module.exports = ->
 
   program
     .command('run')
-    .description('  run project')
+    .description('run project')
     .option('-a, --app [module]', 'app to run')
     .option('-p, --port [number]', 'port to run server on')
     .option('-r, --reload', 'automatically reload on file changes')
@@ -82,19 +87,17 @@ module.exports = ->
 
   program
     .command('test')
-    .description('  run tests')
+    .description('run tests')
     .option('-a, --args [arguments]', 'arguments for mocha')
     .action ({args}) ->
       require('./test') args
 
   program
     .command('watch')
-    .description('  watch for changes and rebuild project')
+    .description('watch for changes and rebuild project')
     .action ->
       app = require appOrDefault()
       require('./watch') app
-
-  help = -> console.log program.helpInformation()
 
   # Add custom project-specific commands
   if existsSync commandDir

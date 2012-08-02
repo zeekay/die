@@ -22,14 +22,15 @@ debug = ->
 # Watch files for changes
 watch = do ->
   watched = {}
-  ({filename}) ->
+  (filename) ->
     # We only support fs.watch
     return if not fs.watch
 
     if watched[filename]
       watched[filename].close()
     try
-      watched[filename] = fs.watch filename, -> reload()
+      watched[filename] = fs.watch filename, ->
+        reload()
     catch err
       if err.code == 'EMFILE'
         console.log 'Too many open files, try to increase the number of open files'
@@ -37,32 +38,37 @@ watch = do ->
       else
         throw err
 
+workerMessage = (message) ->
+  switch message.type
+    when 'error'
+      console.error message.error
+      process.exit()
+    when 'watch'
+      watch message.filename
+
 module.exports = (opts = {}) ->
+  # Spawn a worker by forking
+  fork = ->
+    worker = cluster.fork
+      app: opts.app
+      port: opts.port
+    worker.on 'message', workerMessage
+
   # Configure forking behavior
   cluster.setupMaster
     silent: false
-    # Have to use compiled worker.coffee
     exec: join __dirname, '..', 'lib/worker.js'
+
+  cluster.on 'listening', (worker, addr) ->
+    console.log "worker #{worker.id} listening on http://#{addr.address}:#{addr.port}"
+
+  cluster.on 'exit', (worker, code, signal) ->
+    console.log "worker #{worker.id} exit(#{exitCode}), restarting"
+    fork()
 
   # Fork workers
   for i in [1..opts.workers]
-    worker = cluster.fork
-      app: opts.app
-      port: opts.port
-    if opts.reload
-      worker.on 'message', watch
-
-  cluster.on "listening", (worker, addr) ->
-    console.log "worker #{worker.id} listening on http://#{addr.address}:#{addr.port}"
-
-  cluster.on "exit", (worker, code, signal) ->
-    exitCode = worker.process.exitCode
-    console.log "worker #{worker.id} restarting"
-    worker = cluster.fork
-      app: opts.app
-      port: opts.port
-    if opts.reload
-      worker.on 'message', watch
+    fork()
 
   # Handle keypresses
   process.stdin.resume()
