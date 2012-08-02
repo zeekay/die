@@ -42,6 +42,8 @@ workerMessage = (message) ->
   switch message.type
     when 'error'
       console.error message.error
+      if module = message.error.match('Cannot find module \'(.*)\'')[1]
+        console.error "Did you forget to npm install #{module}?"
       process.exit()
     when 'watch'
       watch message.filename

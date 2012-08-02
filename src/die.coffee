@@ -35,6 +35,8 @@ class Die
         options = require join(@base, @options.configPath, options)
       catch err
         return @options
+    else
+      console.log options
 
     @options = extend @options, options
 

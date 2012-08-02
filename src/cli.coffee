@@ -41,16 +41,26 @@ module.exports = ->
     .option('--js-path [out]', 'path to compiled Javascript')
     .action (opts) ->
       app = require appOrDefault()
-      app.updateOptions
-        buildPath: opts.output
+      if opts.output
+        app.updateOptions
+          buildPath: opts.output
+      if opts.css
         cssBundle:
           entry: opts.css
+      if opts.cssPath
+        cssBundle:
           url: opts.cssPath
+      if opts.minify
+        cssBundle:
           minify: opts.minify
         jsBundle:
-          entry: opts.js
-          url: opts.jsPath
           minify: opts.minify
+      if opts.js
+        jsBundle:
+          entry: opts.js
+      if opts.jsPath
+        jsBundle:
+          url: opts.jsPath
       app.build()
 
   program
