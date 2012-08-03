@@ -65,6 +65,7 @@ module.exports = (opts = {}) ->
     console.log "worker #{worker.id} listening on http://#{addr.address}:#{addr.port}"
 
   cluster.on 'exit', (worker, code, signal) ->
+    exitCode = worker.process.exitCode
     console.log "worker #{worker.id} exit(#{exitCode}), restarting"
     fork()
 
