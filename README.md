@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/zeekay/die.png)](http://travis-ci.org/zeekay/die)
 ## Introduction
 
 Die is a framework for building reusable JavaScript applications. It can be used to build anything
