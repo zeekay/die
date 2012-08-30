@@ -24,14 +24,16 @@ catch err
 
 app.extend ->
   @configure ->
+    # Enable error handler for non-production enviroments
     if process.env.NODE_ENV != 'production'
       for middleware in @stack
         if middleware.handle.name == 'errorHandler'
           # Already has an errorHandler, return
           return
 
-      # Enable error handler for non-production enviroments
-      @use @middleware.errorHandler dumpExceptions: true, showStack: true
+      @use @middleware.errorHandler
+        dumpExceptions: true
+        showStack: true
 
 # Run app!
 app.run port: port

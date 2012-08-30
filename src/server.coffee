@@ -7,7 +7,7 @@ exports.extend = (app, func) ->
   extend app, func
 
 exports.createServer = (func) ->
-  app = express.createServer()
+  app = express()
   extend app, func
 
 exports.default = (opts) ->
