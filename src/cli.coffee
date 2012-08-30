@@ -1,4 +1,4 @@
-program = require 'jade/node_modules/commander'
+program = require 'express/node_modules/commander'
 {existsSync, requireAll} = require './utils'
 {dirname, join, resolve} = require 'path'
 
