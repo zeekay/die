@@ -27,6 +27,7 @@ exports.default = (opts) ->
 
     @development ->
       # Enable logging
+      @use express.favicon()
       @use express.logger 'dev'
 
       # setup static file serving
