@@ -1,15 +1,17 @@
 fs = require 'fs'
 {dirname, join} = require 'path'
-{concatRead, resolve} = require './utils'
+{concatRead, resolve} = require '../utils'
 
+# Bundle compilers, meant to be added as methods to a bundle object.
 module.exports =
-  # When this function is called the context will be the cssBundle options
-  createCssBundle: (base = '') ->
+  css: (base = '') ->
+    after = @after or []
+    before = @before or []
+    main = join base, @main
+    filename = resolve ['.css', '.styl'], main
+    functions = @functions or {}
     include = @include or []
     plugins = @plugins or []
-    functions = @functions or {}
-    entry = join base, @entry
-    filename = resolve ['.css', '.styl'], entry
 
     # Bundle dat up!
     bundle = ->
@@ -43,13 +45,13 @@ module.exports =
       catch err
         cb err, ''
 
-  createJsBundle: (base='') ->
+  js: (base='') ->
     opts = {}
     for k, v of @
       opts[k] = v
 
     # Get absolute path
-    opts.entry  =  join base, @entry
+    opts.main  =  join base, @main
     opts.after  = (join base, src for src in @after or [])
     opts.before = (join base, src for src in @before or [])
 
