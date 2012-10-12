@@ -33,3 +33,6 @@ module.exports =
       include: []
       # Extra plugins for stylus to use
       plugins: []
+      # css to include before/after
+      before: []
+      after: []

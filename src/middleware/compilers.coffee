@@ -1,8 +1,10 @@
 fs = require 'fs'
 {dirname, join} = require 'path'
-{concatRead, resolve} = require '../utils'
+{resolve} = require '../utils'
 
-# Bundle compilers, meant to be added as methods to a bundle object.
+compiledCss = null
+
+# Bundle compilers, add as methods to your bundle config.
 module.exports =
   css: (base = '') ->
     after = @after or []
@@ -24,7 +26,7 @@ module.exports =
         stylus.include path
 
       if plugins.length == 0
-        plugins = [require('die-bootstrap'), require('nib')]
+        plugins = [require('nib')]
 
       for plugin in plugins
         stylus.use plugin()
@@ -32,17 +34,56 @@ module.exports =
       for name, fn of functions
         stylus.define name, fn
 
-      res = ''
-      stylus.render (err, css) ->
+      css = ''
+      stylus.render (err, _css) ->
         throw err if err
-        res = css
-      res
+        css = _css
+      css
 
     # Return compiler for middleware
     compiler = (cb) ->
+      if compiledCss
+        return cb null, compiledCss
+
       try
-        cb null, bundle()
+        css = bundle()
+        count = before.length + after.length
+
+        if count > 0
+          # reverse to preserve expected order
+          before.reverse()
+
+          # check if we're done
+          done = ->
+            console.log 'checked'
+            console.log count
+            if count == 0
+              compiledCss = css
+              cb null, css
+
+          # append css assets
+          for asset in after
+            if typeof asset == 'function'
+              asset (err, out) ->
+                css = out + css
+                done()
+            else
+              fs.readFile asset, 'utf8', (err, out) ->
+                css = out + asset
+                done()
+
+          # prepend css assets
+          for asset in before
+            if typeof asset == 'function'
+              asset (err, out) ->
+                css = out + css
+                done()
+            else
+              fs.readFile asset, 'utf8', (err, out) ->
+                css = out + asset
+                done()
       catch err
+        compiledCss = ''
         cb err, ''
 
   js: (base='') ->

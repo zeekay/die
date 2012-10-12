@@ -38,15 +38,8 @@ exports.default = (opts) ->
         # serve cwd if public dir doesn't exist.
         @use express.static opts.base
 
-      # Serve bundles
-      bundles = {}
-
-      for bundle in [opts.jsBundle, opts.cssBundle]
-        if bundle and existsSync dirname bundle.entry
-          bundles[bundle.url] = bundle.create opts.base
-
-      if Object.keys(bundles).length > 0
-        @use require('./middleware').bundle(bundles)
+      if opts.bundles
+        @use require('./middleware').bundle opts.bundles
 
     @test ->
       # listen on a different port when running tests
