@@ -15,7 +15,7 @@ task 'build', 'compile src/*.coffee to lib/*.js', ->
 
 task 'gh-pages', 'Publish docs to gh-pages', ->
   brief = require 'brief'
-  brief()
+  brief.update()
 
 task 'test', 'Run tests', ->
   run './node_modules/.bin/mocha ./test --compilers coffee:coffee-script -R spec -t 5000 -c'
