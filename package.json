@@ -45,7 +45,8 @@
     "chai": "*",
     "mocha": "*",
     "supertest": "*",
-    "coffee-script": "~1.3.3"
+    "coffee-script": "~1.3.3",
+    "brief": "~0.6.0"
   },
   "engines": {
     "node": ">=0.6.0"
