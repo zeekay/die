@@ -33,7 +33,7 @@
     "clean-css": "~0.6.0",
     "colors": "~0.6.0-1",
     "die-bootstrap": "~2.0.1",
-    "express": "~3.0.0rc3",
+    "express": "~3.0.0rc5",
     "mote": "~0.2.0",
     "nib": "~0.8.2",
     "requisite": "~0.3.7",

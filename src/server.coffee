@@ -39,6 +39,8 @@ exports.default = (opts) ->
         @use express.static opts.base
 
       if opts.bundles
+        for k of opts.bundles
+          opts.bundles[k].base = opts.base
         @use require('./middleware').bundle opts.bundles
 
     @test ->

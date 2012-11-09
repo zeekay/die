@@ -2,13 +2,13 @@
 module.exports = (bundles={}, opts={}) ->
   maxAge = opts.maxAge or 0
 
-  for k,v of bundles
+  for k, v of bundles
     if k.match /.js$/
-      bundles[k].compiler ?= require('./compilers').js
+      bundles[k].compiler ?= require('./compilers').js.call bundles[k]
       bundles[k].contentType ?= 'application/javascript'
 
     else if k.match /.css$/
-      bundles[k].compiler ?= require('./compilers').css
+      bundles[k].compiler ?= require('./compilers').css.call bundles[k]
       bundles[k].contentType ?= 'text/css'
 
     if not v.main or not v.compiler
@@ -17,7 +17,7 @@ module.exports = (bundles={}, opts={}) ->
 
   _bundle = (req, res, next) ->
     url = req.url
-    return next() if not (compiler = bundles[url].compiler)
+    return next() if not (compiler = bundles[url]?.compiler)
 
     # Set headers
     now = new Date().toUTCString()
