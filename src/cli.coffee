@@ -1,4 +1,4 @@
-program = require 'express/node_modules/commander'
+program = require 'commander'
 {existsSync, requireAll} = require './utils'
 {dirname, join, resolve} = require 'path'
 
@@ -20,15 +20,7 @@ commandDir = process.cwd() + '/commands'
 module.exports = ->
   program
     .version(require('../package.json').version)
-
-  program
-    .command('*')
-    .description('default action (run)')
-    .action ->
-      process.argv.splice 2, 0, '--app'
-      process.argv.splice 2, 0, '-r'
-      process.argv.splice 2, 0, 'run'
-      program.parse process.argv
+    .usage("[app] [options] || [command] [options]")
 
   program
     .command('build')
@@ -116,4 +108,10 @@ module.exports = ->
 
   program.parse process.argv
 
-  help() unless program.args.length
+  unless program.args.length
+    help()
+  else if program.args.length == 1 and typeof program.args[0] == 'string'
+    process.argv.splice 2, 0, '--app'
+    process.argv.splice 2, 0, '-r'
+    process.argv.splice 2, 0, 'run'
+    program.parse process.argv
