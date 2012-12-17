@@ -1,3 +1,5 @@
+bootstrap = require 'bootstrap'
+
 module.exports =
   # path to compile assets to
   buildPath: './dist'
@@ -19,3 +21,14 @@ module.exports =
       before: [
         './assets/vendor/jquery-1.7.2.min.js'
       ]
+
+    '/bootstrap.css':
+      compiler: bootstrap.css
+        responsive: true
+
+    '/bootstrap.js':
+      compiler: bootstrap.js
+        only: [
+          'popover'
+          'typeahead'
+        ]
