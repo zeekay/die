@@ -22,6 +22,7 @@ module.exports =
         './assets/vendor/jquery-1.7.2.min.js'
       ]
 
+    # include bootstrap
     '/bootstrap.css':
       compiler: bootstrap.css
         responsive: true
