@@ -11,7 +11,7 @@ module.exports = (bundles={}, opts={}) ->
       bundles[k].compiler ?= require('./compilers').css.call bundles[k]
       bundles[k].contentType ?= 'text/css'
 
-    if not v.main or not v.compiler
+    if not v.main? and not v.compiler?
       # remove invalid bundle
       delete bundles[k]
 

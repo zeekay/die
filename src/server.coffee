@@ -21,9 +21,6 @@ exports.default = (opts) ->
         @set 'views', dir
         # Use jade by default
         @set 'view engine', 'jade'
-        # Disable layouts
-        @set 'view options',
-          layout: false
 
     @development ->
       # Enable logging
