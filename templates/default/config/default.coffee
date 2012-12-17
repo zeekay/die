@@ -1,4 +1,4 @@
-bootstrap = require 'bootstrap'
+bootstrap = require 'die-bootstrap'
 
 module.exports =
   # path to compile assets to

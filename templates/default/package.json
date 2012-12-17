@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "die": "{{dieVersion}}",
+    "die-bootstrap": "*",
     "coffee-script": "*",
     "markdown": "*"
   },
