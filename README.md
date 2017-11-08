@@ -138,7 +138,7 @@ die test
 [express]: http://expressjs.com
 [isomorphic]: blog.nodejitsu.com/scaling-isomorphic-javascript-code
 [jade]: http://jade-lang.com
-[mocha]: https://visionmedia.github.com/mocha
+[mocha]: https://mochajs.org/
 [modules]: http://nodejs.org/api/modules.html
 [nib]: https://github.com/visionmedia/nib
 [node]: http://nodejs.org
