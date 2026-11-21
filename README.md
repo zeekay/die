@@ -1,5 +1,7 @@
 ## Introduction
 
+[![Open in Hanzo](https://hanzo.app/badges/open-in-hanzo.svg)](https://hanzo.app/dev/open?repo=github.com/zeekay/die&ref=master&action=open) [![Edit with Hanzo](https://hanzo.app/badges/edit-with-hanzo.svg)](https://hanzo.app/dev/open?repo=github.com/zeekay/die&ref=master&action=edit)
+
 Die is a framework for building reusable JavaScript applications. It can be used to build anything
 from a single-page application to a full stack web application framework. Die does it's best to stay out
 of your way, allowing you the utmost in control over your application.
